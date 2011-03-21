@@ -54,13 +54,20 @@ That's it!
 
 ### Rails 2.x
 
-Add the seedbank gem to your app. In config/environment.rb:
+Add to your config/environment.rb
 
-    config.gem 'seedbamk'
+    config.gem 'seedbank'
+    
+Install the gem;
+
+    $ rake gems:install
 
 Then in the bottom of your applications Rakefile:
 
-    Seedbank.load_tasks
+    require 'seedbank'
+    Seedbank.load_tasks if defined?(Seedbank)
+    
+If you vendor the gem you'll need to change the require to the specific path.
 
 Note on Patches/Pull Request
 ============================
