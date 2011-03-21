@@ -11,7 +11,10 @@ namespace :db do
   end
 
   # Change db:seed task to run all the base seeds tasks defined above.
-  desc "Loads the original seeds in db/seeds.rb followed by db/seeds/*.seeds.rb then db/seeds/environment/*.seeds.rb"
+  desc <<-EOT
+    Loads the original seeds in db/seeds.rb followed by db/seeds/*.seeds.rb then
+    db/seeds/environment/*.seeds.rb
+  EOT
   override_task :seed => base_dependencies + ["db:seed:#{Rails.env}"]
   
   # Glob through the directories under seeds_path assuming they are all environments
@@ -25,7 +28,7 @@ namespace :db do
       environment_dependencies << define_seed_task(seed_file)
     end
   
-    desc "Load just the seeds for the #{environment} environment"
+    desc "Loads db/seeds.rb, db/seeds/*.seeds.rb the seeds for the #{environment} environment."
     task ['seed', environment] => base_dependencies + environment_dependencies
   end
 end
