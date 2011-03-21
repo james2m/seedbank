@@ -20,7 +20,7 @@ This would generate the following Rake tasks
 
     rake db:seed                    # Loads the original seeds in db/seeds.rb followed by db/seeds/*.seeds.rb then db/seeds/environment/*.seeds.rb
     rake db:seed:bar                # Loads seeds from bar.seeds.rb
-    rake db:seed:development        # Load just the seeds for the development environment
+    rake db:seed:development        # Loads db/seeds.rb, db/seeds/*.seeds.rb and any seeds in db/seeds/development/*.seeds.rb.
     rake db:seed:development:users  # Loads seeds from development/users.seeds.rb
     rake db:seed:foo                # Loads seeds from foo.seeds.rb
     rake db:seed:original           # Load the seed data from db/seeds.rb

@@ -28,7 +28,7 @@ namespace :db do
       environment_dependencies << define_seed_task(seed_file)
     end
   
-    desc "Loads db/seeds.rb, db/seeds/*.seeds.rb the seeds for the #{environment} environment."
+    desc "Loads db/seeds.rb, db/seeds/*.seeds.rb and any seeds in db/seeds/#{environment}/*.seeds.rb."
     task ['seed', environment] => base_dependencies + environment_dependencies
   end
 end
