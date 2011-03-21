@@ -37,6 +37,8 @@ would load the seeds in db/seeds.rb, db/seeds/bar.seeds.rb and db/seeds/foo.seed
 
 The reason behind Seedbank is laziness. When I checkout or re-visit a project I don't want to mess around getting my environment setup I just want the code and a database loaded with data in a known state. Since the Rails core team were good enough to give us rake db:setup it would be rude not to use it. 
 
+    rake db:setup  # Create the database, load the schema, and initialize with the seed data (use db:reset to also drop the db first)
+
 To achieve this slothful aim Seedbank renames the original db:seed rake task to db:seed:original, makes it a dependency for all the Seedbank seeds and adds a new db:seed task that loads all the common seeds in db/seeds plus all the seeds for the current Rails environment. 
 
 Installation
