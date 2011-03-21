@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.date = %q{2011-03-20}
   s.description = %q{
     Extends Rails seeds to split out complex seeds into multiple 
-    seed files and lets each environment load it's own seeds.
+    files and lets each environment have it's own seeds.
   }
   s.email = %q{james2mccarthy@gmail.com}
   s.extra_rdoc_files = [
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{
     Extends Rails seeds to split out complex seeds into their own file 
-    and have different seeds per environment.
+    and have different seeds for each environment.
   }
   s.test_files = Dir.glob('test/**/*')
 
