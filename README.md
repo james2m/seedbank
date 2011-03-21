@@ -1,14 +1,14 @@
 Seedbank
 ========
 
-Seedbank allows you to structure your Rails seed data instead of having it all dumped into one large file. 
+Seedbank allows you to structure your Rails seed data instead of having it all dumped into one large file. I find my seed data tended to fall into two categories. 1. Stuff that the entire application requires. 2. Stuff to populate my development and staging environments.
 
-Seedbank renames the original db:seed rake task to db:seed:original and makes it a dependency for all the other seeds. A new db:seed task is created that is dependent on db:seed:original, all the seeds in db/seeds plus all the seeds in the current Rails environment.
+Seedbank assumes common seed data is under db/seeds and any directories under db/seeds/ are specific to an environment, so db/seeds/development is contains all your development only seed data.
   
 Example
 =======
 
-Your Seedbank seeds follow this structure;
+Seedbank seeds follow this structure;
 
     db/seeds/
       bar.seeds.rb
@@ -34,6 +34,10 @@ would load the seeds in db/seeds.rb, db/seeds/bar.seeds.rb, db/seeds/foo.seeds/r
     $ RAILS_ENV=production db:seed
     
 would load the seeds in db/seeds.rb, db/seeds/bar.seeds.rb and db/seeds/foo.seeds/rb
+
+The reason behind Seedbank is laziness. When I checkout or re-visit a project I don't want to mess around getting my environment setup I just want the code and a database loaded with data in a known state. Since the Rails core team were good enough to give us rake db:setup it would be rude not to use it. 
+
+To achieve this slothful aim Seedbank renames the original db:seed rake task to db:seed:original, makes it a dependency for all the Seedbank seeds and adds a new db:seed task that loads all the common seeds in db/seeds plus all the seeds for the current Rails environment. 
 
 Installation
 ============
