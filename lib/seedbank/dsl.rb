@@ -17,7 +17,7 @@ module Seedbank
 
       args = { fq_name => 'db:abort_if_pending_migrations' }
       task = Rake::Task.define_task(args) { load(seed_file) if File.exist?(seed_file) } 
-      task.add_description "Loads seeds from #{relative_root}"
+      task.add_description "Load the seed data from #{seed_file}"
       fq_name
     end
     

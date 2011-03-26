@@ -12,7 +12,7 @@ namespace :db do
     common_dependencies << define_seed_task(seed_file)
   end
   
-  desc "Loads db/seeds.rb, db/seeds/*.seeds.rb."
+  desc "Load the seed data from db/seeds.rb and db/seeds/*.seeds.rb."
   task ['seed', 'common'] => base_dependencies + common_dependencies
   
   # Glob through the directories under seeds_path assuming they are all environments
@@ -26,7 +26,9 @@ namespace :db do
       environment_dependencies << define_seed_task(seed_file)
     end
   
-    desc "Loads db/seeds.rb, db/seeds/*.seeds.rb and any seeds in db/seeds/#{environment}/*.seeds.rb."
+    desc <<-EOT
+      Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/#{environment}/*.seeds.rb.
+    EOT
     task ['seed', environment] => ['db:seed:common'] + environment_dependencies
     
     override_dependency << "db:seed:#{environment}" if Rails.env == environment
@@ -34,8 +36,8 @@ namespace :db do
 
   # Change db:seed task to run all the base seeds tasks defined above.
   desc <<-EOT
-    Loads the original seeds in db/seeds.rb followed by db/seeds/*.seeds.rb then
-    db/seeds/environment/*.seeds.rb
+    Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/ENVIRONMENT/*.seeds.rb.
+    ENVIRONMENT is the current environment in Rails.env.
   EOT
   override_task :seed => ['db:seed:common'] + override_dependency
   
