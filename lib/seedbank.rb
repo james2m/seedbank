@@ -2,10 +2,10 @@ require 'seedbank/dsl'
 require 'seedbank/task'
 require 'seedbank/task_manager'
 
-if defined?(Rake)
-  Rake::Task.extend(Seedbank::Task)
-  Rake::Application.send(:include, Seedbank::TaskManager)
-end
+require 'rake' unless defined?(Rake)
+
+Rake::Task.extend(Seedbank::Task)
+Rake::Application.send(:include, Seedbank::TaskManager)
 
 module Seedbank
   
