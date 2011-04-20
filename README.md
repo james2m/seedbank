@@ -5,11 +5,11 @@ Seedbank allows you to structure your Rails seed data instead of having it all d
 
 Seedbank assumes common seed data is under db/seeds and any directories under db/seeds/ are specific to an environment, so db/seeds/development is contains all your development only seed data.
 
-The reason behind Seedbank is laziness. When I checkout or re-visit a project I don't want to mess around getting my environment setup I just want the code and a database loaded with data in a known state. Since the Rails core team were good enough to give us rake db:setup it would be rude not to use it. 
+The reason behind Seedbank is laziness. When I checkout or re-visit a project I don't want to mess around getting my environment setup I just want the code and a database loaded with data in a known state. Since the Rails core team were good enough to give us rake db:setup it would be rude not to use it.
 
     rake db:setup  # Create the database, load the schema, and initialize with the seed data (use db:reset to also drop the db first)
 
-To achieve this slothful aim Seedbank renames the original db:seed rake task to db:seed:original, makes it a dependency for all the Seedbank seeds and adds a new db:seed task that loads all the common seeds in db/seeds plus all the seeds for the current Rails environment. 
+To achieve this slothful aim Seedbank renames the original db:seed rake task to db:seed:original, makes it a dependency for all the Seedbank seeds and adds a new db:seed task that loads all the common seeds in db/seeds plus all the seeds for the current Rails environment.
 
 Example
 =======
@@ -21,7 +21,7 @@ Seedbank seeds follow this structure;
       develpment/
         users.seeds.rb
       foo.seeds.rb
-  
+
 This would generate the following Rake tasks
 
     rake db:seed                    # Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/ENVIRONMENT/*.seeds.rb. ENVIRONMENT is the current environment in Rails.env.
@@ -35,11 +35,11 @@ This would generate the following Rake tasks
 Therefor assuming RAILS_ENV is not set or is 'development'
 
     $ rake db:seed
-    
-would load the seeds in db/seeds.rb, db/seeds/bar.seeds.rb, db/seeds/foo.seeds/rb and db/seeds/development/users.seeds.rb. Whereas 
+
+would load the seeds in db/seeds.rb, db/seeds/bar.seeds.rb, db/seeds/foo.seeds/rb and db/seeds/development/users.seeds.rb. Whereas
 
     $ RAILS_ENV=production db:seed
-    
+
 would load the seeds in db/seeds.rb, db/seeds/bar.seeds.rb and db/seeds/foo.seeds/rb
 
 Installation
@@ -58,7 +58,7 @@ That's it!
 Add to your config/environment.rb
 
     config.gem 'seedbank'
-    
+
 Install the gem;
 
     $ rake gems:install
@@ -67,7 +67,7 @@ Then in the bottom of your applications Rakefile:
 
     require 'seedbank'
     Seedbank.load_tasks if defined?(Seedbank)
-    
+
 If you vendor the gem you'll need to change the require to the specific path.
 
 Note on Patches/Pull Request
@@ -76,7 +76,7 @@ Note on Patches/Pull Request
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it (when I have some). This is important so I don't break it in a future version unintentionally.
-* Commit, do not mess with rakefile, version, or history. (if you want to have your own version, that is fine but 
+* Commit, do not mess with rakefile, version, or history. (if you want to have your own version, that is fine but
   bump version in a commit by itself I can ignore it when I pull)
 * Send me a pull request.  Bonus points for topic branches.
 

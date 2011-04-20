@@ -7,6 +7,6 @@ module Seedbank
     rake_tasks do
       Seedbank.load_tasks
     end
-    
+
   end
 end
