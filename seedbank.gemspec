@@ -1,7 +1,11 @@
+# -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib", __FILE__)
+require "seedbank/version"
+
 Gem::Specification.new do |s|
   s.name = %q{seedbank}
-  s.version = "0.0.7"
-  s.date = %q{2011-03-20}
+  s.version = Seedbank::VERSION
+  s.date = %q{2012-03-13}
 
   s.required_rubygems_version = Gem::Requirement.new(">=1.2.0") if s.respond_to?(:required_rubygems_version=)
   s.rubygems_version = %q{1.3.5}
