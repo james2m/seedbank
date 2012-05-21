@@ -49,7 +49,9 @@ Installation
 
 Add the seedbank gem to your Gemfile.  In Gemfile:
 
-    gem "seedbank"
+```ruby
+gem "seedbank"
+```
 
 That's it!
 
@@ -57,16 +59,20 @@ That's it!
 
 Add to your config/environment.rb
 
-    config.gem 'seedbank'
+```ruby
+config.gem 'seedbank'
+```
 
 Install the gem;
 
     $ rake gems:install
 
-Then in the bottom of your applications Rakefile:
+Then in the bottom of your application's Rakefile:
 
-    require 'seedbank'
-    Seedbank.load_tasks if defined?(Seedbank)
+```ruby
+require 'seedbank'
+Seedbank.load_tasks if defined?(Seedbank)
+```
 
 If you vendor the gem you'll need to change the require to the specific path.
 
