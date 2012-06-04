@@ -76,6 +76,16 @@ Seedbank.load_tasks if defined?(Seedbank)
 
 If you vendor the gem you'll need to change the require to the specific path.
 
+Contributors
+============
+```shell
+git log | grep Author | sort | uniq
+```
+
+* James McCarthy
+* Andy Triggs
+* Philip Arndt
+
 Note on Patches/Pull Request
 ============================
 
