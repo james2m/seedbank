@@ -1,6 +1,7 @@
 require 'seedbank/dsl'
 require 'seedbank/task'
 require 'seedbank/task_manager'
+require 'seedbank/runner'
 
 require 'rake' unless defined?(Rake)
 
