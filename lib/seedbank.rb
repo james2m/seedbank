@@ -4,9 +4,6 @@ require 'seedbank/task_manager'
 
 require 'rake' unless defined?(Rake)
 
-Rake::Task.extend(Seedbank::Task)
-Rake::Application.send(:include, Seedbank::TaskManager)
-
 module Seedbank
 
   @@seeds_root = 'db/seeds'

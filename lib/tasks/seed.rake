@@ -1,11 +1,13 @@
 namespace :db do
 
+  Rake::Task.extend(Seedbank::Task)
+  Rake::Application.send(:include, Seedbank::TaskManager)
   include Seedbank::DSL
 
-  base_dependencies = ['db:seed:original']
+  base_dependencies   = ['db:seed:original']
   override_dependency = []
-
   common_dependencies = []
+
   # Create seed tasks for all the seeds in seeds_path and add them to the dependency
   # list along with the original db/seeds.rb.
   Dir.glob(File.join(seeds_root, '*.seeds.rb')).each do |seed_file|
@@ -22,7 +24,7 @@ namespace :db do
     environment = File.basename(e)
 
     environment_dependencies = []
-    Dir.glob(File.join(seeds_root, environment, '*.seeds.rb')).each do |seed_file|
+    Dir.glob(File.join(seeds_root, environment, '*.seeds.rb')).sort.each do |seed_file|
       environment_dependencies << define_seed_task(seed_file)
     end
 
