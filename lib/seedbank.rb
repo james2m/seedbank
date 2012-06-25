@@ -7,10 +7,14 @@ require 'rake' unless defined?(Rake)
 
 module Seedbank
 
-  @@seeds_root = 'db/seeds'
+  class << self
 
-  def self.seeds_root
-    @@seeds_root
+    attr_writer :seeds_root
+
+    def seeds_root
+      @seeds_root ||= 'db/seeds'
+    end
+
   end
 
   def self.load_tasks
