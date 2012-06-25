@@ -2,9 +2,6 @@ require File.expand_path('../boot', __FILE__)
 
 # Pick the frameworks you want:
 require "active_record/railtie"
-require "action_controller/railtie"
-require "active_resource/railtie"
-require "rails/test_unit/railtie"
 
 Bundler.require  if defined?(Bundler)
 require 'seedbank'
