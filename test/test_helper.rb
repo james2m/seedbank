@@ -1,6 +1,7 @@
 require 'rubygems'
 gem 'minitest'
 require 'minitest/autorun'
+require "mocha"
 require 'active_record'
 
 # Configure Rails Environment
