@@ -22,6 +22,9 @@ ActiveRecord::Migrator.up File.expand_path('db/migrate', rails_root)
 
 # Load dummy rails app
 require File.expand_path('config/environment.rb', rails_root)
-
 Rails.backtrace_cleaner.remove_silencers!
+
+Seedbank.seeds_root = File.expand_path('dummy/db/seeds', __FILE__)
+
+Dummy::Application.load_tasks
 
