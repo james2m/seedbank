@@ -1,1 +1,1 @@
-User.create(:email => 'user@example.com')
+FakeModel.seed('dependency')
