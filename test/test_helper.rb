@@ -1,7 +1,7 @@
 require 'rubygems'
 gem 'minitest'
 require 'minitest/autorun'
-require "mocha"
+require "flexmock/test_unit"
 
 # Configure Rails Environment
 environment  = ENV["RAILS_ENV"] = 'test'
@@ -14,7 +14,9 @@ Rails.backtrace_cleaner.remove_silencers!
 Seedbank.seeds_root = File.expand_path('dummy/db/seeds', __FILE__)
 
 class Seedbank::Spec < MiniTest::Spec
-        
+
+  include FlexMock::TestCase
+
   def setup
     Rake.application = Rake::Application.new
     Dummy::Application.load_tasks
