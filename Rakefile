@@ -3,9 +3,6 @@ require 'rake'
 require 'rake/testtask'
 require 'rdoc/task'
 
-desc 'Default: run unit tests.'
-task :default => :test
-
 desc 'Test the seedbank gem.'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
