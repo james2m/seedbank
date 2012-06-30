@@ -20,5 +20,7 @@ pkg
 
 ## PROJECT::SPECIFIC
 *.gem
-test/rails_root/tmp
-test/rails_root/log
+test/dummy/tmp
+test/dummy/log
+.rvmrc
+Gemfile.lock

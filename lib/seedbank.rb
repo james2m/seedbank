@@ -1,18 +1,20 @@
 require 'seedbank/dsl'
 require 'seedbank/task'
 require 'seedbank/task_manager'
+require 'seedbank/runner'
 
 require 'rake' unless defined?(Rake)
 
-Rake::Task.extend(Seedbank::Task)
-Rake::Application.send(:include, Seedbank::TaskManager)
-
 module Seedbank
 
-  @@seeds_root = 'db/seeds'
+  class << self
 
-  def self.seeds_root
-    @@seeds_root
+    attr_writer :seeds_root
+
+    def seeds_root
+      @seeds_root ||= 'db/seeds'
+    end
+
   end
 
   def self.load_tasks

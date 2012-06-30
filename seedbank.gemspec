@@ -22,7 +22,9 @@ Gem::Specification.new do |s|
     files and lets each environment have it's own seeds.
   }
 
-  s.files = Dir.glob('**/*') - Dir.glob('seedbank*.gem')
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
   s.rdoc_options = ["--charset=UTF-8"]
@@ -31,8 +33,10 @@ Gem::Specification.new do |s|
     "README.md"
   ]
 
-  s.test_files = Dir.glob('test/**/*')
-  s.add_development_dependency('test-unit')
+  s.add_development_dependency "minitest", "~> 3.0"
+  s.add_development_dependency "flexmock"
+  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "rails", "~> 3.2.3"
   
   s.post_install_message = %q{
   ================================================================================
