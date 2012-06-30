@@ -76,6 +76,44 @@ Seedbank.load_tasks if defined?(Seedbank)
 
 If you vendor the gem you'll need to change the require to the specific path.
 
+Usage
+=====
+
+Seeds files are just plain old Ruby executed in your rails application environment so anything you could type into the rails console will work in your seeds.
+
+The seed files under db/seeds are run first in alphanumeric order followed by the ones in the db/seeds/RAILS_ENV. You can add dependencies to your seed files
+to enforce the run order. for example;
+
+db/seeds/companies.seeds.rb
+```ruby
+Company.find_or_create_by_name('Hatch', :url => 'http://thisishatch.co.uk' ) 
+```
+
+db/seeds/users.seeds.rb
+```ruby
+after :companies do
+  company = Company.find_by_name('Hatch')
+  company.users.create(:first_name => 'James', :last_name => 'McCarthy')
+end
+```
+
+db/seeds/projects.seeds.rb
+```ruby
+after :companies do
+  company = Company.find_by_name('Hatch')
+  company.projects.create(:title => 'Seedbank')
+end
+```
+
+db/seeds/tasks.seeds.rb
+```ruby
+after :projects, :users do
+  project = Project.find_by_name('Seedbank')
+  user = User.find_by_first_name_and_last_name('James', 'McCarthy')
+  project.tasks.create(:owner => user, :title => 'Document seed dependencies in the README.md')
+end
+```
+
 Contributors
 ============
 ```shell
@@ -91,7 +129,7 @@ Note on Patches/Pull Request
 
 * Fork the project.
 * Make your feature addition or bug fix.
-* Add tests for it (when I have some). This is important so I don't break it in a future version unintentionally.
+* Add tests for it. This is important so I don't break it in a future version unintentionally.
 * Commit, do not mess with rakefile, version, or history. (if you want to have your own version, that is fine but
   bump version in a commit by itself I can ignore it when I pull)
 * Send me a pull request.  Bonus points for topic branches.
