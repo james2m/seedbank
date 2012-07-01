@@ -1,7 +1,6 @@
 require 'rubygems'
-gem 'minitest'
+require "flexmock"
 require 'minitest/autorun'
-require "flexmock/test_unit"
 
 # Configure Rails Environment
 environment  = ENV["RAILS_ENV"] = 'test'
