@@ -20,7 +20,8 @@ module Seedbank
     #
     # Would look for a db/seeds/shared/users.seeds.rb seed and execute it.
     def after(*dependencies, &block)
-      dependencies.flatten.map! { |dep| "db:seed:#{dep}"}
+      dependencies.flatten!
+      dependencies.map! { |dep| "db:seed:#{dep}"}
       dependent_task_name =  @task.name + ':body'
       dependent_task = Rake::Task.define_task(dependent_task_name => dependencies, &block)
       dependent_task.invoke
