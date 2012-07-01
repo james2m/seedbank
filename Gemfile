@@ -12,5 +12,5 @@ gem "sqlite3", :platform => [:ruby, :mswin, :mingw]
 
 # for JRuby
 platform :jruby do
-  gem 'jdbc-sqlite3', :require => 'sqlite3'
+  gem 'jdbc-sqlite3', :require => 'jdbc/sqlite3'
 end
