@@ -18,7 +18,7 @@ Seedbank seeds follow this structure;
 
     db/seeds/
       bar.seeds.rb
-      develpment/
+      development/
         users.seeds.rb
       foo.seeds.rb
 
