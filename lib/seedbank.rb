@@ -1,9 +1,7 @@
 require 'seedbank/dsl'
-require 'seedbank/task'
+require 'seedbank/rename_task'
 require 'seedbank/task_manager'
 require 'seedbank/runner'
-
-require 'rake' unless defined?(Rake)
 
 module Seedbank
 
