@@ -5,7 +5,7 @@ require "seedbank/version"
 Gem::Specification.new do |s|
   s.name = %q{seedbank}
   s.version = Seedbank::VERSION
-  s.date = %q{2012-03-13}
+  s.date = `git log -1 --format="%cd" --date=short lib/seedbank/version.rb`
 
   s.required_rubygems_version = Gem::Requirement.new(">=1.2.0") if s.respond_to?(:required_rubygems_version=)
   s.rubygems_version = %q{1.3.5}
