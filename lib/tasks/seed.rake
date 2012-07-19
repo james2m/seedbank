@@ -1,7 +1,5 @@
 namespace :db do
 
-  Rake::Task.extend(Seedbank::Task)
-  Rake::Application.send(:include, Seedbank::TaskManager)
   include Seedbank::DSL
 
   base_dependencies   = ['db:seed:original']

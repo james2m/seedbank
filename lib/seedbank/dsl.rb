@@ -1,6 +1,11 @@
 module Seedbank
   module DSL
 
+    def self.included(base)
+      Rake::Task.extend(Seedbank::RenameTask)
+      Rake::Application.send(:include, Seedbank::TaskManager)
+    end
+
     def override_task(*args, &block)
       name, params, deps = Rake.application.resolve_args(args.dup)
       fq_name = Rake.application.instance_variable_get(:@scope).dup.push(name).join(':')
