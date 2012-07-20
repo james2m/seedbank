@@ -16,7 +16,7 @@ module Seedbank
 
     # Creates a task namespaced in @seeds_path
     def define_seed_task(seed_file)
-      relative_root = seed_file.sub(seeds_root + '/', '')
+      relative_root = seed_file.sub(seeds_root.to_s + '/', '')
       scopes = File.dirname(relative_root).gsub(/^\./, '').split('/').unshift('seed')
       fq_name = scopes.push(File.basename(seed_file, '.seeds.rb')).join(':')
 
@@ -27,9 +27,14 @@ module Seedbank
       task.add_description "Load the seed data from #{seed_file}"
       fq_name
     end
+    
+    def scope_from_seed_file(seed_file)
+      pathname = Pathname.new(seed_file).relative_path_from(seeds_root)
+      pathname.dirname.to_s.gsub(File::Separator, ':')
+    end
 
     def seeds_root
-      Seedbank.seeds_root
+      Pathname.new Seedbank.seeds_root
     end
 
   end
