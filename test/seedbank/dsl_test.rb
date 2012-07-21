@@ -65,6 +65,35 @@ describe Seedbank::DSL do
     
   end
 
+  describe "glob_seed_files_matching" do
+    
+    describe "with no namespace" do
+      
+      let(:pattern) { '*.seeds.rb' }
+      
+      it "returns all the files matching the pattern in seeds_root" do
+        expected_files = Dir.glob(File.join(Seedbank.seeds_root, pattern))
+        
+        Seedbank::DSL.glob_seed_files_matching(pattern).must_equal expected_files
+      end
+      
+    end
+    
+    describe "with a namespace" do
+      
+      let(:pattern) { '*.seeds.rb' }
+      let(:namespace) { 'development' }
+      
+      it "returns all the files matching the pattern in seeds_root" do
+        expected_files = Dir.glob(File.join(Seedbank.seeds_root, namespace, pattern))
+        
+        Seedbank::DSL.glob_seed_files_matching(namespace, pattern).must_equal expected_files
+      end
+      
+    end
+    
+  end
+
   describe "define_seed_task" do
     
     let(:name) { 'scoped:my_seed' }

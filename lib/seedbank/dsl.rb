@@ -21,6 +21,10 @@ module Seedbank
 
       define_seed_task(seed_file, args)
     end
+    
+    def glob_seed_files_matching(*args, &block)
+      Dir.glob(File.join(seeds_root, *args), &block)
+    end
 
     def define_seed_task(seed_file, *args)
       task = Rake::Task.define_task(*args) do |seed_task|

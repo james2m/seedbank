@@ -4,14 +4,11 @@ namespace :db do
 
   base_dependencies   = ['db:seed:original']
   override_dependency = []
-  common_dependencies = []
   
   namespace :seed do
     # Create seed tasks for all the seeds in seeds_path and add them to the dependency
     # list along with the original db/seeds.rb.
-    Dir.glob(File.join(seeds_root, '*.seeds.rb')).each do |seed_file|
-      common_dependencies << seed_task_from_file(seed_file)
-    end
+    common_dependencies = glob_seed_files_matching('*.seeds.rb').map { |seed_file| seed_task_from_file(seed_file) }
 
     desc "Load the seed data from db/seeds.rb and db/seeds/*.seeds.rb."
     task 'common' => base_dependencies + common_dependencies
@@ -19,17 +16,12 @@ namespace :db do
     # Glob through the directories under seeds_path assuming they are all environments
     # and create a task for each and add it to the dependency list. Then create a task
     # for the environment
-    Dir.glob(File.join(seeds_root, '/*/')).each do |e|
-      environment = File.basename(e)
+    glob_seed_files_matching('/*/').each do |directory|
+      environment = File.basename(directory)
 
-      environment_dependencies = []
-      Dir.glob(File.join(seeds_root, environment, '*.seeds.rb')).sort.each do |seed_file|
-        environment_dependencies << seed_task_from_file(seed_file)
-      end
+      environment_dependencies = glob_seed_files_matching(environment, '*.seeds.rb').sort.map { |seed_file| seed_task_from_file(seed_file) }
 
-      desc <<-EOT
-        Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/#{environment}/*.seeds.rb.
-      EOT
+      desc "Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/#{environment}/*.seeds.rb."
       task environment => ['db:seed:common'] + environment_dependencies
 
       override_dependency << "db:seed:#{environment}" if Rails.env == environment
@@ -41,6 +33,6 @@ namespace :db do
     Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/ENVIRONMENT/*.seeds.rb.
     ENVIRONMENT is the current environment in Rails.env.
   EOT
-  override_task :seed => ['db:seed:common'] + override_dependency
+  override_task :seed => ['db:seed:common'] + override_dependency 
 
 end
