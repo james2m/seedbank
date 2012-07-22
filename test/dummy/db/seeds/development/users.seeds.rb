@@ -1,0 +1,1 @@
+FakeModel.seed('development:users')

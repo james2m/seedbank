@@ -1,6 +1,6 @@
 require 'rubygems'
 require "flexmock"
-require 'minitest/autorun'
+require 'minitest/spec'
 
 # Configure Rails Environment
 environment  = ENV["RAILS_ENV"] = 'test'
@@ -24,4 +24,4 @@ class Seedbank::Spec < MiniTest::Spec
 
 end
 
-MiniTest::Spec.register_spec_type(/^Seedbank::/, Seedbank::Spec)
+MiniTest::Spec.register_spec_type(/^Seedbank/i, Seedbank::Spec)
