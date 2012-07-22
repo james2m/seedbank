@@ -37,7 +37,7 @@ describe 'Seedbank rake.task' do
 
     it "is dependent on the common seeds and db:seed:original" do
       prerequisite_seeds = Dir[File.expand_path('../../../dummy/db/seeds/*.seeds.rb', __FILE__)].map do |seed_file|
-        "seed:" + File.basename(seed_file, '.seeds.rb')
+        ['db', 'seed', File.basename(seed_file, '.seeds.rb')].join(':')
       end.unshift('db:seed:original')
       
       subject.prerequisites.must_equal prerequisite_seeds
@@ -80,7 +80,7 @@ describe 'Seedbank rake.task' do
 
         it "is dependent on the seeds in the environment directory" do
           prerequisite_seeds = Dir[File.expand_path("../../../dummy/db/seeds/#{environment}/*.seeds.rb", __FILE__)].map do |seed_file|
-            ['seed', environment, File.basename(seed_file, '.seeds.rb')].join(':')
+            ['db', 'seed', environment, File.basename(seed_file, '.seeds.rb')].join(':')
           end.unshift('db:seed:common')
       
           subject.prerequisites.must_equal prerequisite_seeds
