@@ -7,7 +7,7 @@ desc 'Test the seedbank gem.'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
   t.libs << 'test'
-  t.pattern = 'test/seedbank/**/*_test.rb'
+  t.pattern = 'test/lib/**/*_test.rb'
   t.verbose = true
 end
 
