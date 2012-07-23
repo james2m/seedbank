@@ -25,3 +25,4 @@ class Seedbank::Spec < MiniTest::Spec
 end
 
 MiniTest::Spec.register_spec_type(/^Seedbank/i, Seedbank::Spec)
+MiniTest::Unit.autorun
