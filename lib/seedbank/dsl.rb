@@ -2,16 +2,12 @@ module Seedbank
   module DSL
 
     def self.included(base)
-      Rake::Task.extend(Seedbank::RenameTask)
+      Rake::Task.send(:include, Seedbank::RenameTask)
       Rake::Application.send(:include, Seedbank::TaskManager)
     end
 
-    def override_task(*args, &block)
-      name, params, deps = Rake.application.resolve_args(args.dup)
-      fq_name = Rake.application.instance_variable_get(:@scope).dup.push(name).join(':')
-      new_name = "#{fq_name}:original"
-      Rake::Task.rename_task(fq_name, new_name)
-      Rake::Task.define_task(*args, &block)
+    def override_seed_task(*args, &block)
+      Rake.application.override_task(*args, &block)
     end
 
     def seed_task_from_file(seed_file)
@@ -21,7 +17,7 @@ module Seedbank
 
       define_seed_task(seed_file, args)
     end
-    
+
     def glob_seed_files_matching(*args, &block)
       Dir.glob(File.join(seeds_root, *args), &block)
     end
@@ -33,7 +29,7 @@ module Seedbank
       task.add_description "Load the seed data from #{seed_file}"
       task.name
     end
-    
+
     def scope_from_seed_file(seed_file)
       dirname = Pathname.new(seed_file).dirname
       return [] if dirname == seeds_root

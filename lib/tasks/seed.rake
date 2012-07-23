@@ -4,7 +4,7 @@ namespace :db do
 
   base_dependencies   = ['db:seed:original']
   override_dependency = []
-  
+
   namespace :seed do
     # Create seed tasks for all the seeds in seeds_path and add them to the dependency
     # list along with the original db/seeds.rb.
@@ -33,6 +33,6 @@ namespace :db do
     Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/ENVIRONMENT/*.seeds.rb.
     ENVIRONMENT is the current environment in Rails.env.
   EOT
-  override_task :seed => ['db:seed:common'] + override_dependency 
+  override_seed_task :seed => ['db:seed:common'] + override_dependency
 
 end
