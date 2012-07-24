@@ -1,4 +1,4 @@
 * Add generator for seeds directories
 * Add generator for seeds data
-* Include methods into the seed.rake file directly so they aren't bleeding into the rest of rake
-* Checkout the circular dependency caused by re-naming the original db:seed task.
+* Add ability add or update records in place
+* Make framework agnostic
