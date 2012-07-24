@@ -1,8 +1,8 @@
 module Seedbank
   module RenameTask
 
-    def rename_task(fq_name, new_name)
-      Rake.application.rename_task(fq_name, new_name)
+    def rename(new_name)
+      @name = new_name
     end
 
   end
