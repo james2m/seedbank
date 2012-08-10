@@ -81,13 +81,13 @@ Usage
 
 Seeds files are just plain old Ruby executed in your rails application environment so anything you could type into the rails console will work in your seeds.
 
-The seed files under db/seeds are run first in alphanumeric order followed by the ones in the db/seeds/RAILS_ENV. You can add dependencies to your seed files
-to enforce the run order. for example;
-
 db/seeds/companies.seeds.rb
 ```ruby
 Company.find_or_create_by_name('Hatch', :url => 'http://thisishatch.co.uk' ) 
 ```
+
+The seed files under db/seeds are run first in alphanumeric order followed by the ones in the db/seeds/RAILS_ENV. You can add dependencies to your seed files
+to enforce the run order. for example;
 
 db/seeds/users.seeds.rb
 ```ruby
@@ -111,6 +111,16 @@ after :projects, :users do
   project = Project.find_by_name('Seedbank')
   user = User.find_by_first_name_and_last_name('James', 'McCarthy')
   project.tasks.create(:owner => user, :title => 'Document seed dependencies in the README.md')
+end
+```
+
+If the dependencies are in one of the environment folders, you need to namespace the parent task:
+
+db/seeds/development/users.seeds.rb
+```ruby
+after "development:companies" do
+  company = Company.find_by_name('Hatch')
+  company.users.create(:first_name => 'James', :last_name => 'McCarthy')
 end
 ```
 
