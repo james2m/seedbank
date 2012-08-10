@@ -83,7 +83,7 @@ Seeds files are just plain old Ruby executed in your rails application environme
 
 db/seeds/companies.seeds.rb
 ```ruby
-Company.find_or_create_by_name('Hatch', :url => 'http://thisishatch.co.uk' ) 
+Company.find_or_create_by_name('Hatch', :url => 'http://thisishatch.co.uk' )
 ```
 
 The seed files under db/seeds are run first in alphanumeric order followed by the ones in the db/seeds/RAILS_ENV. You can add dependencies to your seed files
@@ -133,6 +133,8 @@ git log | grep Author | sort | uniq
 * James McCarthy
 * Andy Triggs
 * Philip Arndt
+* Peter Suschlik
+* Joost Baaij
 
 Note on Patches/Pull Request
 ============================
