@@ -1,4 +1,4 @@
 * Add generator for seeds directories
 * Add generator for seeds data
-* Add ability add or update records in place
+* Add ability to add or update records in place
 * Make framework agnostic
