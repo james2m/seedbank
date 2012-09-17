@@ -54,7 +54,7 @@ describe Seedbank::DSL do
 
     let(:seeds_root) { '/my/seeds/directory' }
 
-    subject { Seedbank::DSL.seeds_root }
+    subject { Seedbank::DSL.send(:seeds_root) }
 
     it "returns a Pathname" do
       flexmock(Seedbank).should_receive(:seeds_root).and_return(seeds_root).by_default
@@ -111,12 +111,6 @@ describe Seedbank::DSL do
       Rake::Task[name].wont_be_nil
     end
 
-    it "sets Rake Task dependencies" do
-      Seedbank::DSL.define_seed_task(seed_file, name => dependencies)
-
-      Rake::Task[name].prerequisite_tasks.must_equal dependencies.map { |dependency| Rake::Task[dependency] }
-    end
-
     it "sets Rake Task description" do
       Seedbank::DSL.define_seed_task(seed_file, name => dependencies)
 
@@ -129,6 +123,26 @@ describe Seedbank::DSL do
       flexmock(FakeModel).should_receive(:seed).with('development:users').once.ordered
 
       Rake::Task[name].invoke
+    end
+
+    describe "when db:abort_if_pending_migrations exists" do
+      it "sets Rake Task dependencies" do
+        Seedbank::DSL.define_seed_task(seed_file, name => dependencies)
+        expected_dependencies = dependencies.map { |dependency| Rake::Task[dependency] }
+        expected_dependencies << Rake::Task['db:abort_if_pending_migrations']
+
+        Rake::Task[name].prerequisite_tasks.must_equal expected_dependencies
+      end
+    end
+
+    describe "when db:abort_if_pending_migrations does not exist" do
+      it "sets Rake Task dependencies" do
+        flexmock(Rake::Task).should_receive(:task_defined?).and_return(false).by_default
+
+        Seedbank::DSL.define_seed_task(seed_file, name => dependencies)
+
+        Rake::Task[name].prerequisite_tasks.must_equal dependencies.map { |dependency| Rake::Task[dependency] }
+      end
     end
   end
 
