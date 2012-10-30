@@ -15,10 +15,10 @@ module Seedbank
     # If no block is specified just the dependencies are run. This makes it possible
     # to create shared dependencies. For example
     #
-    # @example db/seeds/production/users.seeds.rb
+    # @example db/seeds/production/users_seeds.rb
     #   after 'shared:users'
     #
-    # Would look for a db/seeds/shared/users.seeds.rb seed and execute it.
+    # Would look for a db/seeds/shared/users_seeds.rb seed and execute it.
     def after(*dependencies, &block)
       dependencies.flatten!
       dependencies.map! { |dep| "db:seed:#{dep}"}

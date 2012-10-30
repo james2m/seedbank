@@ -17,8 +17,8 @@ describe 'Seedbank rake.task' do
 
   describe "common seeds in the root directory" do
 
-    Dir[File.expand_path('../../../dummy/db/seeds/*.seeds.rb', __FILE__)].each do |seed_file|
-      seed = File.basename(seed_file, '.seeds.rb')
+    Dir[File.expand_path('../../../dummy/db/seeds/*_seeds.rb', __FILE__)].each do |seed_file|
+      seed = File.basename(seed_file, '_seeds.rb')
 
       describe seed do
 
@@ -36,8 +36,8 @@ describe 'Seedbank rake.task' do
     subject { Rake::Task['db:seed:common'] }
 
     it "is dependent on the common seeds and db:seed:original" do
-      prerequisite_seeds = Dir[File.expand_path('../../../dummy/db/seeds/*.seeds.rb', __FILE__)].map do |seed_file|
-        ['db', 'seed', File.basename(seed_file, '.seeds.rb')].join(':')
+      prerequisite_seeds = Dir[File.expand_path('../../../dummy/db/seeds/*_seeds.rb', __FILE__)].map do |seed_file|
+        ['db', 'seed', File.basename(seed_file, '_seeds.rb')].join(':')
       end.unshift('db:seed:original')
 
       subject.prerequisites.must_equal prerequisite_seeds
@@ -71,8 +71,8 @@ describe 'Seedbank rake.task' do
 
       describe "seeds in the #{environment} environment" do
 
-        Dir[File.expand_path("../../../dummy/db/seeds/#{environment}/*.seeds.rb", __FILE__)].each do |seed_file|
-          seed = File.basename(seed_file, '.seeds.rb')
+        Dir[File.expand_path("../../../dummy/db/seeds/#{environment}/*_seeds.rb", __FILE__)].each do |seed_file|
+          seed = File.basename(seed_file, '_seeds.rb')
 
           describe seed do
 
@@ -90,8 +90,8 @@ describe 'Seedbank rake.task' do
         subject { Rake.application.lookup(environment, %w[db seed]) }
 
         it "is dependent on the seeds in the environment directory" do
-          prerequisite_seeds = Dir[File.expand_path("../../../dummy/db/seeds/#{environment}/*.seeds.rb", __FILE__)].map do |seed_file|
-            ['db', 'seed', environment, File.basename(seed_file, '.seeds.rb')].join(':')
+          prerequisite_seeds = Dir[File.expand_path("../../../dummy/db/seeds/#{environment}/*_seeds.rb", __FILE__)].map do |seed_file|
+            ['db', 'seed', environment, File.basename(seed_file, '_seeds.rb')].join(':')
           end.unshift('db:seed:common')
 
           subject.prerequisites.must_equal prerequisite_seeds

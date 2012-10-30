@@ -12,7 +12,7 @@ describe Seedbank::DSL do
 
     describe "in an environment directory" do
 
-      let(:seed_file) { File.expand_path('development/users.seeds.rb', Seedbank.seeds_root) }
+      let(:seed_file) { File.expand_path('development/users_seeds.rb', Seedbank.seeds_root) }
       let(:seed_namespace) { %w(development) }
 
       subject { Seedbank::DSL.scope_from_seed_file seed_file }
@@ -24,7 +24,7 @@ describe Seedbank::DSL do
 
     describe "in a nested directory" do
 
-      let(:seed_file) { File.expand_path('development/shared/accounts.seeds.rb', Seedbank.seeds_root) }
+      let(:seed_file) { File.expand_path('development/shared/accounts_seeds.rb', Seedbank.seeds_root) }
       let(:seed_namespace) { %w(development shared) }
 
       subject { Seedbank::DSL.scope_from_seed_file seed_file }
@@ -36,7 +36,7 @@ describe Seedbank::DSL do
 
     describe "in seeds root" do
 
-      let(:seed_file) { File.expand_path('no_block.seeds.rb', Seedbank.seeds_root) }
+      let(:seed_file) { File.expand_path('no_block_seeds.rb', Seedbank.seeds_root) }
 
       subject { Seedbank::DSL.scope_from_seed_file seed_file }
 
@@ -68,7 +68,7 @@ describe Seedbank::DSL do
 
     describe "with no namespace" do
 
-      let(:pattern) { '*.seeds.rb' }
+      let(:pattern) { '*_seeds.rb' }
 
       it "returns all the files matching the pattern in seeds_root" do
         expected_files = Dir.glob(File.join(Seedbank.seeds_root, pattern))
@@ -80,7 +80,7 @@ describe Seedbank::DSL do
 
     describe "with a namespace" do
 
-      let(:pattern) { '*.seeds.rb' }
+      let(:pattern) { '*_seeds.rb' }
       let(:namespace) { 'development' }
 
       it "returns all the files matching the pattern in seeds_root" do
@@ -97,7 +97,7 @@ describe Seedbank::DSL do
 
     let(:name) { 'scoped:my_seed' }
     let(:dependencies) { ['environment'] }
-    let(:seed_file) { File.expand_path('development/users.seeds.rb', Seedbank.seeds_root) }
+    let(:seed_file) { File.expand_path('development/users_seeds.rb', Seedbank.seeds_root) }
 
     it "returns a fully qualified task name" do
       returned_name = Seedbank::DSL.define_seed_task(seed_file, name => dependencies)
