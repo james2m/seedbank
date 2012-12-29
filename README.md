@@ -1,7 +1,4 @@
-Seedbank
-
-[![Build Status](https://secure.travis-ci.org/statique/seedbank.png)](http://travis-ci.org/statique/seedbank) [![Dependency Status](https://gemnasium.com/statique/seedbank.png)](https://gemnasium.com/statique/seedbank)
-
+Seedbank [![Build Status](https://secure.travis-ci.org/statique/seedbank.png)](http://travis-ci.org/statique/seedbank) [![Dependency Status](https://gemnasium.com/statique/seedbank.png)](https://gemnasium.com/statique/seedbank)
 ========
 
 Seedbank allows you to structure your Rails seed data instead of having it all dumped into one large file. I find my seed data tended to fall into two categories. 1. Stuff that the entire application requires. 2. Stuff to populate my development and staging environments.
