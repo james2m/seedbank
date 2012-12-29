@@ -1,6 +1,6 @@
 Seedbank
 
-+[![Build Status](https://secure.travis-ci.org/statique/seedbank.png)](http://travis-ci.org/statique/seedbank) [![Dependency Status](https://gemnasium.com/statique/seedbank.png)](https://gemnasium.com/statique/seedbank)
+[![Build Status](https://secure.travis-ci.org/statique/seedbank.png)](http://travis-ci.org/statique/seedbank) [![Dependency Status](https://gemnasium.com/statique/seedbank.png)](https://gemnasium.com/statique/seedbank)
 
 ========
 
