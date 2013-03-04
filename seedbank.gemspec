@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
     Extends Rails seeds to split out complex seeds into multiple
     files and lets each environment have it's own seeds.
   }
+  s.license = "MIT"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
