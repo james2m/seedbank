@@ -24,7 +24,7 @@ module Seedbank
 
     def define_seed_task(seed_file, *args)
       task = Rake::Task.define_task(*args) do |seed_task|
-        Seedbank::Runner.new(seed_task).module_eval(File.read(seed_file)) if File.exist?(seed_file)
+        Seedbank::Runner.new(seed_task).module_eval(File.read(seed_file), seed_file) if File.exist?(seed_file)
       end
       task.add_description "Load the seed data from #{seed_file}"
       task.name
