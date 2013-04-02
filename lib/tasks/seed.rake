@@ -8,7 +8,7 @@ namespace :db do
   namespace :seed do
     # Create seed tasks for all the seeds in seeds_path and add them to the dependency
     # list along with the original db/seeds.rb.
-    common_dependencies = glob_seed_files_matching('*.seeds.rb').map { |seed_file| seed_task_from_file(seed_file) }
+    common_dependencies = glob_seed_files_matching('*.seeds.rb').sort.map { |seed_file| seed_task_from_file(seed_file) }
 
     desc "Load the seed data from db/seeds.rb and db/seeds/*.seeds.rb."
     task 'common' => base_dependencies + common_dependencies
