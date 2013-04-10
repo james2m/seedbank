@@ -13,7 +13,7 @@ module Seedbank
     def seed_task_from_file(seed_file)
       scopes  = scope_from_seed_file(seed_file)
       fq_name = scopes.push(File.basename(seed_file, '_seeds.rb')).join(':')
-      args    = Rake::Task.task_defined?('db:abort_if_pending_migrations') ? { fq_name => 'db:abort_if_pending_migrations' } : fq_name
+      args    = Rake::Task.task_defined?('db:abort_if_pending_migrations') ? { fq_name => 'db:abort_if_pending_migrations' } : { fq_name => :environment }
 
       define_seed_task(seed_file, args)
     end
@@ -24,7 +24,7 @@ module Seedbank
 
     def define_seed_task(seed_file, *args)
       task = Rake::Task.define_task(*args) do |seed_task|
-        Seedbank::Runner.new(seed_task).module_eval(File.read(seed_file)) if File.exist?(seed_file)
+        Seedbank::Runner.new(seed_task).module_eval(File.read(seed_file), seed_file) if File.exist?(seed_file)
       end
       task.add_description "Load the seed data from #{seed_file}"
       task.name
