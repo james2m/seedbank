@@ -33,9 +33,9 @@ Gem::Specification.new do |s|
     "README.md"
   ]
 
-  s.add_development_dependency "minitest", "~> 3.2"
+  s.add_development_dependency "minitest", ">= 3.2"
   s.add_development_dependency "flexmock"
-  s.add_development_dependency "rails", "~> 3.2.6"
+  s.add_development_dependency "rails", ">= 3.2.6"
   
   s.post_install_message = %q{
   ================================================================================
