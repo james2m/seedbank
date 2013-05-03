@@ -124,6 +124,8 @@ after "development:companies" do
 end
 ```
 
+*Note* - If you experience any errors like `Don't know how to build task 'db:seed:users'`. Ensure your specifying `after 'development:companies'` like the above example. This is the usual culprit (YMMV).
+
 Contributors
 ============
 ```shell
