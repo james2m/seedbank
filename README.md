@@ -79,7 +79,7 @@ If you vendor the gem you'll need to change the require to the specific path.
 Usage
 =====
 
-Seeds files are just plain old Ruby executed in your rails application environment so anything you could type into the rails console will work in your seeds.
+Seeds files are just plain old Ruby executed in your rails application environment so anything you could type into the rails console will work in your seeds. Seeds files have to be named with the '.seeds.rb' extension.
 
 db/seeds/companies.seeds.rb
 ```ruby
