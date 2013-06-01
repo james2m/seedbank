@@ -23,4 +23,6 @@ pkg
 test/dummy/tmp
 test/dummy/log
 .rvmrc
+.ruby-version
+.ruby-gemset
 Gemfile.lock
