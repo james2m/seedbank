@@ -49,7 +49,7 @@ describe 'Seedbank rake.task' do
     subject { Rake::Task['db:seed:original'] }
 
     it "has no dependencies" do
-      subject.prerequisites.must_be_empty
+      subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
     end
 
     describe "when seeds are reloaded" do
@@ -59,7 +59,7 @@ describe 'Seedbank rake.task' do
       end
 
       it "still has no dependencies" do
-        subject.prerequisites.must_be_empty
+        subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
       end
     end
   end

@@ -47,13 +47,20 @@ describe Seedbank::Runner do
   end
 
   describe "after with no block given" do
-    
+
     subject { Rake::Task['db:seed:no_block'] }
 
     it "runs the dependencies" do
       FakeModel.should_receive(:seed).with('dependency').once.ordered
 
       subject.invoke
+    end
+  end
+
+  describe "let" do
+
+    it "does something" do
+
     end
   end
 end

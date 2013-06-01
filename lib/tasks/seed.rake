@@ -25,10 +25,12 @@ namespace :db do
 
       override_dependency << "db:seed:#{environment}" if defined?(Rails) && Rails.env == environment
     end
+
+    original_seeds_file = Rails.application.paths["db/seeds"].existent.first
+    define_seed_task original_seeds_file, :original if original_seeds_file
   end
 
   # Override db:seed to run all the common and environments seeds plus the original db:seed.
-  desc "Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/ENVIRONMENT/*.seeds.rb. ENVIRONMENT is the current environment in Rails.env."
+  desc 'Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/ENVIRONMENT/*.seeds.rb. ENVIRONMENT is the current environment in Rails.env.'
   override_seed_task :seed => override_dependency
-
 end

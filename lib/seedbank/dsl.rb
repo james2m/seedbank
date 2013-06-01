@@ -1,13 +1,11 @@
 module Seedbank
   module DSL
 
-    def self.included(base)
-      Rake::Task.send(:include, Seedbank::RenameTask)
-      Rake::Application.send(:include, Seedbank::TaskManager)
-    end
-
-    def override_seed_task(*args, &block)
-      Rake.application.override_task(*args, &block)
+    def override_seed_task(*args)
+      task_name, arg_names, deps = Rake.application.resolve_args(args)
+      seed_task = Rake::Task.task_defined?(task_name) ? Rake::Task[task_name].clear : Rake::Task.define_task(task_name)
+      seed_task.send :instance_variable_set, '@full_comment', Rake.application.last_description
+      seed_task.enhance deps
     end
 
     def seed_task_from_file(seed_file)
