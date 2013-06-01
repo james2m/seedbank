@@ -25,12 +25,15 @@ module Seedbank
       task = Rake::Task.define_task(*args) do |seed_task|
         Seedbank::Runner.new(seed_task).module_eval(File.read(seed_file), seed_file) if File.exist?(seed_file)
       end
+
       task.add_description "Load the seed data from #{seed_file}"
+
       if Rake::Task.task_defined?('db:abort_if_pending_migrations')
         task.enhance(['db:abort_if_pending_migrations'])
       elsif Rake::Task.task_defined?(':environment')
         task.enhance([':environment'])
       end
+
       task.name
     end
 
