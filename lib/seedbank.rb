@@ -1,6 +1,4 @@
 require 'seedbank/dsl'
-require 'seedbank/rename_task'
-require 'seedbank/task_manager'
 require 'seedbank/runner'
 
 module Seedbank
