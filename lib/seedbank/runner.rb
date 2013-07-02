@@ -1,14 +1,14 @@
 module Seedbank
   class Runner < Module
-  
-    def initialize(task)
+
+    def evaluate(task, seed_file)
       @task = task
-      super()
+      self.module_eval(File.read(seed_file), seed_file)
     end
 
     # Run this seed after the specified dependencies have run
     # @param dependencies [Array] seeds to run before the block is executed
-    # 
+    #
     # If a block is specified the contents of the block are executed after all the
     # dependencies have been executed.
     #
@@ -26,6 +26,6 @@ module Seedbank
       dependent_task = Rake::Task.define_task(dependent_task_name => dependencies, &block)
       dependent_task.invoke
     end
-  
+
   end
 end
