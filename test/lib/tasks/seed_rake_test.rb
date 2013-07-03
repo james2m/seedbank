@@ -4,7 +4,7 @@ describe 'Seedbank rake.task' do
 
   describe "seeds with dependency" do
 
-    subject { Rake.application.tasks_in_scope %w[db seed] }
+    subject { Rake.application.tasks_in_scope(defined?(Rake::Scope) ? Rake::Scope.new('db:seed') : %w[db seed]) }
 
     it "creates all the seed tasks" do
       seeds = %w(db:seed:circular1 db:seed:circular2 db:seed:common db:seed:dependency db:seed:dependency2
@@ -22,7 +22,7 @@ describe 'Seedbank rake.task' do
 
       describe seed do
 
-        subject { Rake.application.lookup(seed, %w[db seed]) }
+        subject { Rake.application.lookup(['db', 'seed', seed].join(':')) }
 
         it "is dependent on db:abort_if_pending_migrations" do
           subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
@@ -76,7 +76,7 @@ describe 'Seedbank rake.task' do
 
           describe seed do
 
-            subject { Rake.application.lookup(seed, ['db', 'seed', environment]) }
+            subject { Rake.application.lookup(['db', 'seed', environment, seed].join(':')) }
 
             it "is dependent on db:abort_if_pending_migrations" do
               subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
@@ -87,7 +87,7 @@ describe 'Seedbank rake.task' do
 
       describe "db:seed:#{environment}" do
 
-        subject { Rake.application.lookup(environment, %w[db seed]) }
+        subject { Rake.application.lookup(['db', 'seed', environment].join(':')) }
 
         it "is dependent on the seeds in the environment directory" do
           prerequisite_seeds = Dir[File.expand_path("../../../dummy/db/seeds/#{environment}/*.seeds.rb", __FILE__)].sort.map do |seed_file|
