@@ -137,6 +137,13 @@ git log | grep Author | sort | uniq
 * Philip Arndt
 * Peter Suschlik
 * Joost Baaij
+* Justin Smestad
+* Peter Suschlik
+* Philip Arndt
+* Tim Galeckas
+* lulalala
+* pivotal-cloudplanner
+* vkill
 
 Note on Patches/Pull Request
 ============================
