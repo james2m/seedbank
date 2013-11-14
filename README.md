@@ -132,10 +132,10 @@ Contributors
 git log | grep Author | sort | uniq
 ```
 
-* James McCarthy
+* Ahmad Sherif
 * Andy Triggs
-* Philip Arndt
-* Peter Suschlik
+* Corey Purcell
+* James McCarthy
 * Joost Baaij
 * Justin Smestad
 * Peter Suschlik
@@ -144,6 +144,7 @@ git log | grep Author | sort | uniq
 * lulalala
 * pivotal-cloudplanner
 * vkill
+
 
 Note on Patches/Pull Request
 ============================
