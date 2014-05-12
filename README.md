@@ -131,6 +131,23 @@ after "development:companies" do
 end
 ```
 
+### Defining and using methods
+
+As seed files are evaluated within blocks, methods need to be defined and used as per below:
+
+```ruby
+class << self
+  def create_user name
+    user = User.where(name: name).first_or_create
+    # ...
+  end
+end
+
+['Greg', 'Daniel'].each do |name|
+  create_user name
+end
+```
+
 *Note* - If you experience any errors like `Don't know how to build task 'db:seed:users'`. Ensure your specifying `after 'development:companies'` like the above example. This is the usual culprit (YMMV).
 
 Contributors
