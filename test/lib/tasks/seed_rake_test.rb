@@ -107,7 +107,7 @@ describe 'Seedbank rake.task' do
     describe "when no environment seeds are defined" do
 
       it "is dependent on db:seed:common" do
-        subject.prerequisites.must_equal %w[db:seed:common]
+        subject.prerequisites.must_equal %w[db:abort_if_pending_migrations db:seed:common]
       end
     end
 
@@ -119,7 +119,7 @@ describe 'Seedbank rake.task' do
         Rake.application.clear
         Dummy::Application.load_tasks
 
-        subject.prerequisites.must_equal %w[db:seed:common db:seed:development]
+        subject.prerequisites.must_equal %w[db:abort_if_pending_migrations db:seed:common db:seed:development]
       end
     end
   end

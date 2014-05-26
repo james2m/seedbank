@@ -5,6 +5,7 @@ module Seedbank
       task_name, arg_names, deps = Rake.application.resolve_args(args)
       seed_task = Rake::Task.task_defined?(task_name) ? Rake::Task[task_name].clear : Rake::Task.define_task(task_name)
       add_comment_to(seed_task, Rake.application.last_description)
+      add_environment_dependency(seed_task)
       seed_task.enhance deps
     end
 
@@ -26,13 +27,17 @@ module Seedbank
 
       task.add_description "Load the seed data from #{seed_file}"
 
+      add_environment_dependency(task)
+
+      task.name
+    end
+
+    def add_environment_dependency(task)
       if Rake::Task.task_defined?('db:abort_if_pending_migrations')
         task.enhance(['db:abort_if_pending_migrations'])
       elsif Rake::Task.task_defined?(':environment')
         task.enhance([':environment'])
       end
-
-      task.name
     end
 
     def scope_from_seed_file(seed_file)
