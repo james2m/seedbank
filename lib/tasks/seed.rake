@@ -26,7 +26,13 @@ namespace :db do
       override_dependency << "db:seed:#{environment}" if defined?(Rails) && Rails.env == environment
     end
 
-    original_seeds_file = Rails.application.paths["db/seeds"].existent.first
+    if Rails.version > '4'
+      original_seeds_file = Rails.application.paths["db/seeds.rb"].existent.first
+    elsif Rails.version > '3'
+      original_seeds_file = Rails.application.paths["db/seeds"].existent.first
+    else
+      original_seeds_file = Rails.root.join("db","seeds").children.first.to_s
+    end
     define_seed_task original_seeds_file, :original if original_seeds_file
   end
 

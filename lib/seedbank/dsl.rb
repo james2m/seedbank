@@ -4,7 +4,7 @@ module Seedbank
     def override_seed_task(*args)
       task_name, arg_names, deps = Rake.application.resolve_args(args)
       seed_task = Rake::Task.task_defined?(task_name) ? Rake::Task[task_name].clear : Rake::Task.define_task(task_name)
-      seed_task.send :instance_variable_set, '@full_comment', Rake.application.last_description
+      add_comment_to(seed_task, Rake.application.last_description)
       seed_task.enhance deps
     end
 
@@ -48,6 +48,16 @@ module Seedbank
 
     def seeds_root
       Pathname.new Seedbank.seeds_root
+    end
+
+    private
+
+    def add_comment_to(seed_task, comment)
+      if seed_task.respond_to?(:clear_comments)
+        seed_task.comment = comment
+      else
+        seed_task.send :instance_variable_set, '@full_comment', comment
+      end
     end
 
   end

@@ -1,15 +1,18 @@
 Seedbank
 ========
 
-Seedbank allows you to structure your Rails seed data instead of having it all dumped into one large file. I find my seed data tended to fall into two categories. 1. Stuff that the entire application requires. 2. Stuff to populate my development and staging environments.
+Seedbank allows you to structure your Rails seed data instead of having it all dumped into one large file. I find my seed data tended to fall into two categories:
 
-Seedbank assumes common seed data is under db/seeds and any directories under db/seeds/ are specific to an environment, so db/seeds/development is contains all your development only seed data.
+1. Stuff that the entire application requires. 
+2. Stuff to populate my development and staging environments.
+
+Seedbank assumes that your common seed data is kept under db/seeds and any directories under `db/seeds/` are specific to an environment, so `db/seeds/development` contains all your **development-only** seed data.
 
 The reason behind Seedbank is laziness. When I checkout or re-visit a project I don't want to mess around getting my environment setup I just want the code and a database loaded with data in a known state. Since the Rails core team were good enough to give us rake db:setup it would be rude not to use it.
 
     rake db:setup  # Create the database, load the schema, and initialize with the seed data (use db:reset to also drop the db first)
 
-To achieve this slothful aim Seedbank renames the original db:seed rake task to db:seed:original, makes it a dependency for all the Seedbank seeds and adds a new db:seed task that loads all the common seeds in db/seeds plus all the seeds for the current Rails environment.
+To achieve this slothful aim, Seedbank renames the original db:seed rake task to db:seed:original, makes it a dependency for all the Seedbank seeds and adds a new db:seed task that loads all the common seeds in db/seeds plus all the seeds for the current Rails environment.
 
 Example
 =======
@@ -32,15 +35,15 @@ This would generate the following Rake tasks
     rake db:seed:foo                # Load the seed data from db/seeds/foo.seeds.rb
     rake db:seed:original           # Load the seed data from db/seeds.rb
 
-Therefor assuming RAILS_ENV is not set or is 'development'
+Therefore, assuming `RAILS_ENV` is not set or it is "development":
 
     $ rake db:seed
 
-would load the seeds in db/seeds.rb, db/seeds/bar.seeds.rb, db/seeds/foo.seeds/rb and db/seeds/development/users.seeds.rb. Whereas
+will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb`, `db/seeds/foo.seeds.rb` and `db/seeds/development/users.seeds.rb`. Whereas, setting the `RAILS_ENV` variable, like so:
 
     $ RAILS_ENV=production db:seed
 
-would load the seeds in db/seeds.rb, db/seeds/bar.seeds.rb and db/seeds/foo.seeds/rb
+will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb` and `db/seeds/foo.seeds.rb`.
 
 Installation
 ============
@@ -63,9 +66,13 @@ Add to your config/environment.rb
 config.gem 'seedbank'
 ```
 
-Install the gem;
+Install the gem:
 
     $ rake gems:install
+    
+Or, if you're using Bundler:
+
+    $ bundle install
 
 Then in the bottom of your application's Rakefile:
 
@@ -124,6 +131,23 @@ after "development:companies" do
 end
 ```
 
+### Defining and using methods
+
+As seed files are evaluated within blocks, methods need to be defined and used as per below:
+
+```ruby
+class << self
+  def create_user name
+    user = User.where(name: name).first_or_create
+    # ...
+  end
+end
+
+['Greg', 'Daniel'].each do |name|
+  create_user name
+end
+```
+
 *Note* - If you experience any errors like `Don't know how to build task 'db:seed:users'`. Ensure your specifying `after 'development:companies'` like the above example. This is the usual culprit (YMMV).
 
 Contributors
@@ -132,11 +156,19 @@ Contributors
 git log | grep Author | sort | uniq
 ```
 
-* James McCarthy
+* Ahmad Sherif
 * Andy Triggs
-* Philip Arndt
-* Peter Suschlik
+* Corey Purcell
+* James McCarthy
 * Joost Baaij
+* Justin Smestad
+* Peter Suschlik
+* Philip Arndt
+* Tim Galeckas
+* lulalala
+* pivotal-cloudplanner
+* vkill
+
 
 Note on Patches/Pull Request
 ============================
