@@ -1,6 +1,5 @@
 require 'rubygems'
-require "flexmock"
-require 'minitest/spec'
+require 'minitest/autorun'
 
 # Configure Rails Environment
 environment  = ENV["RAILS_ENV"] = 'test'
@@ -14,8 +13,6 @@ Seedbank.seeds_root = File.expand_path('dummy/db/seeds', __FILE__)
 
 class Seedbank::Spec < MiniTest::Spec
 
-  include FlexMock::TestCase
-
   def setup
     Rake.application = Rake::Application.new
     Dummy::Application.load_tasks
@@ -25,4 +22,4 @@ class Seedbank::Spec < MiniTest::Spec
 end
 
 MiniTest::Spec.register_spec_type(/^Seedbank/i, Seedbank::Spec)
-MiniTest::Unit.autorun
+MiniTest.autorun

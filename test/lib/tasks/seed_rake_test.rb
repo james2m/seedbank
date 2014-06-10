@@ -114,12 +114,14 @@ describe 'Seedbank rake.task' do
     describe "when environment seeds are defined" do
 
       it "is dependent on db:seed:common" do
-        flexmock(Rails).should_receive(:env).and_return('development').once
+        Rails.stub(:env, 'development') do
 
-        Rake.application.clear
-        Dummy::Application.load_tasks
+          Rake.application.clear
+          Dummy::Application.load_tasks
 
-        subject.prerequisites.must_equal %w[db:seed:common db:seed:development]
+          subject.prerequisites.must_equal %w[db:seed:common db:seed:development]
+
+        end
       end
     end
   end
