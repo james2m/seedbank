@@ -16,6 +16,8 @@ class Seedbank::Spec < MiniTest::Spec
   def setup
     Rake.application = Rake::Application.new
     Dummy::Application.load_tasks
+    Object.const_set :FakeModel, MiniTest::Mock.new
+    TOPLEVEL_BINDING.eval('self').send(:instance_variable_set, :@_seedbank_runner, Seedbank::Runner.new)
     super
   end
 
