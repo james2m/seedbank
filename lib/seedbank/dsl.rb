@@ -20,7 +20,7 @@ module Seedbank
     end
 
     def runner
-      @runner ||= Seedbank::Runner.new
+      @_seedbank_runner ||= Seedbank::Runner.new
     end
 
     def define_seed_task(seed_file, *args)
