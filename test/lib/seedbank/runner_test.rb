@@ -2,10 +2,6 @@ require 'test_helper'
 
 describe Seedbank::Runner do
 
-  before do
-    Object.const_set :FakeModel, MiniTest::Mock.new
-  end
-
   describe "seeds with dependency" do
 
     subject { Rake::Task['db:seed:dependent'] }
@@ -67,8 +63,45 @@ describe Seedbank::Runner do
 
   describe "let" do
 
-    it "does something" do
+    describe "evaluates dependencies in order" do
 
+      subject { Rake::Task['db:seed:reference_memos'] }
+
+      it "runs the dependencies in order" do
+        FakeModel.expect :seed, true, ['with_inline_memo']
+        FakeModel.expect :seed, true, ['with_block_memo']
+        FakeModel.expect :calling_let, true, ['BLOCK_LET']
+        FakeModel.expect :calling_let, true, ['INLINE_LET']
+
+        def FakeModel.calling_let!(*args); end
+
+        subject.invoke
+
+        FakeModel.verify
+      end
     end
+
+
+  end
+
+  describe "let!" do
+
+    describe "evaluates dependencies in order" do
+
+      subject { Rake::Task['db:seed:reference_memos'] }
+
+      it "runs the dependencies in order" do
+        FakeModel.expect :calling_let!, true, ['INLINE_LET!']
+        FakeModel.expect :calling_let!, true, ['BLOCK_LET!']
+
+        def FakeModel.seed(*args); end
+        def FakeModel.calling_let(*args); end
+
+        subject.invoke
+
+        FakeModel.verify
+      end
+    end
+
   end
 end
