@@ -81,6 +81,20 @@ describe Seedbank::Runner do
       end
     end
 
+    describe "a previously defined method" do
+
+      let(:runner) { Seedbank::Runner.new }
+
+      before { runner.let(:existing) {} }
+
+      %w(__eigenclass existing let let evaluate after).each do |name|
+        it 'raises ArgumentError' do
+          assert_raises(ArgumentError, Regexp.new(name)) do
+            runner.let(name)
+          end
+        end
+      end
+    end
 
   end
 

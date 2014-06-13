@@ -8,7 +8,7 @@ module Seedbank
     def let(name, &block)
       name = String(name)
 
-      raise ArgumentError.new("#{name} is already defined") if @_memoized.has_key?(name) && block_given?
+      raise ArgumentError.new("#{name} is already defined") if respond_to?(name, true)
 
       __eigenclass.instance_exec(name) do |name|
         define_method(name) do
