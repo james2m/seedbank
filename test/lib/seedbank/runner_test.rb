@@ -74,6 +74,7 @@ describe Seedbank::Runner do
         FakeModel.expect :calling_let, true, ['INLINE_LET']
 
         def FakeModel.calling_let!(*args); end
+        def FakeModel.calling_method(*args); end
 
         subject.invoke
 
@@ -110,6 +111,7 @@ describe Seedbank::Runner do
 
         def FakeModel.seed(*args); end
         def FakeModel.calling_let(*args); end
+        def FakeModel.calling_method(*args); end
 
         subject.invoke
 
@@ -118,4 +120,25 @@ describe Seedbank::Runner do
     end
 
   end
+
+  describe "defining an inline method" do
+
+    describe "evaluates dependencies in order" do
+
+      subject { Rake::Task['db:seed:reference_memos'] }
+
+      it "runs the dependencies in order" do
+        FakeModel.expect :calling_method, true, ['inline_method']
+
+        def FakeModel.seed(*args); end
+        def FakeModel.calling_let(*args); end
+        def FakeModel.calling_let!(*args); end
+
+        subject.invoke
+
+        FakeModel.verify
+      end
+    end
+  end
+
 end
