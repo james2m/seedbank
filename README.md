@@ -48,7 +48,7 @@ will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb` and `db/seeds/foo.
 Installation
 ============
 
-### Rails 3.x
+### Rails 3.x and 4.x
 
 Add the seedbank gem to your Gemfile.  In Gemfile:
 
