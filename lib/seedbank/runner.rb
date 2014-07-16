@@ -23,7 +23,13 @@ module Seedbank
       dependencies.flatten!
       dependencies.map! { |dep| "db:seed:#{dep}"}
       dependent_task_name =  @task.name + ':body'
-      dependent_task = Rake::Task.define_task(dependent_task_name => dependencies, &block)
+
+      # Only define the dependent task the first time through
+      dependent_task = Rake.application.lookup(dependent_task_name)
+      unless dependent_task
+        dependent_task = Rake::Task.define_task(dependent_task_name => dependencies, &block)
+      end
+
       dependent_task.invoke
     end
   

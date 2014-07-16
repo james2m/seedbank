@@ -16,6 +16,16 @@ describe Seedbank::Runner do
 
       subject.invoke
     end
+
+    it "executes the body of the dependencies exactly once per invocation" do
+      FakeModel.should_receive(:seed).with('dependency').twice
+      FakeModel.should_receive(:seed).with('dependent').twice
+
+      subject.invoke
+      # Allow all tasks to be re-executed, including dependencies
+      Rake.application.tasks.each { |t| t.reenable }
+      subject.invoke
+    end
   end
 
   describe "seeds with multiple dependencies" do
