@@ -28,7 +28,7 @@ namespace :db do
 
     if Rails.version > '4'
       original_seeds_file = Rails.application.paths["db/seeds.rb"].existent.first
-    elsif Rails.version > '3'
+    elsif Rails.version > '3.1'
       original_seeds_file = Rails.application.paths["db/seeds"].existent.first
     else
       original_seeds_file = Rails.root.join("db","seeds").children.first.to_s
