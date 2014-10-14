@@ -50,7 +50,7 @@ Gem::Specification.new do |s|
     require 'seedbank'
     Seedbank.load_tasks if defined?(Seedbank)
 
-  Rails 3.x
+  Rails 3.x and 4.x
   ---------
   Your work here is done!
 
