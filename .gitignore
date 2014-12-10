@@ -26,3 +26,4 @@ test/dummy/log
 .ruby-version
 .ruby-gemset
 Gemfile.lock
+.bundle
