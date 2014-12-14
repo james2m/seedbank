@@ -35,16 +35,15 @@ Gem::Specification.new do |s|
     "README.md"
   ]
 
-  s.add_development_dependency "minitest", "~> 3.2"
-  s.add_development_dependency "flexmock"
-  s.add_development_dependency "rails", "~> 3.2.6"
-  
+  s.add_development_dependency "minitest"
+  s.add_development_dependency "rails", "~> 3.2"
+
   s.post_install_message = %q{
   ================================================================================
 
   Rails 2.x
   ---------
-  If you are using Seedbank with Rails 2.x you will need to place the following at 
+  If you are using Seedbank with Rails 2.x you will need to place the following at
   the end of your Rakefile so Rubygems can load the seedbank tasks;
 
     require 'seedbank'
@@ -55,6 +54,6 @@ Gem::Specification.new do |s|
   Your work here is done!
 
   ================================================================================
-  } 
+  }
 end
 
