@@ -182,4 +182,4 @@ Note on Patches/Pull Request
 
 Copyright
 =========
-Copyright (c) 2011 James McCarthy, released under the MIT license
+Copyright (c) 2011-2015 James McCarthy, released under the MIT license
