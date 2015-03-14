@@ -32,7 +32,6 @@ This would generate the following Rake tasks
     rake db:seed:common             # Load the seed data from db/seeds.rb and db/seeds/*.seeds.rb.
     rake db:seed:development        # Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/development/*.seeds.rb.
     rake db:seed:development:users  # Load the seed data from db/seeds/development/users.seeds.rb
-    rake db:seed:foo                # Load the seed data from db/seeds/foo.seeds.rb
     rake db:seed:original           # Load the seed data from db/seeds.rb
 
 Therefore, assuming `RAILS_ENV` is not set or it is "development":
