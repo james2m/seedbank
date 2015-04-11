@@ -40,7 +40,7 @@ Therefore, assuming `RAILS_ENV` is not set or it is "development":
 
 will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb`, `db/seeds/foo.seeds.rb` and `db/seeds/development/users.seeds.rb`. Whereas, setting the `RAILS_ENV` variable, like so:
 
-    $ RAILS_ENV=production db:seed
+    $ RAILS_ENV=production rake db:seed
 
 will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb` and `db/seeds/foo.seeds.rb`.
 
