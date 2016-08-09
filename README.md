@@ -3,7 +3,7 @@ Seedbank
 
 Seedbank allows you to structure your Rails seed data instead of having it all dumped into one large file. I find my seed data tended to fall into two categories:
 
-1. Stuff that the entire application requires. 
+1. Stuff that the entire application requires.
 2. Stuff to populate my development and staging environments.
 
 Seedbank assumes that your common seed data is kept under db/seeds and any directories under `db/seeds/` are specific to an environment, so `db/seeds/development` contains all your **development-only** seed data.
@@ -46,6 +46,10 @@ will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb` and `db/seeds/foo.
 
 Installation
 ============
+### Rails 5.x
+
+Seedbank has not been updated to work with Rails 5. I've not tested it with 5.x and am working on a new version specifically for 5.x. That said, I believe some
+people are using it with no problems.
 
 ### Rails 3.x and 4.x
 
@@ -68,7 +72,7 @@ config.gem 'seedbank'
 Install the gem:
 
     $ rake gems:install
-    
+
 Or, if you're using Bundler:
 
     $ bundle install
