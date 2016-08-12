@@ -1,9 +1,7 @@
 require 'test_helper'
 
 describe Seedbank::DSL do
-
   describe "scope_from_seed_file" do
-
     it "is added to the namesapce" do
       ns = Rake.application.in_namespace(:seedy) { self }
 
@@ -11,7 +9,6 @@ describe Seedbank::DSL do
     end
 
     describe "in an environment directory" do
-
       let(:seed_file) { File.expand_path('development/users.seeds.rb', Seedbank.seeds_root) }
       let(:seed_namespace) { %w(development) }
 
@@ -23,7 +20,6 @@ describe Seedbank::DSL do
     end
 
     describe "in a nested directory" do
-
       let(:seed_file) { File.expand_path('development/shared/accounts.seeds.rb', Seedbank.seeds_root) }
       let(:seed_namespace) { %w(development shared) }
 
@@ -35,7 +31,6 @@ describe Seedbank::DSL do
     end
 
     describe "in seeds root" do
-
       let(:seed_file) { File.expand_path('no_block.seeds.rb', Seedbank.seeds_root) }
 
       subject { Seedbank::DSL.scope_from_seed_file seed_file }
@@ -51,7 +46,6 @@ describe Seedbank::DSL do
   end
 
   describe "seeds_root" do
-
     let(:seeds_root) { '/my/seeds/directory' }
 
     subject { Seedbank::DSL.send(:seeds_root) }
@@ -59,17 +53,13 @@ describe Seedbank::DSL do
     it "returns a Pathname" do
       Seedbank.stub(:seeds_root, seeds_root) do
 
-        subject.must_equal Pathname.new(seeds_root)
-
-      end
+      subject.must_equal Pathname.new(seeds_root)
     end
-
   end
 
   describe "glob_seed_files_matching" do
 
     describe "with no namespace" do
-
       let(:pattern) { '*.seeds.rb' }
 
       it "returns all the files matching the pattern in seeds_root" do
@@ -77,11 +67,9 @@ describe Seedbank::DSL do
 
         Seedbank::DSL.glob_seed_files_matching(pattern).must_equal expected_files
       end
-
     end
 
     describe "with a namespace" do
-
       let(:pattern) { '*.seeds.rb' }
       let(:namespace) { 'development' }
 
@@ -90,13 +78,10 @@ describe Seedbank::DSL do
 
         Seedbank::DSL.glob_seed_files_matching(namespace, pattern).must_equal expected_files
       end
-
     end
-
   end
 
   describe "define_seed_task" do
-
     let(:task_name) { 'scoped:my_seed' }
     let(:dependencies) { ['environment'] }
     let(:seed_file) { File.expand_path('development/users.seeds.rb', Seedbank.seeds_root) }
@@ -150,11 +135,9 @@ describe Seedbank::DSL do
   end
 
   describe "override_seed_task" do
-
     describe "when no task exists to override" do
-
-      let(:task_name) { 'my_task' }
-      let(:dependencies) { ['seedy:users'] }
+      let(:name) { 'my_task' }
+      let(:dependencies) { ['db:abort_if_pending_migrations', 'seedy:users'] }
 
       it "creates a new task" do
         Seedbank::DSL.override_seed_task(task_name => dependencies)
@@ -178,6 +161,5 @@ describe Seedbank::DSL do
         Rake::Task[task_name].full_comment.must_equal description
       end
     end
-
   end
 end

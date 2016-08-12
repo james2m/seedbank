@@ -10,7 +10,6 @@ module Seedbank
     def seeds_root
       @seeds_root ||= 'db/seeds'
     end
-
   end
 
   def self.load_tasks
@@ -18,5 +17,4 @@ module Seedbank
   end
 
   require 'seedbank/railtie' if defined?(Rails) && Rails::VERSION::MAJOR >= 3
-
 end

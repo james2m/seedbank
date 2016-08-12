@@ -1,6 +1,6 @@
 namespace :db do
 
-  include Seedbank::DSL
+  using Seedbank::DSL
 
   base_dependencies   = ['db:seed:original']
   override_dependency = ['db:seed:common']

@@ -1,9 +1,7 @@
 require 'test_helper'
 
 describe 'Seedbank rake.task' do
-
   describe "seeds with dependency" do
-
     subject { Rake.application.tasks_in_scope(defined?(Rake::Scope) ? Rake::Scope.new('db:seed') : %w[db seed]) }
 
     it "creates all the seed tasks" do
@@ -16,7 +14,6 @@ describe 'Seedbank rake.task' do
   end
 
   describe "common seeds in the root directory" do
-
     Dir[File.expand_path('../../../dummy/db/seeds/*.seeds.rb', __FILE__)].each do |seed_file|
       seed = File.basename(seed_file, '.seeds.rb')
 
@@ -32,7 +29,6 @@ describe 'Seedbank rake.task' do
   end
 
   describe "db:seed:common" do
-
     subject { Rake::Task['db:seed:common'] }
 
     it "is dependent on the common seeds and db:seed:original" do
@@ -45,7 +41,6 @@ describe 'Seedbank rake.task' do
   end
 
   describe "db:seed:original" do
-
     subject { Rake::Task['db:seed:original'] }
 
     it "has no dependencies" do
@@ -65,12 +60,10 @@ describe 'Seedbank rake.task' do
   end
 
   describe "environment seeds" do
-
     Dir[File.expand_path('../../../dummy/db/seeds', __FILE__) + '/*/'].each do |environment_directory|
       environment = File.basename(environment_directory)
 
       describe "seeds in the #{environment} environment" do
-
         Dir[File.expand_path("../../../dummy/db/seeds/#{environment}/*.seeds.rb", __FILE__)].each do |seed_file|
           seed = File.basename(seed_file, '.seeds.rb')
 
@@ -86,7 +79,6 @@ describe 'Seedbank rake.task' do
       end
 
       describe "db:seed:#{environment}" do
-
         subject { Rake.application.lookup(['db', 'seed', environment].join(':')) }
 
         it "is dependent on the seeds in the environment directory" do
@@ -101,28 +93,25 @@ describe 'Seedbank rake.task' do
   end
 
   describe "db:seed task" do
-
     subject { Rake::Task['db:seed'] }
 
     describe "when no environment seeds are defined" do
 
       it "is dependent on db:seed:common" do
-        subject.prerequisites.must_equal %w[db:seed:common]
+        subject.prerequisites.must_equal %w[db:abort_if_pending_migrations db:seed:common]
       end
     end
 
     describe "when environment seeds are defined" do
-
       it "is dependent on db:seed:common" do
         Rails.stub(:env, 'development') do
 
-          Rake.application.clear
-          Dummy::Application.load_tasks
+        Rake.application.clear
+        Dummy::Application.load_tasks
 
-          subject.prerequisites.must_equal %w[db:seed:common db:seed:development]
-
-        end
+        subject.prerequisites.must_equal %w[db:abort_if_pending_migrations db:seed:common db:seed:development]
       end
     end
   end
+end
 end
