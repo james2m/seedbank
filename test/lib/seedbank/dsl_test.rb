@@ -135,7 +135,7 @@ describe Seedbank::DSL do
 
   describe 'override_seed_task' do
     describe 'when no task exists to override' do
-      let(:name) { 'my_task' }
+      let(:task_name) { 'my_task' }
       let(:dependencies) { ['db:abort_if_pending_migrations', 'seedy:users'] }
 
       it 'creates a new task' do
