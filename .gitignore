@@ -28,3 +28,4 @@ test/dummy/log
 .ruby-gemset
 Gemfile.lock
 .bundle
+.byebug_history
