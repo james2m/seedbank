@@ -14,6 +14,8 @@ The reason behind Seedbank is laziness. When I checkout or re-visit a project I 
 
 To achieve this slothful aim, Seedbank renames the original db:seed rake task to db:seed:original, makes it a dependency for all the Seedbank seeds and adds a new db:seed task that loads all the common seeds in db/seeds plus all the seeds for the current Rails environment.
 
+[![Build Status](https://travis-ci.org/james2m/seedbank.svg?branch=master)](https://travis-ci.org/james2m/seedbank)
+
 Example
 =======
 

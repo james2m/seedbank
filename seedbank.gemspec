@@ -1,59 +1,29 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "seedbank/version"
 
-Gem::Specification.new do |s|
-  s.name = %q{seedbank}
-  s.version = Seedbank::VERSION
-  s.date = `git log -1 --format="%cd" --date=short lib/seedbank/version.rb`
+Gem::Specification.new do |spec|
+  spec.name        = %q{seedbank}
+  spec.version     = Seedbank::VERSION
+  spec.authors     = ["James McCarthy"]
+  spec.email       = '[james2mccarthy@gmail.com']
+  spec.summary     = %q{Extends Rails seeds to split complex seeds and have different seeds for each environment.}
+  spec.description = spec.summary
+  spec.date        = `git log -1 --format="%cd" --date=short lib/seedbank/version.rb`
+  spec.homepage    = %q{http://github.com/james2m/seedbank}
+  spec.license     = 'MIT'
 
-  s.required_rubygems_version = Gem::Requirement.new(">=1.2.0") if s.respond_to?(:required_rubygems_version=)
-  s.rubygems_version = %q{1.3.5}
-  s.license = "MIT"
+  spec.files         = `git ls-files`.split($/)
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.require_paths = ['lib']
 
-  s.authors = ["James McCarthy"]
-  s.email = %q{james2mccarthy@gmail.com}
-  s.homepage = %q{http://github.com/james2m/seedbank}
-  s.summary = %q{
-    Extends Rails seeds to split out complex seeds into their own file
-    and have different seeds for each environment.
-  }
-  s.description = %q{
-    Extends Rails seeds to split out complex seeds into multiple
-    files and lets each environment have it's own seeds.
-  }
-  s.license = "MIT"
+  spec.rdoc_options     = ['--charset=UTF-8']
+  spec.extra_rdoc_files = ['MIT-LICENSE', 'README.md']
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
-
-  s.rdoc_options = ["--charset=UTF-8"]
-  s.extra_rdoc_files = [
-    "MIT-LICENSE",
-    "README.md"
-  ]
-
-  s.add_development_dependency "minitest", "~> 5.0"
-  s.add_development_dependency "rails", "~> 3.2"
-
-  s.post_install_message = %q{
-  ================================================================================
-
-  Rails 2.x
-  ---------
-  If you are using Seedbank with Rails 2.x you will need to place the following at
-  the end of your Rakefile so Rubygems can load the seedbank tasks;
-
-    require 'seedbank'
-    Seedbank.load_tasks if defined?(Seedbank)
-
-  Rails 3.x and 4.x
-  ---------
-  Your work here is done!
-
-  ================================================================================
-  }
+  spec.add_development_dependency 'minitest', '~> 5.0'
+  spec.add_development_dependency 'rails',    '~> 3.2'
+  spec.add_development_dependency 'bundler',  '~> 1.3'
 end
 
