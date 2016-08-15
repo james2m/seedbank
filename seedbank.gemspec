@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name        = %q{seedbank}
   spec.version     = Seedbank::VERSION
   spec.authors     = ["James McCarthy"]
-  spec.email       = '[james2mccarthy@gmail.com']
+  spec.email       = ['[james2mccarthy@gmail.com']
   spec.summary     = %q{Extends Rails seeds to split complex seeds and have different seeds for each environment.}
   spec.description = spec.summary
   spec.date        = `git log -1 --format="%cd" --date=short lib/seedbank/version.rb`
