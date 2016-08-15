@@ -1,11 +1,10 @@
 language: ruby
 
 rvm:
-  - ree
-  - 1.8.7
-  - 1.9.3
   - 2.0.0
-  - 2.1.0
+  - 2.1.9
+  - 2.2.5
+  - 2.3.1
   - jruby-18mode # JRuby in 1.8 mode
   - jruby-19mode # JRuby in 1.9 mode
   - rbx-2
@@ -13,3 +12,4 @@ rvm:
 gemfile:
   - gemfiles/rake0.9.gemfile
   - gemfiles/rake10.gemfile
+  - gemfiles/rake11.gemfile
