@@ -15,7 +15,6 @@ module Seedbank
           @_memoized.fetch(name) { |key| @_memoized[key] = instance_eval(&block) }
         end
       end
-
     end
 
     def let!(name, &block)
@@ -62,6 +61,5 @@ module Seedbank
         self
       end
     end
-
   end
 end

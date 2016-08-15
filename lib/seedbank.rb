@@ -2,7 +2,6 @@ require 'seedbank/dsl'
 require 'seedbank/runner'
 
 module Seedbank
-
   class << self
 
     attr_writer :seeds_root

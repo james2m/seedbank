@@ -1,6 +1,3 @@
-require 'seedbank'
-require 'rails'
-
 module Seedbank
   class Railtie < Rails::Railtie
 
