@@ -48,6 +48,9 @@ will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb` and `db/seeds/foo.
 
 Installation
 ============
+
+Seedbank > 0.4.0 does not support rubies below Ruby 2.x. If you are using an older Ruby you'll have to stick with 0.4.0 and below.
+
 ### Rails 5.x
 
 Seedbank has not been updated to work with Rails 5. I've not tested it with 5.x and am working on a new version specifically for 5.x. That said, I believe some
@@ -65,19 +68,11 @@ That's it!
 
 ### Rails 2.x
 
-Add to your config/environment.rb
+Seedbank hasn't supported Rails 2.x for some time. You'll need to use the 0.3.0 version. In your Gemfile:
 
 ```ruby
-config.gem 'seedbank'
+gem "seedbank", '~> 0.3.0'
 ```
-
-Install the gem:
-
-    $ rake gems:install
-
-Or, if you're using Bundler:
-
-    $ bundle install
 
 Then in the bottom of your application's Rakefile:
 
