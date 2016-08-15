@@ -1,5 +1,7 @@
 require 'test_helper'
 
+using Seedbank::DSL
+
 describe Seedbank::DSL do
   describe 'scope_from_seed_file' do
     it 'is added to the namesapce' do
@@ -48,12 +50,12 @@ describe Seedbank::DSL do
   describe 'seeds_root' do
     let(:seeds_root) { '/my/seeds/directory' }
 
-    subject { Seedbank::DSL.send(:seeds_root) }
+    subject { Seedbank::DSL.seeds_root }
 
     it 'returns a Pathname' do
-      Seedbank.stub(:seeds_root, seeds_root)
-
-      subject.must_equal Pathname.new(seeds_root)
+      Seedbank.stub(:seeds_root, seeds_root) do
+        subject.must_equal Pathname.new(seeds_root)
+      end
     end
   end
 
