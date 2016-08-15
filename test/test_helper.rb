@@ -2,7 +2,7 @@ require 'rubygems'
 require 'minitest/autorun'
 
 # Configure Rails Environment
-environment  = ENV["RAILS_ENV"] = 'test'
+ENV["RAILS_ENV"] = 'test'
 rails_root   = File.expand_path('../dummy', __FILE__)
 
 require File.expand_path('config/environment.rb', rails_root)
