@@ -68,10 +68,10 @@ That's it!
 
 ### Rails 2.x
 
-Seedbank hasn't supported Rails 2.x for some time. You'll need to use the 0.3.0 version. In your Gemfile:
+Seedbank hasn't supported Rails 2.x for some time. You'll need to use the 0.2.1 version. In your Gemfile:
 
 ```ruby
-gem "seedbank", '~> 0.3.0'
+gem "seedbank", '~> 0.2.1'
 ```
 
 Then in the bottom of your application's Rakefile:
