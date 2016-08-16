@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'rake'
 require 'minitest/autorun'
 
 # Configure Rails Environment
@@ -12,7 +13,6 @@ Rails.backtrace_cleaner.remove_silencers!
 Seedbank.seeds_root = File.expand_path('dummy/db/seeds', __FILE__)
 
 class Seedbank::Spec < MiniTest::Spec
-
   def setup
     Rake.application = Rake::Application.new
     Dummy::Application.load_tasks
@@ -20,7 +20,6 @@ class Seedbank::Spec < MiniTest::Spec
     TOPLEVEL_BINDING.eval('self').send(:instance_variable_set, :@_seedbank_runner, Seedbank::Runner.new)
     super
   end
-
 end
 
 MiniTest::Spec.register_spec_type(/^Seedbank/i, Seedbank::Spec)
