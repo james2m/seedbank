@@ -11,3 +11,6 @@ rvm:
 gemfile:
   - gemfiles/rake10.gemfile
   - gemfiles/rake11.gemfile
+
+before_install:
+  - gem install bundler -v '~> 1.11'
