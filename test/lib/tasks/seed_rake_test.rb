@@ -1,6 +1,10 @@
 require 'test_helper'
 
 describe 'Seedbank rake.task' do
+  it 'does not pollute the global namespace' do
+    Object.new.wont_respond_to :seeds_root
+  end
+
   describe "seeds with dependency" do
     subject { Rake.application.tasks_in_scope(defined?(Rake::Scope) ? Rake::Scope.new('db:seed') : %w[db seed]) }
 
