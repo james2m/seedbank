@@ -5,14 +5,10 @@ rvm:
   - 2.1
   - 2.2
   - 2.3.1
-  - jruby-21mode
-
-env:
-  JRUBY_OPTS="--2.0 --server -Dcext.enabled=false -Xcompile.invokedynamic=false"
 
 gemfile:
   - gemfiles/rake10.gemfile
   - gemfiles/rake11.gemfile
 
 before_install:
-  - gem install bundler -v '~> 1.11'
+  - gem install bundler -v '~> 1.11' --no-ri --no-rdoc
