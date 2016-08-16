@@ -6,12 +6,12 @@ require "seedbank/version"
 Gem::Specification.new do |spec|
   spec.name        = %q{seedbank}
   spec.version     = Seedbank::VERSION
-  spec.authors     = ["James McCarthy"]
+  spec.authors     = ['James McCarthy']
   spec.email       = ['[james2mccarthy@gmail.com']
-  spec.summary     = %q{Extends Rails seeds to split complex seeds and have different seeds for each environment.}
+  spec.summary     = 'Extends Rails seeds to split complex seeds and have different seeds for each environment.'
   spec.description = spec.summary
   spec.date        = `git log -1 --format="%cd" --date=short lib/seedbank/version.rb`
-  spec.homepage    = %q{http://github.com/james2m/seedbank}
+  spec.homepage    = 'http://github.com/james2m/seedbank'
   spec.license     = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
 
   spec.rdoc_options     = ['--charset=UTF-8']
   spec.extra_rdoc_files = ['MIT-LICENSE', 'README.md']
+
+  spec.add_dependency 'rake', '>= 10.0'
 
   spec.add_development_dependency 'bundler',  '~> 1.12'
   spec.add_development_dependency 'rails',    '~> 3.2'
