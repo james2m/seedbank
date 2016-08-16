@@ -10,10 +10,8 @@ module Seedbank
 
       raise ArgumentError.new("#{name} is already defined") if respond_to?(name, true)
 
-      __eigenclass.instance_exec(name) do |name|
-        define_method(name) do
-          @_memoized.fetch(name) { |key| @_memoized[key] = instance_eval(&block) }
-        end
+      define_singleton_method(name) do
+        @_memoized.fetch(name) { |key| @_memoized[key] = instance_eval(&block) }
       end
     end
 
@@ -41,25 +39,16 @@ module Seedbank
     #
     # Would look for a db/seeds/shared/users.seeds.rb seed and execute it.
     def after(*dependencies, &block)
-      dependencies.flatten!
-      dependencies.map! { |dep| "db:seed:#{dep}"}
+      depends_on = dependencies.flat_map { |dep| "db:seed:#{dep}" }
       dependent_task_name =  @_seed_task.name + ':body'
 
       if Rake::Task.task_defined?(dependent_task_name)
         dependent_task = Rake::Task[dependent_task_name]
       else
-        dependent_task = Rake::Task.define_task(dependent_task_name => dependencies, &block)
+        dependent_task = Rake::Task.define_task(dependent_task_name => depends_on, &block)
       end
 
       dependent_task.invoke
-    end
-
-    private
-
-    def __eigenclass
-      class << self
-        self
-      end
     end
   end
 end

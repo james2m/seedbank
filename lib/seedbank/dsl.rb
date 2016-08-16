@@ -2,7 +2,7 @@ module Seedbank
   module DSL
     refine Object do
       def override_seed_task(*args)
-        task_name, arg_names, deps = Rake.application.resolve_args(args)
+        task_name, _, deps = Rake.application.resolve_args(args)
         seed_task = Rake::Task.task_defined?(task_name) ? Rake::Task[task_name].clear : Rake::Task.define_task(task_name)
         add_comment_to(seed_task, Rake.application.last_description)
         add_environment_dependency(seed_task)
