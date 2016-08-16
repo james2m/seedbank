@@ -4,12 +4,6 @@ using Seedbank::DSL
 
 describe Seedbank::DSL do
   describe 'scope_from_seed_file' do
-    it 'is added to the namesapce' do
-      ns = Rake.application.in_namespace(:seedy) { self }
-
-      ns.must_respond_to :scope_from_seed_file
-    end
-
     describe 'in an environment directory' do
       let(:seed_file) { File.expand_path('development/users.seeds.rb', Seedbank.seeds_root) }
       let(:seed_namespace) { %w(development) }
@@ -138,7 +132,7 @@ describe Seedbank::DSL do
   describe 'override_seed_task' do
     describe 'when no task exists to override' do
       let(:task_name) { 'my_task' }
-      let(:dependencies) { ['db:abort_if_pending_migrations', 'seedy:users'] }
+      let(:dependencies) { ['db:abort_if_pending_migrations'] }
 
       it 'creates a new task' do
         Seedbank::DSL.override_seed_task(task_name => dependencies)
