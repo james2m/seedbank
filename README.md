@@ -49,14 +49,17 @@ will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb` and `db/seeds/foo.
 Installation
 ============
 
-Seedbank > 0.4.0 does not support rubies below Ruby 2.x. If you are using an older Ruby you'll have to stick with 0.4.0 and below.
+Seedbank > 0.5.0 uses refinements and no longer supports rubies below 2.x. If you are using an older Ruby you'll have to stick with 0.4.0 and below.
+
+I have also dropped support for Rubinius and JRuby. I'm happy to accept pull requests for them, but don't have the time to hack together the test
+environment. If you want to contribute, please ensure that he travis.yml is in line as it's the only way I will test these two environments.
 
 ### Rails 5.x
 
 Seedbank has not been updated to work with Rails 5. I've not tested it with 5.x and am working on a new version specifically for 5.x. That said, I believe some
 people are using it with no problems.
 
-### Rails 3.x and 4.x
+### Rails 4.x
 
 Add the seedbank gem to your Gemfile.  In Gemfile:
 
@@ -65,6 +68,11 @@ gem "seedbank"
 ```
 
 That's it!
+
+### Rails 3.x
+
+Seedbank 0.5.0 onwards is no longer tested against Rails 3.x, that isn't to say it will not work. I
+will not fix issues against Rails 3.x, but will accept tested pull requests.
 
 ### Rails 2.x
 
