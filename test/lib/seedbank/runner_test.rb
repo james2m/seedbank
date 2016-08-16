@@ -1,9 +1,7 @@
 require 'test_helper'
 
 describe Seedbank::Runner do
-
   describe "seeds with dependency" do
-
     subject { Rake::Task['db:seed:dependent'] }
 
     it "runs the dependencies in order" do
@@ -33,7 +31,6 @@ describe Seedbank::Runner do
   end
 
   describe "seeds with multiple dependencies" do
-
     subject { Rake::Task['db:seed:dependent_on_several'] }
 
     it "runs the dependencies in order" do
@@ -48,7 +45,6 @@ describe Seedbank::Runner do
   end
 
   describe "seeds with nested dependencies" do
-
     subject { Rake::Task['db:seed:dependent_on_nested'] }
 
     it "runs all dependencies in order" do
@@ -61,11 +57,9 @@ describe Seedbank::Runner do
 
       FakeModel.verify
     end
-
   end
 
   describe "after with no block given" do
-
     subject { Rake::Task['db:seed:no_block'] }
 
     it "runs the dependencies" do
@@ -78,9 +72,7 @@ describe Seedbank::Runner do
   end
 
   describe "let" do
-
     describe "evaluates dependencies in order" do
-
       subject { Rake::Task['db:seed:reference_memos'] }
 
       it "runs the dependencies in order" do
@@ -99,12 +91,11 @@ describe Seedbank::Runner do
     end
 
     describe "a previously defined method" do
-
       let(:runner) { Seedbank::Runner.new }
 
       before { runner.let(:existing) {} }
 
-      %w(__eigenclass existing let let evaluate after).each do |name|
+      %w(existing let! let evaluate after extend).each do |name|
         it 'raises ArgumentError' do
           assert_raises(ArgumentError, Regexp.new(name)) do
             runner.let(name)
@@ -112,13 +103,10 @@ describe Seedbank::Runner do
         end
       end
     end
-
   end
 
   describe "let!" do
-
     describe "evaluates dependencies in order" do
-
       subject { Rake::Task['db:seed:reference_memos'] }
 
       it "runs the dependencies in order" do
@@ -134,13 +122,10 @@ describe Seedbank::Runner do
         FakeModel.verify
       end
     end
-
   end
 
   describe "defining an inline method" do
-
     describe "evaluates dependencies in order" do
-
       subject { Rake::Task['db:seed:reference_memos'] }
 
       it "runs the dependencies in order" do
@@ -156,5 +141,4 @@ describe Seedbank::Runner do
       end
     end
   end
-
 end
