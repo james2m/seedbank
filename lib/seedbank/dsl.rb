@@ -20,10 +20,6 @@ module Seedbank
         Dir.glob(File.join(seeds_root, *args), &block)
       end
 
-      def runner
-        @_seedbank_runner ||= Seedbank::Runner.new
-      end
-
       def define_seed_task(seed_file, *args)
         task = Rake::Task.define_task(*args) do |seed_task|
           runner.evaluate(seed_task, seed_file) if File.exist?(seed_file)
@@ -54,6 +50,10 @@ module Seedbank
       end
 
       private
+
+      def runner
+        @_seedbank_runner ||= Seedbank::Runner.new
+      end
 
       def add_comment_to(seed_task, comment)
         if seed_task.respond_to?(:clear_comments)
