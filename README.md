@@ -139,24 +139,39 @@ after "development:companies" do
 end
 ```
 
+*Note* - If you experience any errors like `Don't know how to build task 'db:seed:users'`. Ensure you are specifying `after 'development:companies'` like the above example. This is the usual culprit (YMMV).
+
 ### Defining and using methods
 
-As seed files are evaluated within blocks, methods need to be defined and used as per below:
+As seed files are evaluated within a single runner in dependency order, any methods defined earlier in the run will be available across dependent tasks. I
+recommend keeping method definitions in the seed file that uses them. Alternatively if you have many common methods, put them into a module and extend the
+runner with the module.
 
+db/seeds/support.rb
 ```ruby
-class << self
-  def create_user name
-    user = User.where(name: name).first_or_create
-    # ...
+module Support
+  def notify(filename)
+    puts "Seeding: #{filename}"
   end
-end
-
-['Greg', 'Daniel'].each do |name|
-  create_user name
 end
 ```
 
-*Note* - If you experience any errors like `Don't know how to build task 'db:seed:users'`. Ensure you are specifying `after 'development:companies'` like the above example. This is the usual culprit (YMMV).
+db/seeds/common.seeds.rb
+```ruby
+require_relative 'support'
+extend Support
+
+notify(__FILE__)
+```
+
+To keep this dry you could make the seeds dependent on a support seed that extends the runner.
+
+db/seeds/users.seeds.rb
+```ruby
+after :common do
+  notify(__FILE__)
+end
+```
 
 Contributors
 ============
@@ -190,4 +205,4 @@ Note on Patches/Pull Request
 
 Copyright
 =========
-Copyright (c) 2011-2015 James McCarthy, released under the MIT license
+Copyright (c) 2011-2016 James McCarthy, released under the MIT license
