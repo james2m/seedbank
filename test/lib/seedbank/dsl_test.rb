@@ -3,12 +3,13 @@ require 'test_helper'
 using Seedbank::DSL
 
 describe Seedbank::DSL do
+  # TODO: This is private so should really be tested indirectly.
   describe 'scope_from_seed_file' do
+    subject { scope_from_seed_file(seed_file) }
+
     describe 'in an environment directory' do
       let(:seed_file) { File.expand_path('development/users.seeds.rb', Seedbank.seeds_root) }
       let(:seed_namespace) { %w(development) }
-
-      subject { Seedbank::DSL.scope_from_seed_file seed_file }
 
       it 'returns the enviroment scope' do
         subject.must_equal seed_namespace
@@ -19,8 +20,6 @@ describe Seedbank::DSL do
       let(:seed_file) { File.expand_path('development/shared/accounts.seeds.rb', Seedbank.seeds_root) }
       let(:seed_namespace) { %w(development shared) }
 
-      subject { Seedbank::DSL.scope_from_seed_file seed_file }
-
       it 'returns the nested scope' do
         subject.must_equal seed_namespace
       end
@@ -28,8 +27,6 @@ describe Seedbank::DSL do
 
     describe 'in seeds root' do
       let(:seed_file) { File.expand_path('no_block.seeds.rb', Seedbank.seeds_root) }
-
-      subject { Seedbank::DSL.scope_from_seed_file seed_file }
 
       it 'returns an array' do
         subject.must_be_instance_of Array

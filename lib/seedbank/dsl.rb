@@ -30,19 +30,8 @@ module Seedbank
         task.name
       end
 
-      def add_environment_dependency(task)
-        if Rake::Task.task_defined?('db:abort_if_pending_migrations')
-          task.enhance(['db:abort_if_pending_migrations'])
-        elsif Rake::Task.task_defined?(':environment')
-          task.enhance([':environment'])
-        end
-      end
-
-      def scope_from_seed_file(seed_file)
-        dirname = Pathname.new(seed_file).dirname
-        return [] if dirname == seeds_root
-        relative = dirname.relative_path_from(seeds_root)
-        relative.to_s.split(File::Separator)
+      def original_seeds_file
+        @_seedbank_original ||= existent(Pathname.new('../seeds.rb').expand_path(seeds_root))
       end
 
       def seeds_root
@@ -50,6 +39,27 @@ module Seedbank
       end
 
       private
+
+      def existent(path)
+        String(path) if path.exist?
+      end
+
+      def scope_from_seed_file(seed_file)
+        dirname = Pathname.new(seed_file).dirname
+        return [] if dirname == seeds_root
+        dirname
+          .relative_path_from(seeds_root)
+          .to_s
+          .split(File::Separator)
+      end
+
+      def add_environment_dependency(task)
+        if Rake::Task.task_defined?('db:abort_if_pending_migrations')
+          task.enhance(['db:abort_if_pending_migrations'])
+        elsif Rake::Task.task_defined?(':environment')
+          task.enhance([':environment'])
+        end
+      end
 
       def runner
         @_seedbank_runner ||= Seedbank::Runner.new
