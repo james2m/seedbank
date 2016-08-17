@@ -92,8 +92,9 @@ describe Seedbank::DSL do
 
     it 'sets Rake Task description' do
       Seedbank::DSL.define_seed_task(seed_file, task_name => dependencies)
+      relative_file = Pathname.new(seed_file).relative_path_from(Rails.root)
 
-      Rake::Task[task_name].comment.must_equal "Load the seed data from #{seed_file}"
+      Rake::Task[task_name].comment.must_equal "Load the seed data from #{relative_file}"
     end
 
     it 'sets Rake Task action to the seed_file contents' do
