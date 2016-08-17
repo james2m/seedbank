@@ -3,11 +3,18 @@ require 'seedbank/runner'
 
 module Seedbank
   class << self
-
-    attr_writer :seeds_root
+    attr_writer :seeds_root, :nesting, :matcher
 
     def seeds_root
       @seeds_root ||= 'db/seeds'
+    end
+
+    def nesting
+      @nesting ||= 2
+    end
+
+    def matcher
+      @matcher ||= '*.seeds.rb'
     end
   end
 

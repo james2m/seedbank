@@ -1,6 +1,15 @@
 require 'test_helper'
+using Seedbank::DSL
 
 describe 'Seedbank rake.task' do
+  def self.dummy_seeds_root
+    Pathname.new('../../../dummy/db/seeds').expand_path(__FILE__)
+  end
+
+  def self.glob_dummy_seeds
+    Pathname.glob(dummy_seeds_root.join(Seedbank.matcher), Seedbank.nesting)
+  end
+
   it 'does not pollute the global namespace' do
     Object.new.wont_respond_to :seeds_root
   end
@@ -18,11 +27,10 @@ describe 'Seedbank rake.task' do
   end
 
   describe "common seeds in the root directory" do
-    Dir[File.expand_path('../../../dummy/db/seeds/*.seeds.rb', __FILE__)].each do |seed_file|
+    glob_dummy_seeds.each do |seed_file|
       seed = File.basename(seed_file, '.seeds.rb')
 
       describe seed do
-
         subject { Rake.application.lookup(['db', 'seed', seed].join(':')) }
 
         it "is dependent on db:abort_if_pending_migrations" do
@@ -35,12 +43,34 @@ describe 'Seedbank rake.task' do
   describe "db:seed:common" do
     subject { Rake::Task['db:seed:common'] }
 
-    it "is dependent on the common seeds and db:seed:original" do
-      prerequisite_seeds = Dir[File.expand_path('../../../dummy/db/seeds/*.seeds.rb', __FILE__)].sort.map do |seed_file|
-        ['db', 'seed', File.basename(seed_file, '.seeds.rb')].join(':')
-      end.unshift('db:seed:original')
+    describe 'when db/seeds.rb exists' do
+      it "is dependent on the common seeds and db:seed:original" do
+        prerequisite_seeds = self.class.glob_dummy_seeds.sort.map do |seed_file|
+          ['db', 'seed', File.basename(seed_file, '.seeds.rb')].join(':')
+        end.unshift('db:seed:original')
 
-      subject.prerequisites.must_equal prerequisite_seeds
+        subject.prerequisites.must_equal prerequisite_seeds
+      end
+    end
+
+    describe 'when db/seeds.rb does not exist' do
+      def setup
+        main = TOPLEVEL_BINDING.eval('class << self; self; end')
+        orig = original_seeds_file
+        main.send(:undef_method, :original_seeds_file)
+        main.send(:define_method, :original_seeds_file) { nil }
+        super
+        main.send(:undef_method, :original_seeds_file)
+        main.send(:define_method, :original_seeds_file) { orig }
+      end
+
+      it "is dependent on only the common seeds" do
+        prerequisite_seeds = self.class.glob_dummy_seeds.sort.map do |seed_file|
+          ['db', 'seed', File.basename(seed_file, '.seeds.rb')].join(':')
+        end
+
+        subject.prerequisites.must_equal prerequisite_seeds
+      end
     end
   end
 
@@ -79,20 +109,19 @@ describe 'Seedbank rake.task' do
     end
   end
 
-  describe "environment seeds" do
-    Dir[File.expand_path('../../../dummy/db/seeds', __FILE__) + '/*/'].each do |environment_directory|
+  describe "environment seeds " do
+    dummy_seeds_root.each_child.select(&:directory?).each do |environment_directory|
       environment = File.basename(environment_directory)
 
-      describe "seeds in the #{environment} environment" do
-        Dir[File.expand_path("../../../dummy/db/seeds/#{environment}/*.seeds.rb", __FILE__)].each do |seed_file|
+      describe "in the #{environment} environment " do
+        Pathname.glob(environment_directory.join(Seedbank.matcher), Seedbank.nesting).each do |seed_file|
           seed = File.basename(seed_file, '.seeds.rb')
 
           describe seed do
-
             subject { Rake.application.lookup(['db', 'seed', environment, seed].join(':')) }
 
             it "is dependent on db:abort_if_pending_migrations" do
-              subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
+              subject.prerequisites.must_equal %w[db:abort_if_pending_migrations] if subject
             end
           end
         end
@@ -102,7 +131,7 @@ describe 'Seedbank rake.task' do
         subject { Rake.application.lookup(['db', 'seed', environment].join(':')) }
 
         it "is dependent on the seeds in the environment directory" do
-          prerequisite_seeds = Dir[File.expand_path("../../../dummy/db/seeds/#{environment}/*.seeds.rb", __FILE__)].sort.map do |seed_file|
+          prerequisite_seeds = Pathname.glob(environment_directory.join(Seedbank.matcher), Seedbank.nesting).sort.map do |seed_file|
             ['db', 'seed', environment, File.basename(seed_file, '.seeds.rb')].join(':')
           end.unshift('db:seed:common')
 
