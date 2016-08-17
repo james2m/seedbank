@@ -47,18 +47,34 @@ describe 'Seedbank rake.task' do
   describe "db:seed:original" do
     subject { Rake::Task['db:seed:original'] }
 
-    it "has no dependencies" do
+    it "is only dependent on db:abort_if_pending_migrations" do
       subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
     end
 
-    describe "when seeds are reloaded" do
+    it 'runs within Seedbank::Runner' do
+      FakeModel.expect :seed, true, ['db/seeds.rb']
 
+      subject.invoke
+
+      FakeModel.verify
+    end
+
+    describe "when seeds are reloaded" do
       before do
         silence_warnings { Dummy::Application.load_tasks }
       end
 
-      it "still has no dependencies" do
+      it "is still only dependent on db:abort_if_pending_migrations" do
         subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
+      end
+
+      it 'still runs within Seedbank::Runner' do
+        skip 'TODO: Appears that it gets invoked twice after reloading.'
+        FakeModel.expect :seed, true, ['db/seeds.rb']
+
+        subject.invoke
+
+        FakeModel.verify
       end
     end
   end
