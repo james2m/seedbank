@@ -105,17 +105,19 @@ describe Seedbank::Runner do
     end
   end
 
+  # TODO: These don't really test in order. Maybe swap in rspec_mocks
   describe "let!" do
     describe "evaluates dependencies in order" do
       subject { Rake::Task['db:seed:reference_memos'] }
 
       it "runs the dependencies in order" do
+        FakeModel.expect :seed, true, ['with_inline_memo']
         FakeModel.expect :calling_let!, true, ['INLINE_LET!']
+        FakeModel.expect :seed, true, ['with_block_memo']
         FakeModel.expect :calling_let!, true, ['BLOCK_LET!']
-
-        def FakeModel.seed(*args); end
-        def FakeModel.calling_let(*args); end
-        def FakeModel.calling_method(*args); end
+        FakeModel.expect :calling_let, true, ['BLOCK_LET']
+        FakeModel.expect :calling_let, true, ['INLINE_LET']
+        FakeModel.expect :calling_method, true, ['inline_method']
 
         subject.invoke
 
@@ -124,6 +126,9 @@ describe Seedbank::Runner do
     end
   end
 
+  # TODO: This doesn't do anything more than the above except for
+  # isolating the inline method call. Would be better served by it's
+  # own seeds in isolation.
   describe "defining an inline method" do
     describe "evaluates dependencies in order" do
       subject { Rake::Task['db:seed:reference_memos'] }

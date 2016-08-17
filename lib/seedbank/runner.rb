@@ -1,28 +1,7 @@
 module Seedbank
   class Runner
-
     def initialize
       @_memoized = {}
-    end
-
-    def let(name, &block)
-      name = String(name)
-
-      raise ArgumentError.new("#{name} is already defined") if respond_to?(name, true)
-
-      define_singleton_method(name) do
-        @_memoized.fetch(name) { |key| @_memoized[key] = instance_eval(&block) }
-      end
-    end
-
-    def let!(name, &block)
-      let(name, &block)
-      send name
-    end
-
-    def evaluate(seed_task, seed_file)
-      @_seed_task = seed_task
-      instance_eval(File.read(seed_file), seed_file)
     end
 
     # Run this seed after the specified dependencies have run
@@ -49,6 +28,26 @@ module Seedbank
       end
 
       dependent_task.invoke
+    end
+
+    def let(name, &block)
+      name = String(name)
+
+      raise ArgumentError.new("#{name} is already defined") if respond_to?(name, true)
+
+      define_singleton_method(name) do
+        @_memoized.fetch(name) { |key| @_memoized[key] = instance_exec(&block) }
+      end
+    end
+
+    def let!(name, &block)
+      let(name, &block)
+      public_send name
+    end
+
+    def evaluate(seed_task, seed_file)
+      @_seed_task = seed_task
+      instance_eval(File.read(seed_file), seed_file)
     end
   end
 end
