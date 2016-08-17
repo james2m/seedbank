@@ -25,7 +25,11 @@ module Seedbank
           runner.evaluate(seed_task, seed_file) if File.exist?(seed_file)
         end
 
-        task.add_description "Load the seed data from #{seed_file}"
+        # TODO: Stop being so dependent on Rails.root
+        # perhaps set Seedbank.application_root instead
+        relative_file = Pathname.new(seed_file).relative_path_from(Rails.root)
+
+        task.add_description "Load the seed data from #{relative_file}"
         add_environment_dependency(task)
         task.name
       end
