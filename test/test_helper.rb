@@ -9,7 +9,7 @@ require 'dummy/config/application'
 
 Rails.backtrace_cleaner.remove_silencers!
 
-Seedbank.seeds_root = File.expand_path('dummy/db/seeds', __FILE__)
+Seedbank.application_root = Pathname.new(File.expand_path('../dummy', __FILE__))
 
 class Seedbank::Spec < MiniTest::Spec
   def setup
