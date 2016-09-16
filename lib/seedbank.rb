@@ -3,10 +3,14 @@ require 'seedbank/runner'
 
 module Seedbank
   class << self
-    attr_writer :seeds_root, :nesting, :matcher
+    attr_writer :application_root
+
+    def application_root
+      @application_root ||= Pathname.new(Rake.application.original_dir)
+    end
 
     def seeds_root
-      @seeds_root ||= 'db/seeds'
+      @seeds_root ||= File.join(application_root, 'db', 'seeds')
     end
 
     def nesting
@@ -19,7 +23,7 @@ module Seedbank
   end
 
   def self.load_tasks
-    Dir[File.expand_path("tasks/*.rake", File.dirname(__FILE__))].each { |ext| load ext }
+    Dir[File.expand_path('../tasks/*.rake', __FILE__)].each { |ext| load ext }
   end
 
   require 'seedbank/railtie' if defined?(Rails) && Rails::VERSION::MAJOR >= 3
