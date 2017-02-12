@@ -67,8 +67,8 @@ module Seedbank
       def add_environment_dependency(task)
         if Rake::Task.task_defined?('db:abort_if_pending_migrations')
           task.enhance(['db:abort_if_pending_migrations'])
-        elsif Rake::Task.task_defined?(':environment')
-          task.enhance([':environment'])
+        elsif defined?(Rails)
+          task.enhance([:environment])
         end
       end
 

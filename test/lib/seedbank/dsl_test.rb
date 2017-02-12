@@ -75,40 +75,45 @@ describe Seedbank::DSL do
   end
 
   describe 'define_seed_task' do
+    subject { Seedbank::DSL.define_seed_task(seed_file, task_name => dependencies) }
+
     let(:task_name) { 'scoped:my_seed' }
-    let(:dependencies) { ['environment'] }
+    let(:dependencies) { ['scoped:another_seed'] }
     let(:seed_file) { File.expand_path('development/users.seeds.rb', Seedbank.seeds_root) }
 
-    it 'returns a fully qualified task name' do
-      returned_name = Seedbank::DSL.define_seed_task(seed_file, task_name => dependencies)
+    def define_prerequisite_task
+      Rake::Task.define_task('scoped:another_seed')
+    end
 
-      returned_name.must_equal task_name
+    before do
+      define_prerequisite_task
+    end
+
+    it 'returns a fully qualified task name' do
+      subject.must_equal task_name
     end
 
     it 'creates a Rake Task' do
-      Seedbank::DSL.define_seed_task(seed_file, task_name => dependencies)
-
+      subject
       Rake::Task[task_name].wont_be_nil
     end
 
     it 'sets Rake Task description' do
-      Seedbank::DSL.define_seed_task(seed_file, task_name => dependencies)
+      subject
       relative_file = Pathname.new(seed_file).relative_path_from(Rails.root)
 
       Rake::Task[task_name].comment.must_equal "Load the seed data from #{relative_file}"
     end
 
     it 'sets Rake Task action to the seed_file contents' do
-      Seedbank::DSL.define_seed_task(seed_file, task_name => dependencies)
-
+      subject
       FakeModel.expect :seed, true, ['development:users']
-
       Rake::Task[task_name].invoke
     end
 
     describe 'when db:abort_if_pending_migrations exists' do
       it 'sets Rake Task dependencies' do
-        Seedbank::DSL.define_seed_task(seed_file, task_name => dependencies)
+        subject
         expected_dependencies = dependencies.map { |dependency| Rake::Task[dependency] }
         expected_dependencies << Rake::Task['db:abort_if_pending_migrations']
 
@@ -117,13 +122,15 @@ describe Seedbank::DSL do
     end
 
     describe 'when db:abort_if_pending_migrations does not exist' do
-      it 'sets Rake Task dependencies' do
+      it 'adds environment dependency' do
         Rake.application.clear
-        Rake::Task.define_task 'environment'
+        define_prerequisite_task
 
-        Seedbank::DSL.define_seed_task(seed_file, task_name => dependencies)
+        expected_dependencies = dependencies.map { |dependency| Rake::Task[dependency] }
+        expected_dependencies << Rake::Task.define_task('environment')
+        subject
 
-        Rake::Task[task_name].prerequisite_tasks.must_equal dependencies.map { |dependency| Rake::Task[dependency] }
+        Rake::Task[task_name].prerequisite_tasks.must_equal expected_dependencies
       end
     end
   end
