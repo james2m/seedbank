@@ -1,0 +1,7 @@
+inherit_from: .rubocop_todo.yml
+Metrics/LineLength:
+  Exclude:
+    - 'test/**/*'
+  Max: 132
+Style/ConditionalAssignment:
+  Enabled: false
