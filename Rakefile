@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'bundler/gem_tasks'
 require 'rake'
 require 'rake/testtask'
@@ -19,4 +20,4 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-task :default => ["test"]
+task default: ['test']

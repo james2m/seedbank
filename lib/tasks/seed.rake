@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 namespace :db do
   using Seedbank::DSL
   override_dependency = ['db:seed:common']
@@ -32,5 +33,5 @@ namespace :db do
 
   # Override db:seed to run all the common and environments seeds plus the original db:seed.
   desc "Load the seed data from db/seeds.rb, db/seeds/#{Seedbank.matcher} and db/seeds/ENVIRONMENT/#{Seedbank.matcher} (ENVIRONMENT is the current RAILS_ENV)."
-  override_seed_task :seed => override_dependency
+  override_seed_task seed: override_dependency
 end

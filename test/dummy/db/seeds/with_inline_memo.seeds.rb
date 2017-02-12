@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 def inline_method
   FakeModel.calling_method 'inline_method'
 end

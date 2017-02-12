@@ -1,10 +1,11 @@
 # coding: utf-8
+# frozen_string_literal: true
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'seedbank/version'
 
 Gem::Specification.new do |spec|
-  spec.name        = %q{seedbank}
+  spec.name        = 'seedbank'
   spec.version     = Seedbank::VERSION
   spec.authors     = ['James McCarthy']
   spec.email       = ['[james2mccarthy@gmail.com']
@@ -14,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.homepage    = 'http://github.com/james2m/seedbank'
   spec.license     = 'MIT'
 
-  spec.files         = `git ls-files`.split($/)
+  spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
@@ -31,4 +32,3 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'byebug'
 end
-

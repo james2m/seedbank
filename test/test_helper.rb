@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 require 'rake'
 require 'minitest/autorun'
-require "active_record/railtie"
+require 'active_record/railtie'
 
 # Configure Rails Environment
-ENV["RAILS_ENV"] = 'test'
+ENV['RAILS_ENV'] = 'test'
 
 require 'dummy/config/application'
 

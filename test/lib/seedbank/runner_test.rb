@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require 'test_helper'
 
 describe Seedbank::Runner do
-  describe "seeds with dependency" do
+  describe 'seeds with dependency' do
     subject { Rake::Task['db:seed:dependent'] }
 
-    it "runs the dependencies in order" do
+    it 'runs the dependencies in order' do
       FakeModel.expect :seed, true, ['dependency']
       FakeModel.expect :seed, true, ['dependent']
 
@@ -13,7 +14,7 @@ describe Seedbank::Runner do
       FakeModel.verify
     end
 
-    it "executes the body of the dependencies exactly once per invocation" do
+    it 'executes the body of the dependencies exactly once per invocation' do
       FakeModel.expect :seed, true, ['dependency']
       FakeModel.expect :seed, true, ['dependent']
       FakeModel.expect :seed, true, ['dependency']
@@ -22,7 +23,7 @@ describe Seedbank::Runner do
       subject.invoke
 
       # Allow all tasks to be re-executed, including dependencies
-      Rake.application.tasks.each { |t| t.reenable }
+      Rake.application.tasks.each(&:reenable)
 
       subject.invoke
 
@@ -30,10 +31,10 @@ describe Seedbank::Runner do
     end
   end
 
-  describe "seeds with multiple dependencies" do
+  describe 'seeds with multiple dependencies' do
     subject { Rake::Task['db:seed:dependent_on_several'] }
 
-    it "runs the dependencies in order" do
+    it 'runs the dependencies in order' do
       FakeModel.expect :seed, true, ['dependency']
       FakeModel.expect :seed, true, ['dependency2']
       FakeModel.expect :seed, true, ['dependent on several']
@@ -44,10 +45,10 @@ describe Seedbank::Runner do
     end
   end
 
-  describe "seeds with nested dependencies" do
+  describe 'seeds with nested dependencies' do
     subject { Rake::Task['db:seed:dependent_on_nested'] }
 
-    it "runs all dependencies in order" do
+    it 'runs all dependencies in order' do
       FakeModel.expect :seed, true, ['dependency']
       FakeModel.expect :seed, true, ['dependent']
       FakeModel.expect :seed, true, ['dependency2']
@@ -59,10 +60,10 @@ describe Seedbank::Runner do
     end
   end
 
-  describe "after with no block given" do
+  describe 'after with no block given' do
     subject { Rake::Task['db:seed:no_block'] }
 
-    it "runs the dependencies" do
+    it 'runs the dependencies' do
       FakeModel.expect :seed, true, ['dependency']
 
       subject.invoke
@@ -71,18 +72,19 @@ describe Seedbank::Runner do
     end
   end
 
-  describe "let" do
-    describe "evaluates dependencies in order" do
+  describe 'let' do
+    describe 'evaluates dependencies in order' do
       subject { Rake::Task['db:seed:reference_memos'] }
 
-      it "runs the dependencies in order" do
+      it 'runs the dependencies in order' do
         FakeModel.expect :seed, true, ['with_inline_memo']
         FakeModel.expect :seed, true, ['with_block_memo']
         FakeModel.expect :calling_let, true, ['BLOCK_LET']
         FakeModel.expect :calling_let, true, ['INLINE_LET']
 
-        def FakeModel.calling_let!(*args); end
-        def FakeModel.calling_method(*args); end
+        def FakeModel.calling_let!(*_args); end
+
+        def FakeModel.calling_method(*_args); end
 
         subject.invoke
 
@@ -90,7 +92,7 @@ describe Seedbank::Runner do
       end
     end
 
-    describe "a previously defined method" do
+    describe 'a previously defined method' do
       let(:runner) { Seedbank::Runner.new }
 
       before { runner.let(:existing) {} }
@@ -106,11 +108,11 @@ describe Seedbank::Runner do
   end
 
   # TODO: These don't really test in order. Maybe swap in rspec_mocks
-  describe "let!" do
-    describe "evaluates dependencies in order" do
+  describe 'let!' do
+    describe 'evaluates dependencies in order' do
       subject { Rake::Task['db:seed:reference_memos'] }
 
-      it "runs the dependencies in order" do
+      it 'runs the dependencies in order' do
         FakeModel.expect :seed, true, ['with_inline_memo']
         FakeModel.expect :calling_let!, true, ['INLINE_LET!']
         FakeModel.expect :seed, true, ['with_block_memo']
@@ -129,16 +131,18 @@ describe Seedbank::Runner do
   # TODO: This doesn't do anything more than the above except for
   # isolating the inline method call. Would be better served by it's
   # own seeds in isolation.
-  describe "defining an inline method" do
-    describe "evaluates dependencies in order" do
+  describe 'defining an inline method' do
+    describe 'evaluates dependencies in order' do
       subject { Rake::Task['db:seed:reference_memos'] }
 
-      it "runs the dependencies in order" do
+      it 'runs the dependencies in order' do
         FakeModel.expect :calling_method, true, ['inline_method']
 
-        def FakeModel.seed(*args); end
-        def FakeModel.calling_let(*args); end
-        def FakeModel.calling_let!(*args); end
+        def FakeModel.seed(*_args); end
+
+        def FakeModel.calling_let(*_args); end
+
+        def FakeModel.calling_let!(*_args); end
 
         subject.invoke
 
