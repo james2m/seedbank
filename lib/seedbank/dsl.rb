@@ -10,6 +10,12 @@ module Seedbank
         seed_task.enhance deps
       end
 
+      def seed_tasks_matching(*pattern)
+        glob_seed_files_matching(*pattern)
+          .sort
+          .map { |seed_file| seed_task_from_file(seed_file) }
+      end
+
       def seed_task_from_file(seed_file)
         scopes  = scope_from_seed_file(seed_file)
         fq_name = scopes.push(File.basename(seed_file, '.seeds.rb')).join(':')
