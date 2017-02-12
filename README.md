@@ -1,7 +1,7 @@
 Seedbank
 ========
 
-Seedbank allows you to structure your Rails seed data instead of having it all dumped into one large file. I find my seed data tended to fall into two categories:
+Seedbank allows you to structure your apps seed data instead of having it all dumped into one large file. I find my seed data tended to fall into two categories:
 
 1. Stuff that the entire application requires.
 2. Stuff to populate my development and staging environments.
@@ -51,15 +51,13 @@ Installation
 
 Seedbank > 0.5.0 uses refinements and no longer supports rubies below 2.x. If you are using an older Ruby you'll have to stick with 0.4.0 and below.
 
-I have also dropped support for Rubinius and JRuby. I'm happy to accept pull requests for them, but don't have the time to hack together the test
-environment. If you want to contribute, please ensure that he travis.yml is in line as it's the only way I will test these two environments.
+I have also dropped support for Rubinius and JRuby. I'm happy to accept pull requests for them, but don't have the time to hack together the test environment. If you want to contribute, please ensure that he travis.yml is in line as it's the only way I will test these two environments.
 
 ### Rails 5.x
 
-Seedbank has not been updated to work with Rails 5. I've not tested it with 5.x and am working on a new version specifically for 5.x. That said, I believe some
-people are using it with no problems.
+Seedbank has not been updated to work with Rails 5. I've used it with 5.x apps and am working on a new version specifically for 5.x. Other people are also reporting using it with no problems.
 
-### Rails 4.x
+### Rails 4.x and above
 
 Add the seedbank gem to your Gemfile.  In Gemfile:
 
@@ -68,6 +66,10 @@ gem "seedbank"
 ```
 
 That's it!
+
+### Non Rails apps
+
+Although originally built for Rails, Seedbank should work fine in more esoteric environments such as Padrino, Gape or the new new hotness. please let us know how you get on.
 
 ### Rails 3.x
 
@@ -94,7 +96,7 @@ If you vendor the gem you'll need to change the require to the specific path.
 Usage
 =====
 
-Seeds files are just plain old Ruby executed in your rails application environment so anything you could type into the rails console will work in your seeds. Seeds files have to be named with the '.seeds.rb' extension.
+Seeds files are just plain old Ruby executed in your application environment so anything you could type into the console will work in your seeds. Seeds files have to be named with the '.seeds.rb' extension.
 
 db/seeds/companies.seeds.rb
 ```ruby
@@ -191,7 +193,7 @@ git log | grep Author | sort | uniq
 * lulalala
 * pivotal-cloudplanner
 * vkill
-
+* Aleksey Ivanov
 
 Note on Patches/Pull Request
 ============================
