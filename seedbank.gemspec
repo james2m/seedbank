@@ -30,6 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rails',    '~> 4.2'
   spec.add_development_dependency 'minitest', '~> 5.0'
   spec.add_development_dependency 'm',        '~> 1.5'
-  spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'byebug'
 end
