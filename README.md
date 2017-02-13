@@ -207,4 +207,4 @@ Note on Patches/Pull Request
 
 Copyright
 =========
-Copyright (c) 2011-2016 James McCarthy, released under the MIT license
+Copyright (c) 2011-2017 James McCarthy, released under the MIT license
