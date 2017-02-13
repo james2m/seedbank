@@ -4,6 +4,10 @@ namespace :db do
   override_dependency = ['db:seed:common']
 
   namespace :seed do
+    task :setup do
+      # override in your Rakefile for your own DB backend setup
+    end
+
     # Create seed tasks for all the seeds in seeds_path and add them to the dependency
     # list along with the original db/seeds.rb.
     common_dependencies = seed_tasks_matching(Seedbank.matcher)
@@ -15,7 +19,7 @@ namespace :db do
     end
 
     desc "Load the seed data from db/seeds.rb and db/seeds/#{Seedbank.matcher}."
-    task 'common' => common_dependencies
+    task 'common' => ['db:seed:setup'] + common_dependencies
 
     # Glob through the directories under seeds_path and create a task for each adding it to the dependency list.
     # Then create a task for the environment
@@ -25,7 +29,7 @@ namespace :db do
       environment_dependencies = seed_tasks_matching(environment, Seedbank.matcher)
 
       desc "Load the seed data from db/seeds.rb, db/seeds/#{Seedbank.matcher} and db/seeds/#{environment}/#{Seedbank.matcher}."
-      task environment => ['db:seed:common'] + environment_dependencies
+      task environment => ['db:seed:setup', 'db:seed:common'] + environment_dependencies
 
       override_dependency << "db:seed:#{environment}" if defined?(Rails) && Rails.env == environment
     end
