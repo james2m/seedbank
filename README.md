@@ -93,6 +93,9 @@ namespace :db do
     end
   end
 end
+
+require 'seedbank'
+Seedbank.load_tasks
 ```
 
 ### Rails 3.x
