@@ -97,7 +97,7 @@ describe Seedbank::Runner do
 
       before { runner.let(:existing) {} }
 
-      %w(existing let! let evaluate after extend).each do |name|
+      %w[existing let! let evaluate after extend].each do |name|
         it 'raises ArgumentError' do
           assert_raises(ArgumentError, Regexp.new(name)) do
             runner.let(name)
