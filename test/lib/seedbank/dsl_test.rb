@@ -10,7 +10,7 @@ describe Seedbank::DSL do
 
     describe 'in an environment directory' do
       let(:seed_file) { File.expand_path('development/users.seeds.rb', Seedbank.seeds_root) }
-      let(:seed_namespace) { %w(development) }
+      let(:seed_namespace) { %w[development] }
 
       it 'returns the enviroment scope' do
         subject.must_equal seed_namespace
@@ -19,7 +19,7 @@ describe Seedbank::DSL do
 
     describe 'in a nested directory' do
       let(:seed_file) { File.expand_path('development/shared/accounts.seeds.rb', Seedbank.seeds_root) }
-      let(:seed_namespace) { %w(development shared) }
+      let(:seed_namespace) { %w[development shared] }
 
       it 'returns the nested scope' do
         subject.must_equal seed_namespace

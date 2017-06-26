@@ -12,10 +12,10 @@ Gem::Specification.new do |spec|
   spec.email       = ['[james2mccarthy@gmail.com']
   spec.required_ruby_version = '>= 2.1'
   spec.summary     = 'Generate seeds data for your Ruby application.'
-  spec.description = %{
+  spec.description = %(
     Adds simple rake commands for seeding your database. Simple dependencies let you organise your seeds.
     If you are using Rails, Seedbank extends Rails seeds and lets you add seeds for each environment.
-  }
+  )
   spec.date        = `git log -1 --format="%cd" --date=short lib/seedbank/version.rb`
   spec.homepage    = 'http://github.com/james2m/seedbank'
   spec.license     = 'MIT'
