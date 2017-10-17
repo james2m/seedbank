@@ -11,3 +11,5 @@ gem 'sqlite3', platform: %i[ruby mswin mingw]
 
 # for JRuby
 gem 'activerecord-jdbcsqlite3-adapter', platform: :jruby
+
+gem 'byebug'
