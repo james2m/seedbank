@@ -7,6 +7,9 @@ namespace :db do
     # Create seed tasks for all the seeds in seeds_path and add them to the dependency
     # list along with the original db/seeds.rb.
     common_dependencies = seed_tasks_matching(Seedbank.matcher)
+    # if defined? ActiveRecord
+    #   common_dependencies
+    # end
 
     # Only add the original seeds if db/seeds.rb exists.
     if original_seeds_file

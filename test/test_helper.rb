@@ -27,3 +27,8 @@ end
 
 MiniTest::Spec.register_spec_type(/^Seedbank/i, Seedbank::Spec)
 MiniTest.autorun
+# Minitest.after_run {
+#   Rake::Task['db:test:purge'].invoke
+#   Rake::Task['db:reset RAILS_ENV=test'].invoke
+#
+# }

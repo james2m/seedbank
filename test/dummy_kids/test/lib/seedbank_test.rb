@@ -3,11 +3,31 @@ require 'seedbank'
 require 'rake'
 
 describe 'DummyKids' do
-  subject { 'db:seed:users' }
+  ## right now seed files are run alphabetically by default, which means cities
+  # will be run before counties and counties before states. For cities to be
+  # created, however, seed files must be run in the opposite order: states,
+  # counties, cities.
 
-  it 'generates the awesomeness report' do
-    Rails.application.load_tasks
-    Rake::Task[subject].invoke
-    assert User.where(name: "fred").size.must_equal 1
+  describe "states seed" do
+
+    it 'creates the right active record objects' do
+    skip
+      State.delete_all
+      Rails.application.load_tasks
+      Rake::Task['db:seed:states'].invoke
+      assert_equal State.pluck(:name), %w(california nevada)
+    end
+  end
+
+  describe "counties seed" do
+
+    it 'creates the right active record objects' do
+
+      State.destroy_all
+      County.delete_all
+      Rails.application.load_tasks
+      Rake::Task['db:seed'].invoke
+      assert_equal County.pluck(:name), %w(california nevada)
+    end
   end
 end
