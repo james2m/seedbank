@@ -2,7 +2,7 @@ require 'test_helper'
 require 'seedbank'
 require 'rake'
 
-describe 'DummyKids' do
+describe 'DummyGovernment' do
   ## right now seed files are run alphabetically by default, which means cities
   # will be run before counties and counties before states. For cities to be
   # created, however, seed files must be run in the opposite order: states,
