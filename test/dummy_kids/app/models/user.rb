@@ -1,13 +1,8 @@
 class User < ActiveRecord::Base
 
-  has_many :children
-  has_many :grand_children, through: :children
-  has_many :great_grand_children, through: :grand_children
+  belongs_to :father, class_name: "User"#, as: :child
+  belongs_to :grandfather, class_name: "User", inverse_of: :grandsons
 
-  belongs_to :father
-  belongs_to :mother
-
-  validates_presence_of :father
-  validates_presence_of :mother
-
+  has_many :sons, class_name: "User", foreign_key: :father_id
+  has_many :grandsons, through: :sons
 end

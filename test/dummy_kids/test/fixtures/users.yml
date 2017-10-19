@@ -1,31 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-no_father:
-  father_id: nil
 
-mothers_grandmother:
-  age: 61
-  name: "Jane"
-  mother_id: nil
-  father_id: nil
-  tribe_id: 1
+great_grandfather:
+  id: 1
+  father_id: null
+  name: Fred Schoeneman
+  age: dead
 
-mothers_grandfather:
-  age: 61
-  name: "Jim"
-  mother_id: nil
-  father_id: nil
-  tribe_id: 2
+grandfather:
+  id: 2
+  father_id: 1
+  name: kurt Schoeneman
+  age: 75
 
 father:
-  age: 31
-  name: Joe
-  mother_id: 1
-  father_id: 1
-  tribe_id: 1
+  id: 3
+  father_id: 2
+  name: Doug Schoeneman
+  age: 44
 
-father:
-  age: 31
-  name: Joe
-  mother_id: 1
-  father_id: 1
-  tribe_id: 1
+son:
+  id: 4
+  father_id: 3
+  name: Rohan Schoeneman
+  age: 8

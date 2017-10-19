@@ -1,0 +1,8 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+california:
+  name: California
+
+nevada:
+  name: Nevada

@@ -1,0 +1,26 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+berkeley:
+  name: Berkeley
+  county: alameda
+
+oakland:
+  name: Oakland
+  county: alameda
+
+ukiah:
+  name: Ukiah
+  county: mendocino
+
+boonville:
+  name: Boonville
+  county: mendocino
+
+stateline:
+  name: Stateline
+  county: douglas
+
+reno:
+  name: Reno
+  county: washoe 
