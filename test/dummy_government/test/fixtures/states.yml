@@ -1,0 +1,14 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+california:
+  name: California
+  party: democrat
+
+nevada:
+  name: Nevada
+  party: democrat
+
+texas:
+  name: texas
+  party: republican

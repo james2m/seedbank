@@ -1,0 +1,11 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+republican:
+  affiliation: Republican
+
+democrat:
+  affiliation: Democrat
+
+socialist:
+  affiliation: Socialist

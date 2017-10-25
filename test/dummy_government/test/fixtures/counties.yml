@@ -1,0 +1,18 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+alameda:
+  name: Alameda
+  state: california
+
+mendocino:
+  name: Mendocino
+  state: california
+
+washoe:
+  name: Washoe
+  state: nevada
+
+douglas:
+  name: Douglas
+  state: nevada
