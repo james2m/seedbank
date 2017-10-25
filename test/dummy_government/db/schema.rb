@@ -11,11 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171018232019) do
+ActiveRecord::Schema.define(version: 20171024230513) do
 
   create_table "cities", force: :cascade do |t|
     t.string   "name"
     t.integer  "county_id"
+    t.integer  "party_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -23,22 +24,20 @@ ActiveRecord::Schema.define(version: 20171018232019) do
   create_table "counties", force: :cascade do |t|
     t.string   "name"
     t.integer  "state_id"
+    t.integer  "party_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "parties", force: :cascade do |t|
+    t.string   "affiliation"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "states", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.integer  "age"
-    t.string   "name"
-    t.integer  "mother_id"
-    t.integer  "father_id"
-    t.integer  "tribe_id"
+    t.integer  "party_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

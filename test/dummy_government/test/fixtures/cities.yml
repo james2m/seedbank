@@ -4,23 +4,31 @@
 berkeley:
   name: Berkeley
   county: alameda
+  party: socialist
+
 
 oakland:
   name: Oakland
   county: alameda
+  party: democrat
 
 ukiah:
   name: Ukiah
   county: mendocino
+  party: republican
 
 boonville:
   name: Boonville
   county: mendocino
+  party: democrat
+
 
 stateline:
   name: Stateline
   county: douglas
+  party: republican
 
 reno:
   name: Reno
   county: washoe
+  party: democrat

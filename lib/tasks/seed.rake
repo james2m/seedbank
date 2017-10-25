@@ -1,15 +1,19 @@
 # frozen_string_literal: true
 namespace :db do
   using Seedbank::DSL
+
   override_dependency = ['db:seed:common']
 
   namespace :seed do
     # Create seed tasks for all the seeds in seeds_path and add them to the dependency
     # list along with the original db/seeds.rb.
     common_dependencies = seed_tasks_matching(Seedbank.matcher)
-    # if defined? ActiveRecord
-    #   common_dependencies
-    # end
+    if ActiveRecord.present?
+        Rails.application.eager_load!
+
+      seed_order = active_record_default_order.map! {|model| "db:seed:#{model.to_s.pluralize}"}
+      common_dependencies = common_dependencies && seed_order
+    end
 
     # Only add the original seeds if db/seeds.rb exists.
     if original_seeds_file
@@ -22,6 +26,7 @@ namespace :db do
 
     # Glob through the directories under seeds_path and create a task for each adding it to the dependency list.
     # Then create a task for the environment
+
     glob_seed_files_matching('/*/').each do |directory|
       environment = File.basename(directory)
 

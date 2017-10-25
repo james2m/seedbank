@@ -1,11 +1,11 @@
-after :states do
-  counties = %w(mendocino alameda douglas washoe menodocino)
-  states = %w(california california nevada nevada california)
-
-  counties.each_with_index do |county, i|
-    County.create(
-      name: county,
-      state_id: State.where(name: states[i]).first
-    )
-  end
+counties = [
+  { name: "mendocino", party: "democrat", state: "california" },
+  { name: "douglas", party: "republican", state: "nevada"}
+]
+counties.each do |county|
+  County.create(
+    name: county[:name],
+    state: State.where(name: county[:state]).first,
+    party: Party.where(affiliation: county[:party]).first 
+  )
 end

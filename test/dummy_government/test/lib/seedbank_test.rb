@@ -8,26 +8,19 @@ describe 'DummyGovernment' do
   # created, however, seed files must be run in the opposite order: states,
   # counties, cities.
 
-  describe "states seed" do
+  describe "must run seed tasks in correct order" do
 
-    it 'creates the right active record objects' do
-    skip
-      State.delete_all
-      Rails.application.load_tasks
-      Rake::Task['db:seed:states'].invoke
-      assert_equal State.pluck(:name), %w(california nevada)
-    end
-  end
-
-  describe "counties seed" do
-
-    it 'creates the right active record objects' do
-
-      State.destroy_all
-      County.delete_all
+    it "creates counties and states" do
+      %w(State Party County City).each do |model|
+        eval(model).delete_all
+        eval(model).count.must_equal 0
+      end
       Rails.application.load_tasks
       Rake::Task['db:seed'].invoke
-      assert_equal County.pluck(:name), %w(california nevada)
+      assert_equal Party.pluck(:affiliation) && %w(Republican Democrat), %w(Republican Democrat)
+      assert_equal State.pluck(:name), %w(california nevada)
+      assert_equal County.pluck(:name), %w(mendocino douglas)
+      assert_equal City.pluck(:name), %w(boonville stateline )
     end
   end
 end

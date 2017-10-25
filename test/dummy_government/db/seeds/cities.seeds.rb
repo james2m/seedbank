@@ -1,9 +1,11 @@
-cities = %w(boonville oakland stateline reno ukiah)
-counties = %w(mendocino alameda douglas washoe menodcino)
-
-cities.each_with_index do |city, i|
+cities = [
+  { name: "boonville", party: "democrat", county: "mendocino" },
+  { name: "stateline", party: "republican", county: "douglas"}
+]
+cities.each do |city|
   City.create(
-    name: city,
-    county_id: County.where(name: counties[i]).first
+    name: city[:name],
+    county: County.where(name: city[:county]).first,
+    party: Party.where(affiliation: city[:party]).first
   )
 end

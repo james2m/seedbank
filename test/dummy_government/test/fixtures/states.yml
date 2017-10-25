@@ -3,6 +3,12 @@
 
 california:
   name: California
+  party: democrat
 
 nevada:
   name: Nevada
+  party: democrat
+
+texas:
+  name: texas
+  party: republican

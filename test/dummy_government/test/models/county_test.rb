@@ -7,6 +7,7 @@ describe County do
   specify "associations" do
 
     must_belong_to(:state)
+    must_belong_to(:party)
     must_have_many(:cities)
   end
 end

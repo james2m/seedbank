@@ -10,6 +10,24 @@ module Seedbank
         seed_task.enhance deps
       end
 
+      def active_record_default_order
+
+        order = {}
+        models = ActiveRecord::Base.descendants
+        models.shift
+
+        models.each do |model|
+          parents = model.reflect_on_all_associations(:belongs_to).map(&:name)
+          order[model.name.downcase.to_sym] = parents
+        end
+        default_order = order.tsort
+
+        #  = models.each do |key, value|
+          # if value.size
+        # order.must_equal "blah"
+            # byebug
+      end
+
       def seed_tasks_matching(*pattern)
         glob_seed_files_matching(*pattern)
           .sort

@@ -6,6 +6,8 @@ describe State do
 
   specify "associations" do
 
+    must_belong_to :party
+
     must_have_many(:counties)
     must_have_many(:cities)
   end

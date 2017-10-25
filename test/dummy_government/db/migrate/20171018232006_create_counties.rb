@@ -3,6 +3,7 @@ class CreateCounties < ActiveRecord::Migration
     create_table :counties do |t|
       t.string :name
       t.integer :state_id
+      t.integer :party_id
 
       t.timestamps null: false
     end

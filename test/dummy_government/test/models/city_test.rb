@@ -7,7 +7,7 @@ describe City do
   specify "associations" do
 
     must_belong_to(:county)
-    # must_belong_to(:state)
+    must_belong_to :party
   end
 
   describe "dummy associations must work correctly" do
