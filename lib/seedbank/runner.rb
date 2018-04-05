@@ -48,7 +48,12 @@ module Seedbank
 
     def evaluate(seed_task, seed_file)
       @_seed_task = seed_task
-      instance_eval(File.read(seed_file), seed_file)
+      Configuration.before_each.call if Configuration.before_each
+      begin
+        instance_eval(File.read(seed_file), seed_file)
+      ensure
+        Configuration.after_each.call if Configuration.after_each
+      end
     end
   end
 end
