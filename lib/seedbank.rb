@@ -1,8 +1,11 @@
 # frozen_string_literal: true
+require 'seedbank/configuration'
 require 'seedbank/dsl'
 require 'seedbank/runner'
 
 module Seedbank
+  extend Configuration
+
   class << self
     attr_writer :application_root, :seeds_root, :nesting, :matcher
 
