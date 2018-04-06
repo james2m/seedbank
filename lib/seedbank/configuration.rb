@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Seedbank
   module Configuration
     # Start a Seedbank configuration block in an initializer.
