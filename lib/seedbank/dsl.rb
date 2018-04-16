@@ -36,11 +36,16 @@ module Seedbank
 
         task.add_description "Load the seed data from #{relative_file}"
         add_environment_dependency(task)
+        add_global_dependency(task)
         task.name
       end
 
       def original_seeds_file
         @_seedbank_original ||= existent(Pathname.new('../seeds.rb').expand_path(seeds_root))
+      end
+
+      def global_seeds_file
+        @_seedbank_global ||= existent(Pathname.new('../global.seeds.rb').expand_path(seeds_root))
       end
 
       def seeds_root
@@ -67,6 +72,13 @@ module Seedbank
           task.enhance(['db:abort_if_pending_migrations'])
         elsif defined?(Rails)
           task.enhance([:environment])
+        end
+      end
+
+      def add_global_dependency(task)
+        if global_seeds_file
+          define_seed_task(global_seeds_file)
+          task.enhance(['db:seed_global'])
         end
       end
 

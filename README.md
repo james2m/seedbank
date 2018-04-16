@@ -25,28 +25,29 @@ Seedbank seeds follow this structure;
 
     db/seeds/
       bar.seeds.rb
+      global.seeds.rb
       development/
         users.seeds.rb
       foo.seeds.rb
 
 This would generate the following Rake tasks
 
-    rake db:seed                    # Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/ENVIRONMENT/*.seeds.rb. ENVIRONMENT is the current environment in Rails.env.
-    rake db:seed:bar                # Load the seed data from db/seeds/bar.seeds.rb
-    rake db:seed:common             # Load the seed data from db/seeds.rb and db/seeds/*.seeds.rb.
-    rake db:seed:development        # Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/development/*.seeds.rb.
-    rake db:seed:development:users  # Load the seed data from db/seeds/development/users.seeds.rb
-    rake db:seed:original           # Load the seed data from db/seeds.rb
+    rake db:seed                    # Load the seed data from db/global.seeds.rb, db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/ENVIRONMENT/*.seeds.rb. ENVIRONMENT is the current environment in Rails.env.
+    rake db:seed:bar                # Load the seed data from db/global.seeds.rb, db/seeds/bar.seeds.rb
+    rake db:seed:common             # Load the seed data from db/global.seeds.rb, db/seeds.rb and db/seeds/*.seeds.rb.
+    rake db:seed:development        # Load the seed data from db/global.seeds.rb, db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/development/*.seeds.rb.
+    rake db:seed:development:users  # Load the seed data from db/global.seeds.rb, db/seeds/development/users.seeds.rb
+    rake db:seed:original           # Load the seed data from db/global.seeds.rb, db/seeds.rb
 
 Therefore, assuming `RAILS_ENV` is not set or it is "development":
 
     $ rake db:seed
 
-will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb`, `db/seeds/foo.seeds.rb` and `db/seeds/development/users.seeds.rb`. Whereas, setting the `RAILS_ENV` variable, like so:
+will load the seeds in `db/global.seeds.rb`, `db/seeds.rb`, `db/seeds/bar.seeds.rb`, `db/seeds/foo.seeds.rb` and `db/seeds/development/users.seeds.rb`. Whereas, setting the `RAILS_ENV` variable, like so:
 
     $ RAILS_ENV=production rake db:seed
 
-will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb` and `db/seeds/foo.seeds.rb`.
+will load the seeds in `db/global.seeds.rb`, `db/seeds.rb`, `db/seeds/bar.seeds.rb` and `db/seeds/foo.seeds.rb`.
 
 Installation
 ============
@@ -148,33 +149,18 @@ end
 ### Defining and using methods
 
 As seed files are evaluated within a single runner in dependency order, any methods defined earlier in the run will be available across dependent tasks. I
-recommend keeping method definitions in the seed file that uses them. Alternatively if you have many common methods, put them into a module and extend the
-runner with the module.
+recommend keeping method definitions in the seed file that uses them. Alternatively if you have many common methods, you can put them into `db/global.seeds.rb`.
 
-db/seeds/support.rb
+db/global.seeds.rb
 ```ruby
-module Support
-  def notify(filename)
-    puts "Seeding: #{filename}"
-  end
+def notify(filename)
+  puts "Seeding: #{filename}"
 end
 ```
 
 db/seeds/common.seeds.rb
 ```ruby
-require_relative 'support'
-extend Support
-
 notify(__FILE__)
-```
-
-To keep this dry you could make the seeds dependent on a support seed that extends the runner.
-
-db/seeds/users.seeds.rb
-```ruby
-after :common do
-  notify(__FILE__)
-end
 ```
 
 Contributors
@@ -196,6 +182,7 @@ git log | grep Author | sort | uniq
 * pivotal-cloudplanner
 * vkill
 * Aleksey Ivanov
+* Stefan Wrobel
 
 Note on Patches/Pull Request
 ============================

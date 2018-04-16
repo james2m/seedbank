@@ -21,7 +21,7 @@ describe 'Seedbank rake.task' do
     it 'creates all the seed tasks' do
       seeds = %w[db:seed:circular1 db:seed:circular2 db:seed:common db:seed:dependency db:seed:dependency2
                  db:seed:dependent db:seed:dependent_on_nested db:seed:dependent_on_several db:seed:development
-                 db:seed:development:users db:seed:no_block db:seed:original db:seed:reference_memos db:seed:with_block_memo db:seed:with_inline_memo]
+                 db:seed:development:users db:seed:global db:seed:no_block db:seed:original db:seed:reference_memos db:seed:with_block_memo db:seed:with_inline_memo]
 
       subject.map(&:to_s).must_equal seeds
     end
@@ -35,7 +35,7 @@ describe 'Seedbank rake.task' do
         subject { Rake.application.lookup(['db', 'seed', seed].join(':')) }
 
         it 'is dependent on db:abort_if_pending_migrations' do
-          subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
+          subject.prerequisites.must_equal %w[db:abort_if_pending_migrations db:seed:global]
         end
       end
     end
@@ -66,7 +66,7 @@ describe 'Seedbank rake.task' do
       end
 
       it 'is dependent on only the common seeds' do
-        prerequisite_seeds = self.class.glob_dummy_seeds.sort.map do |seed_file|
+        prerequisite_seeds = ['db:seed:global'] + self.class.glob_dummy_seeds.sort.map do |seed_file|
           ['db', 'seed', File.basename(seed_file, '.seeds.rb')].join(':')
         end
 
