@@ -40,7 +40,7 @@ module Seedbank
       end
 
       def original_seeds_file
-        @original_seeds_file ||= existent(Pathname.new('../seeds.rb').expand_path(seeds_root))
+        @original_seeds_file ||= existent(original_seeds_file_expanded('../seeds.rb', seeds_root))
       end
 
       def seeds_root
@@ -80,6 +80,10 @@ module Seedbank
         else
           seed_task.send :instance_variable_set, '@full_comment', comment
         end
+      end
+
+      def original_seeds_file_expanded(filename, root_dir)
+        Pathname.new(filename).expand_path(root_dir)
       end
     end
   end

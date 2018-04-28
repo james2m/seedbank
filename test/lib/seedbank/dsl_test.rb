@@ -163,4 +163,15 @@ describe Seedbank::DSL do
       end
     end
   end
+
+  describe 'original_seeds_file_expanded' do
+    subject { original_seeds_file_expanded(filename, root) }
+
+    let(:filename) { '../seeds_original.rb' }
+    let(:root) { '/my/seeds/directory' }
+
+    it 'returns an expanded path name' do
+      subject.must_equal Pathname.new('/my/seeds/seeds_original.rb')
+    end
+  end
 end
