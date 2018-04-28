@@ -41,7 +41,7 @@ module Seedbank
       end
 
       def original_seeds_file
-        @original_seeds_file ||= existent(original_seeds_file_expanded('../seeds.rb', seeds_root))
+        @original_seeds_file ||= existent(original_seeds_file_expanded(Seedbank.original_seeds_file, seeds_root))
       end
 
       def seeds_root
