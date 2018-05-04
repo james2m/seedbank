@@ -4,49 +4,31 @@ require 'test_helper'
 using Seedbank::DSL
 
 describe Seedbank::DSL do
-  # TODO: This is private so should really be tested indirectly.
-  describe 'scope_from_seed_file' do
-    subject { scope_from_seed_file(seed_file) }
+  describe 'override_seed_task' do
+    describe 'when no task exists to override' do
+      let(:task_name) { 'my_task' }
+      let(:dependencies) { ['db:abort_if_pending_migrations'] }
 
-    describe 'in an environment directory' do
-      let(:seed_file) { File.expand_path('development/users.seeds.rb', Seedbank.seeds_root) }
-      let(:seed_namespace) { %w[development] }
+      it 'creates a new task' do
+        Seedbank::DSL.override_seed_task(task_name => dependencies)
 
-      it 'returns the enviroment scope' do
-        subject.must_equal seed_namespace
-      end
-    end
-
-    describe 'in a nested directory' do
-      let(:seed_file) { File.expand_path('development/shared/accounts.seeds.rb', Seedbank.seeds_root) }
-      let(:seed_namespace) { %w[development shared] }
-
-      it 'returns the nested scope' do
-        subject.must_equal seed_namespace
-      end
-    end
-
-    describe 'in seeds root' do
-      let(:seed_file) { File.expand_path('no_block.seeds.rb', Seedbank.seeds_root) }
-
-      it 'returns an array' do
-        subject.must_be_instance_of Array
+        Rake::Task[task_name].wont_be_nil
       end
 
-      it 'must be empty' do
-        subject.must_be_empty
+      it 'applies the dependencies' do
+        expected_dependencies = dependencies.map { |dependency| Rake::Task[dependency] }
+        Seedbank::DSL.override_seed_task(task_name => dependencies)
+
+        Rake::Task[task_name].prerequisite_tasks.must_equal expected_dependencies
       end
-    end
-  end
 
-  describe 'seeds_root' do
-    let(:seeds_root) { '/my/seeds/directory' }
+      it 'applies the description' do
+        description = 'Expected Description'
+        Rake.application.last_description = description
 
-    subject { Seedbank::DSL.seeds_root }
+        Seedbank::DSL.override_seed_task(task_name => dependencies)
 
-    it 'returns a Pathname' do
-      Seedbank.stub(:seeds_root, seeds_root) do
-        subject.must_equal Pathname.new(seeds_root)
+        Rake::Task[task_name].full_comment.must_equal description
       end
     end
   end
@@ -135,31 +117,49 @@ describe Seedbank::DSL do
     end
   end
 
-  describe 'override_seed_task' do
-    describe 'when no task exists to override' do
-      let(:task_name) { 'my_task' }
-      let(:dependencies) { ['db:abort_if_pending_migrations'] }
+  describe 'seeds_root' do
+    let(:seeds_root) { '/my/seeds/directory' }
 
-      it 'creates a new task' do
-        Seedbank::DSL.override_seed_task(task_name => dependencies)
+    subject { Seedbank::DSL.seeds_root }
 
-        Rake::Task[task_name].wont_be_nil
+    it 'returns a Pathname' do
+      Seedbank.stub(:seeds_root, seeds_root) do
+        subject.must_equal Pathname.new(seeds_root)
+      end
+    end
+  end
+
+  # TODO: This is private so should really be tested indirectly.
+  describe 'scope_from_seed_file' do
+    subject { scope_from_seed_file(seed_file) }
+
+    describe 'in an environment directory' do
+      let(:seed_file) { File.expand_path('development/users.seeds.rb', Seedbank.seeds_root) }
+      let(:seed_namespace) { %w[development] }
+
+      it 'returns the enviroment scope' do
+        subject.must_equal seed_namespace
+      end
+    end
+
+    describe 'in a nested directory' do
+      let(:seed_file) { File.expand_path('development/shared/accounts.seeds.rb', Seedbank.seeds_root) }
+      let(:seed_namespace) { %w[development shared] }
+
+      it 'returns the nested scope' do
+        subject.must_equal seed_namespace
+      end
+    end
+
+    describe 'in seeds root' do
+      let(:seed_file) { File.expand_path('no_block.seeds.rb', Seedbank.seeds_root) }
+
+      it 'returns an array' do
+        subject.must_be_instance_of Array
       end
 
-      it 'applies the dependencies' do
-        expected_dependencies = dependencies.map { |dependency| Rake::Task[dependency] }
-        Seedbank::DSL.override_seed_task(task_name => dependencies)
-
-        Rake::Task[task_name].prerequisite_tasks.must_equal expected_dependencies
-      end
-
-      it 'applies the description' do
-        description = 'Expected Description'
-        Rake.application.last_description = description
-
-        Seedbank::DSL.override_seed_task(task_name => dependencies)
-
-        Rake::Task[task_name].full_comment.must_equal description
+      it 'must be empty' do
+        subject.must_be_empty
       end
     end
   end
