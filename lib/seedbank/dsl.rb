@@ -40,11 +40,11 @@ module Seedbank
       end
 
       def original_seeds_file
-        @_seedbank_original ||= existent(Pathname.new('../seeds.rb').expand_path(seeds_root))
+        @original_seeds_file ||= existent(Pathname.new('../seeds.rb').expand_path(seeds_root))
       end
 
       def seeds_root
-        Pathname.new Seedbank.seeds_root
+        Pathname.new(Seedbank.seeds_root)
       end
 
       private
@@ -71,7 +71,7 @@ module Seedbank
       end
 
       def runner
-        @_seedbank_runner ||= Seedbank::Runner.new
+        @runner ||= Seedbank::Runner.new
       end
 
       def add_comment_to(seed_task, comment)

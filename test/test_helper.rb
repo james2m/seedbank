@@ -10,7 +10,7 @@ require 'dummy/config/application'
 
 Rails.backtrace_cleaner.remove_silencers!
 
-Seedbank.application_root = Pathname.new(File.expand_path('../dummy', __FILE__))
+Seedbank.application_root = Pathname.new(File.expand_path('dummy', __dir__))
 
 class Seedbank::Spec < MiniTest::Spec
   def setup
@@ -18,7 +18,7 @@ class Seedbank::Spec < MiniTest::Spec
       Rake.application = Rake::Application.new
       Dummy::Application.load_tasks
       Object.const_set :FakeModel, MiniTest::Mock.new
-      TOPLEVEL_BINDING.eval('self').send(:instance_variable_set, :@_seedbank_runner, Seedbank::Runner.new)
+      TOPLEVEL_BINDING.eval('self').send(:instance_variable_set, :@runner, Seedbank::Runner.new)
     end
 
     super
