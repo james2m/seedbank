@@ -3,11 +3,18 @@ language: ruby
 rvm:
   - 2.1
   - 2.2
-  - 2.3.1
+  - 2.3
+  - 2.4
+  - 2.5
+  - jruby
 
 gemfile:
   - gemfiles/rake10.gemfile
   - gemfiles/rake11.gemfile
+  - gemfiles/rake12.gemfile
 
 before_install:
   - gem install bundler -v '~> 1.11' --no-ri --no-rdoc
+
+
+
