@@ -8,6 +8,7 @@ rvm:
 gemfile:
   - gemfiles/rake10.gemfile
   - gemfiles/rake11.gemfile
+  - gemfiles/rake12.gemfile
 
 before_install:
   - gem install bundler -v '~> 1.11' --no-ri --no-rdoc
