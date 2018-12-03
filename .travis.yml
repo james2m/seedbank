@@ -6,7 +6,6 @@ rvm:
   - 2.3
   - 2.4
   - 2.5
-  - jruby
 
 gemfile:
   - gemfiles/rake10.gemfile
