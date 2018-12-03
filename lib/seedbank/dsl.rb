@@ -17,8 +17,9 @@ module Seedbank
       end
 
       def seed_task_from_file(seed_file)
-        scopes  = scope_from_seed_file(seed_file)
-        fq_name = scopes.push(File.basename(seed_file, '.seeds.rb')).join(':')
+        scopes = scope_from_seed_file(seed_file)
+        suffix = '.seeds.rb'
+        fq_name = scopes.push(File.basename(seed_file, suffix)).join(':')
 
         define_seed_task(seed_file, fq_name)
       end
@@ -40,11 +41,11 @@ module Seedbank
       end
 
       def original_seeds_file
-        @_seedbank_original ||= existent(Pathname.new('../seeds.rb').expand_path(seeds_root))
+        @original_seeds_file ||= existent(original_seeds_file_expanded('../seeds.rb', seeds_root))
       end
 
       def seeds_root
-        Pathname.new Seedbank.seeds_root
+        Pathname.new(Seedbank.seeds_root)
       end
 
       private
@@ -71,7 +72,7 @@ module Seedbank
       end
 
       def runner
-        @_seedbank_runner ||= Seedbank::Runner.new
+        @runner ||= Seedbank::Runner.new
       end
 
       def add_comment_to(seed_task, comment)
@@ -80,6 +81,10 @@ module Seedbank
         else
           seed_task.send :instance_variable_set, '@full_comment', comment
         end
+      end
+
+      def original_seeds_file_expanded(filename, root_dir)
+        Pathname.new(filename).expand_path(root_dir)
       end
     end
   end
