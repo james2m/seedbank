@@ -72,7 +72,32 @@ That's it!
 
 ### Non Rails apps
 
-Although originally built for Rails, Seedbank should work fine in other environments such as Padrino, Grape or the new new hotness. please let us know how you get on.
+Although originally built for Rails, Seedbank should work fine in other environments such as Padrino, Grape or the new new hotness.
+
+Add the seedbank gem to your Gemfile.  In Gemfile:
+
+```ruby
+gem "seedbank"
+```
+
+In your Rakefile create a `db:seed:setup` task that configures your database layer before the seed files are executed.
+
+The example below is for an application using DRY-rb and ROM to provide database access, your setup will probably be different. In Rakefile:
+
+```ruby
+namespace :db do
+  namespace :seed do
+    task :setup do
+      # require our DRY container and boot our repositories
+      require 'container'
+      Application.boot!(:repository)
+    end
+  end
+end
+
+require 'seedbank'
+Seedbank.load_tasks
+```
 
 ### Rails 3.x
 
