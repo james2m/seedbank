@@ -4,7 +4,7 @@ require 'seedbank/runner'
 
 module Seedbank
   class << self
-    attr_writer :application_root, :seeds_root, :nesting, :matcher
+    attr_writer :application_root, :seeds_root, :nesting, :matcher, :original_seeds_file
 
     def application_root
       @application_root ||= Pathname.new(Rake.application.original_dir)
@@ -20,6 +20,10 @@ module Seedbank
 
     def matcher
       @matcher ||= '*.seeds.rb'
+    end
+
+    def original_seeds_file
+      @original_seeds_file ||= File.join(application_root, 'db', 'seeds.rb')
     end
   end
 

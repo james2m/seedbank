@@ -1,6 +1,12 @@
 # frozen_string_literal: true
+if defined?(Rails)
+  initializer = Rails.root.join('config', 'initializers', 'seedbank.rb')
+  require initializer if initializer.exist?
+end
+
 namespace :db do
   using Seedbank::DSL
+
   override_dependency = ['db:seed:common']
 
   namespace :seed do
