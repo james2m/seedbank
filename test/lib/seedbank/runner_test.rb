@@ -150,4 +150,18 @@ describe Seedbank::Runner do
       end
     end
   end
+
+  describe 'calling before and after hooks' do
+    subject { Rake::Task['db:seed:dependent'] }
+
+    it 'executes the configured lambdas' do
+      FakeModel.expect :seed, true, ['dependency']
+      FakeModel.expect :seed, true, ['dependent']
+
+      subject.invoke
+
+      BeforeEachCalls.length.must_equal 2
+      AfterEachCalls.length.must_equal 2
+    end
+  end
 end
