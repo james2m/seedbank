@@ -12,7 +12,7 @@ describe 'Seedbank rake.task' do
   end
 
   it 'does not pollute the global namespace' do
-    Object.new.wont_respond_to :seeds_root
+    _(Object.new).wont_respond_to :seeds_root
   end
 
   describe 'seeds with dependency' do
@@ -23,7 +23,7 @@ describe 'Seedbank rake.task' do
                  db:seed:dependent db:seed:dependent_on_nested db:seed:dependent_on_several db:seed:development
                  db:seed:development:users db:seed:no_block db:seed:original db:seed:reference_memos db:seed:setup db:seed:with_block_memo db:seed:with_inline_memo]
 
-      subject.map(&:to_s).must_equal seeds
+      _(subject.map(&:to_s)).must_equal seeds
     end
   end
 
@@ -35,7 +35,7 @@ describe 'Seedbank rake.task' do
         subject { Rake.application.lookup(['db', 'seed', seed].join(':')) }
 
         it 'is dependent on db:abort_if_pending_migrations' do
-          subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
+          _(subject.prerequisites).must_equal %w[db:abort_if_pending_migrations]
         end
       end
     end
@@ -50,7 +50,7 @@ describe 'Seedbank rake.task' do
           ['db', 'seed', File.basename(seed_file, '.seeds.rb')].join(':')
         end.unshift('db:seed:original').unshift('db:seed:setup')
 
-        subject.prerequisites.must_equal prerequisite_seeds
+        _(subject.prerequisites).must_equal prerequisite_seeds
       end
     end
 
@@ -70,7 +70,7 @@ describe 'Seedbank rake.task' do
           ['db', 'seed', File.basename(seed_file, '.seeds.rb')].join(':')
         end.unshift('db:seed:setup')
 
-        subject.prerequisites.must_equal prerequisite_seeds
+        _(subject.prerequisites).must_equal prerequisite_seeds
       end
     end
   end
@@ -79,7 +79,7 @@ describe 'Seedbank rake.task' do
     subject { Rake::Task['db:seed:original'] }
 
     it 'is only dependent on db:abort_if_pending_migrations' do
-      subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
+      _(subject.prerequisites).must_equal %w[db:abort_if_pending_migrations]
     end
 
     it 'runs within Seedbank::Runner' do
@@ -96,7 +96,7 @@ describe 'Seedbank rake.task' do
       end
 
       it 'is still only dependent on db:abort_if_pending_migrations' do
-        subject.prerequisites.must_equal %w[db:abort_if_pending_migrations]
+        _(subject.prerequisites).must_equal %w[db:abort_if_pending_migrations]
       end
 
       it 'still runs within Seedbank::Runner' do
@@ -122,7 +122,7 @@ describe 'Seedbank rake.task' do
             subject { Rake.application.lookup(['db', 'seed', environment, seed].join(':')) }
 
             it 'is dependent on db:abort_if_pending_migrations' do
-              subject.prerequisites.must_equal %w[db:abort_if_pending_migrations] if subject
+              _(subject.prerequisites).must_equal %w[db:abort_if_pending_migrations] if subject
             end
           end
         end
@@ -136,7 +136,7 @@ describe 'Seedbank rake.task' do
             ['db', 'seed', environment, File.basename(seed_file, '.seeds.rb')].join(':')
           end.unshift('db:seed:common').unshift('db:seed:setup')
 
-          subject.prerequisites.must_equal prerequisite_seeds
+          _(subject.prerequisites).must_equal prerequisite_seeds
         end
       end
     end
@@ -147,7 +147,7 @@ describe 'Seedbank rake.task' do
 
     describe 'when no environment seeds are defined' do
       it 'is dependent on db:seed:common' do
-        subject.prerequisites.must_equal %w[db:abort_if_pending_migrations db:seed:common]
+        _(subject.prerequisites).must_equal %w[db:abort_if_pending_migrations db:seed:common]
       end
     end
 
@@ -157,7 +157,7 @@ describe 'Seedbank rake.task' do
           Rake.application.clear
           silence_warnings { Dummy::Application.load_tasks }
 
-          subject.prerequisites.must_equal %w[db:abort_if_pending_migrations db:seed:common db:seed:development]
+          _(subject.prerequisites).must_equal %w[db:abort_if_pending_migrations db:seed:common db:seed:development]
         end
       end
     end
