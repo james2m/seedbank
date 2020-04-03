@@ -7,7 +7,7 @@ gemspec
 gem 'rubocop', group: :development
 
 # for CRuby, Rubinius, including Windows and RubyInstaller
-gem 'sqlite3', platform: %i[ruby mswin mingw]
+gem 'sqlite3', '~> 1.3.6', platform: %i[ruby mswin mingw]
 
 # for JRuby
 gem 'activerecord-jdbcsqlite3-adapter', platform: :jruby
