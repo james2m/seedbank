@@ -19,8 +19,10 @@ namespace :db do
 
     # Glob through the directories under seeds_path and create a task for each adding it to the dependency list.
     # Then create a task for the environment
-    glob_seed_files_matching('/*/').each do |directory|
-      environment = File.basename(directory)
+    glob_seed_files_matching('**/*/').each do |directory|
+      regex = Regexp.new('(?<=' + Seedbank.seeds_root + ')(.*)')
+      path = regex.match directory
+      environment = path[1]
 
       environment_dependencies = seed_tasks_matching(environment, Seedbank.matcher)
 
