@@ -25,9 +25,10 @@ namespace :db do
       environment = path[1]
 
       environment_dependencies = seed_tasks_matching(environment, Seedbank.matcher)
-
-      desc "Load the seed data from db/seeds.rb, db/seeds/#{Seedbank.matcher} and db/seeds/#{environment}/#{Seedbank.matcher}."
-      task environment => ['db:seed:common'] + environment_dependencies
+      
+      name = environment.split("/").select(&:present?).join(":")
+      desc "Load the seed data from db/seeds.rb, db/seeds/#{Seedbank.matcher} and db/seeds#{environment}#{Seedbank.matcher}."
+      task name => ['db:seed:common'] + environment_dependencies
 
       override_dependency << "db:seed:#{environment}" if defined?(Rails) && Rails.env == environment
     end
