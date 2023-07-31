@@ -160,8 +160,8 @@ describe Seedbank::Runner do
 
       subject.invoke
 
-      BeforeEachCalls.length.must_equal 2
-      AfterEachCalls.length.must_equal 2
+      _(BeforeEachCalls.length).must_equal 2
+      _(AfterEachCalls.length).must_equal 2
     end
   end
 end
