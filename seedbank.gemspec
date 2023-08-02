@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.version     = Seedbank::VERSION
   spec.authors     = ['James McCarthy']
   spec.email       = ['[james2mccarthy@gmail.com']
-  spec.required_ruby_version = '>= 2.1'
+  spec.required_ruby_version = '>= 2.7'
   spec.summary     = 'Generate seeds data for your Ruby application.'
   spec.description = %(
     Adds simple rake commands for seeding your database. Simple dependencies let you organise your seeds.
@@ -31,8 +31,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rake', '>= 10.0'
 
   spec.add_development_dependency 'bundler',  '~> 2.4.2'
-  spec.add_development_dependency 'rails',    '~> 7.0.1'
-  spec.add_development_dependency 'minitest', '~> 5.19'
+  spec.add_development_dependency 'rails',    '>= 7.0 '
+  spec.add_development_dependency 'minitest', '~> 5.0'
   spec.add_development_dependency 'm',        '~> 1.5'
   spec.add_development_dependency 'byebug',   '~> 11.1'
 end

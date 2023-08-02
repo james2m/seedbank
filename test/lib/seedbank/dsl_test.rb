@@ -13,7 +13,7 @@ describe Seedbank::DSL do
       let(:seed_namespace) { %w[development] }
 
       it 'returns the enviroment scope' do
-        _(subject).must_equal seed_namespace
+        subject.must_equal seed_namespace
       end
     end
 
@@ -22,7 +22,7 @@ describe Seedbank::DSL do
       let(:seed_namespace) { %w[development shared] }
 
       it 'returns the nested scope' do
-        _(subject).must_equal seed_namespace
+        subject.must_equal seed_namespace
       end
     end
 
@@ -30,11 +30,11 @@ describe Seedbank::DSL do
       let(:seed_file) { File.expand_path('no_block.seeds.rb', Seedbank.seeds_root) }
 
       it 'returns an array' do
-        _(subject).must_be_instance_of Array
+        subject.must_be_instance_of Array
       end
 
       it 'must be empty' do
-        _(subject).must_be_empty
+        subject.must_be_empty
       end
     end
   end
@@ -46,7 +46,7 @@ describe Seedbank::DSL do
 
     it 'returns a Pathname' do
       Seedbank.stub(:seeds_root, seeds_root) do
-        _(subject).must_equal Pathname.new(seeds_root)
+        subject.must_equal Pathname.new(seeds_root)
       end
     end
   end
@@ -58,7 +58,7 @@ describe Seedbank::DSL do
       it 'returns all the files matching the pattern in seeds_root' do
         expected_files = Dir.glob(File.join(Seedbank.seeds_root, pattern))
 
-        _(Seedbank::DSL.glob_seed_files_matching(pattern)).must_equal expected_files
+        Seedbank::DSL.glob_seed_files_matching(pattern).must_equal expected_files
       end
     end
 
@@ -69,7 +69,7 @@ describe Seedbank::DSL do
       it 'returns all the files matching the pattern in seeds_root' do
         expected_files = Dir.glob(File.join(Seedbank.seeds_root, namespace, pattern))
 
-        _(Seedbank::DSL.glob_seed_files_matching(namespace, pattern)).must_equal expected_files
+        Seedbank::DSL.glob_seed_files_matching(namespace, pattern).must_equal expected_files
       end
     end
   end
@@ -90,19 +90,19 @@ describe Seedbank::DSL do
     end
 
     it 'returns a fully qualified task name' do
-      _(subject).must_equal task_name
+      subject.must_equal task_name
     end
 
     it 'creates a Rake Task' do
       subject
-      _(Rake::Task[task_name]).wont_be_nil
+      Rake::Task[task_name].wont_be_nil
     end
 
     it 'sets Rake Task description' do
       subject
       relative_file = Pathname.new(seed_file).relative_path_from(Rails.root)
 
-      _(Rake::Task[task_name].comment).must_equal "Load the seed data from #{relative_file}"
+      Rake::Task[task_name].comment.must_equal "Load the seed data from #{relative_file}"
     end
 
     it 'sets Rake Task action to the seed_file contents' do
@@ -117,7 +117,7 @@ describe Seedbank::DSL do
         expected_dependencies = dependencies.map { |dependency| Rake::Task[dependency] }
         expected_dependencies << Rake::Task['db:abort_if_pending_migrations']
 
-        _(Rake::Task[task_name].prerequisite_tasks).must_equal expected_dependencies
+        Rake::Task[task_name].prerequisite_tasks.must_equal expected_dependencies
       end
     end
 
@@ -130,7 +130,7 @@ describe Seedbank::DSL do
         expected_dependencies << Rake::Task.define_task('environment')
         subject
 
-        _(Rake::Task[task_name].prerequisite_tasks).must_equal expected_dependencies
+        Rake::Task[task_name].prerequisite_tasks.must_equal expected_dependencies
       end
     end
   end
@@ -143,14 +143,14 @@ describe Seedbank::DSL do
       it 'creates a new task' do
         Seedbank::DSL.override_seed_task(task_name => dependencies)
 
-        _(Rake::Task[task_name]).wont_be_nil
+        Rake::Task[task_name].wont_be_nil
       end
 
       it 'applies the dependencies' do
         expected_dependencies = dependencies.map { |dependency| Rake::Task[dependency] }
         Seedbank::DSL.override_seed_task(task_name => dependencies)
 
-        _(Rake::Task[task_name].prerequisite_tasks).must_equal expected_dependencies
+        Rake::Task[task_name].prerequisite_tasks.must_equal expected_dependencies
       end
 
       it 'applies the description' do
@@ -159,7 +159,7 @@ describe Seedbank::DSL do
 
         Seedbank::DSL.override_seed_task(task_name => dependencies)
 
-        _(Rake::Task[task_name].full_comment).must_equal description
+        Rake::Task[task_name].full_comment.must_equal description
       end
     end
   end
