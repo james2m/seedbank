@@ -58,9 +58,7 @@ describe 'Seedbank rake.task' do
       def setup
         main = TOPLEVEL_BINDING.eval('class << self; self; end')
         orig = original_seeds_file
-        suppress(Exception) do
-          main.send(:undef_method, :original_seeds_file) if main.respond_to?(:original_seeds_file, true)
-        end
+        main.send(:undef_method, :original_seeds_file) if main.method_defined?(:original_seeds_file)
         main.send(:define_method, :original_seeds_file) { nil }
         super
         main.send(:undef_method, :original_seeds_file)
