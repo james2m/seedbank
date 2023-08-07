@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'test_helper'
+require_relative '../../test_helper'
 using Seedbank::DSL
 
 describe 'Seedbank rake.task' do
@@ -21,7 +21,7 @@ describe 'Seedbank rake.task' do
     it 'creates all the seed tasks' do
       seeds = %w[db:seed:circular1 db:seed:circular2 db:seed:common db:seed:dependency db:seed:dependency2
                  db:seed:dependent db:seed:dependent_on_nested db:seed:dependent_on_several db:seed:development
-                 db:seed:development:users db:seed:no_block db:seed:original db:seed:reference_memos db:seed:with_block_memo db:seed:with_inline_memo]
+                 db:seed:development:users db:seed:no_block db:seed:original db:seed:reference_memos db:seed:replant db:seed:with_block_memo db:seed:with_inline_memo]
 
       subject.map(&:to_s).must_equal seeds
     end
@@ -58,7 +58,7 @@ describe 'Seedbank rake.task' do
       def setup
         main = TOPLEVEL_BINDING.eval('class << self; self; end')
         orig = original_seeds_file
-        main.send(:undef_method, :original_seeds_file) if main.respond_to?(:original_seeds_file, true)
+        main.send(:undef_method, :original_seeds_file) if main.method_defined?(:original_seeds_file)
         main.send(:define_method, :original_seeds_file) { nil }
         super
         main.send(:undef_method, :original_seeds_file)
