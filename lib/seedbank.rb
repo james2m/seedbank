@@ -24,7 +24,7 @@ module Seedbank
   end
 
   def self.load_tasks
-    Dir[File.expand_path('../tasks/*.rake', __FILE__)].each { |ext| load ext }
+    Dir[File.expand_path('tasks/*.rake', __dir__)].each { |ext| load ext }
   end
 
   require 'seedbank/railtie' if defined?(Rails) && Rails::VERSION::MAJOR >= 3
