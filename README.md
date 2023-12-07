@@ -1,7 +1,7 @@
 Seedbank
 ========
 
-Work fine with Rails 7 !
+Work fine with Rails 7!
 
 Seedbank allows you to structure your apps seed data instead of having it all dumped into one large file. I find my seed data tended to fall into two categories:
 
