@@ -18,7 +18,7 @@ module Seedbank
 
       def seed_task_from_file(seed_file)
         scopes = scope_from_seed_file(seed_file)
-        suffix = '.seeds.rb'
+        suffix = Seedbank.matcher.gsub(/\A\*/, '')
         fq_name = scopes.push(File.basename(seed_file, suffix)).join(':')
 
         define_seed_task(seed_file, fq_name)
@@ -41,7 +41,7 @@ module Seedbank
       end
 
       def original_seeds_file
-        @original_seeds_file ||= existent(original_seeds_file_expanded('../seeds.rb', seeds_root))
+        @original_seeds_file ||= existent(original_seeds_file_expanded(Seedbank.original_seeds_file, seeds_root))
       end
 
       def seeds_root
