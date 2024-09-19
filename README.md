@@ -1,6 +1,8 @@
 Seedbank
 ========
 
+Work fine with Rails 7!
+
 Seedbank allows you to structure your apps seed data instead of having it all dumped into one large file. I find my seed data tended to fall into two categories:
 
 1. Stuff that the entire application requires.
@@ -17,6 +19,7 @@ To achieve this slothful aim, Seedbank renames the original db:seed rake task to
 Although originally built for Rails, Seedbank can work stand alone thanks to Aleksey Ivanov.
 
 [![Build Status](https://travis-ci.org/james2m/seedbank.svg?branch=master)](https://travis-ci.org/james2m/seedbank)
+[![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 
 Example
 =======
