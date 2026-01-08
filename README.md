@@ -70,7 +70,7 @@ Add the seedbank gem to your Gemfile.  In Gemfile:
 gem "seedbank"
 ```
 
-That's it!
+That's it! Once installed, you'll need to create the directory structure for your seeds (see Setup below).
 
 ### Non Rails apps
 
@@ -97,6 +97,44 @@ Seedbank.load_tasks if defined?(Seedbank)
 ```
 
 If you vendor the gem you'll need to change the require to the specific path.
+
+Setup
+=====
+
+After installing the gem, you need to create the directory structure for your seed files. Seedbank does not automatically create these directories.
+
+### Creating the directory structure
+
+At a minimum, create the seeds directory:
+
+```shell
+mkdir -p db/seeds
+```
+
+If you want environment-specific seeds (e.g., for development, test, staging, production), create directories for each environment:
+
+```shell
+mkdir -p db/seeds/development
+mkdir -p db/seeds/test
+mkdir -p db/seeds/staging
+mkdir -p db/seeds/production
+```
+
+You can also create subdirectories within environment folders for better organization:
+
+```shell
+mkdir -p db/seeds/development/shared
+```
+
+### Verifying your setup
+
+Once you've created the directory structure, you can verify everything is working by running:
+
+```shell
+rake -T db:seed
+```
+
+This will show all available seed tasks. Even without any seed files, you should see the base tasks like `db:seed`, `db:seed:common`, and any environment-specific tasks for directories you created.
 
 Usage
 =====
