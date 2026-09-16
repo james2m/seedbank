@@ -1,0 +1,11 @@
+# sig/seedbank/runner.rbs
+module Seedbank
+  class Runner
+    def initialize: () -> void
+    def after: (*untyped dependencies) { () -> untyped } -> void
+             | (*untyped dependencies) -> void
+    def let: (String | Symbol name) { () -> untyped } -> Symbol
+    def let!: (String | Symbol name) { () -> untyped } -> untyped
+    def evaluate: (untyped seed_task, String seed_file) -> untyped
+  end
+end

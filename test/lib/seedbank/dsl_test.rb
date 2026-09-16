@@ -31,6 +31,20 @@ describe Seedbank::DSL do
         Rake::Task[task_name].full_comment.must_equal description
       end
     end
+
+    describe 'when the task already exists' do
+      let(:task_name) { 'my_task' }
+
+      before do
+        Rake::Task.define_task(task_name) { raise 'original action executed' }
+      end
+
+      it 'clears the original action' do
+        Seedbank::DSL.override_seed_task(task_name)
+
+        _(Rake::Task[task_name].actions).must_be_empty
+      end
+    end
   end
 
   describe 'glob_seed_files_matching' do

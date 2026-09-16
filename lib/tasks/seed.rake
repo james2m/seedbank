@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 namespace :db do
   using Seedbank::DSL
-  override_dependency = ['db:seed:common']
+  seed_dependencies = ['db:seed:common']
 
   namespace :seed do
     # Create seed tasks for all the seeds in seeds_path and add them to the dependency
@@ -21,18 +21,27 @@ namespace :db do
     # Then create a task for the environment
     glob_seed_files_matching('/*/').each do |directory|
       environment = File.basename(directory)
+      environment_task = "db:seed:#{environment}"
+
+      if common_dependencies.include?(environment_task)
+        raise Seedbank::ConfigurationError,
+              "Seed task #{environment_task} conflicts with environment directory #{directory}"
+      end
 
       environment_dependencies = seed_tasks_matching(environment, Seedbank.matcher)
 
       desc "Load the seed data from db/seeds.rb, db/seeds/#{Seedbank.matcher} and db/seeds/#{environment}/#{Seedbank.matcher}."
       task environment => ['db:seed:common'] + environment_dependencies
 
-      override_dependency << "db:seed:#{environment}" if defined?(Rails) && Rails.env == environment
+      seed_dependencies << environment_task if defined?(Rails) && Rails.env == environment
     end
   end
 
-  # Override db:seed to run all the common and environments seeds plus the original db:seed.
-  desc %(Load the seed data from db/seeds.rb, db/seeds/#{Seedbank.matcher} and db/seeds/ENVIRONMENT/#{Seedbank.matcher}.
-  ENVIRONMENT is the current Rails.env.)
-  override_seed_task seed: override_dependency
+  # Rails delegates its native db:seed task to Seedbank::SeedLoader. Standalone
+  # Rake applications still need Seedbank to define the orchestration task.
+  unless defined?(Rails) && Rake::Task.task_defined?('db:seed')
+    desc %(Load the seed data from db/seeds.rb, db/seeds/#{Seedbank.matcher} and db/seeds/ENVIRONMENT/#{Seedbank.matcher}.
+    ENVIRONMENT is the current Rails.env.)
+    override_seed_task seed: seed_dependencies
+  end
 end

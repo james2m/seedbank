@@ -1,5 +1,8 @@
+# test/lib/seedbank/runner_test.rb
 # frozen_string_literal: true
+
 require 'test_helper'
+require 'tempfile'
 
 describe Seedbank::Runner do
   describe 'seeds with dependency' do
@@ -57,6 +60,35 @@ describe Seedbank::Runner do
       subject.invoke
 
       FakeModel.verify
+    end
+  end
+
+  describe 'seeds with circular dependencies' do
+    subject { Rake::Task['db:seed:circular1'] }
+
+    it 'reports the complete cycle before running a seed body' do
+      error = assert_raises(Seedbank::DependencyCycleError) { subject.invoke }
+
+      _(error.cycle).must_equal %w[db:seed:circular1 db:seed:circular2 db:seed:circular1]
+      _(error.message).must_include(
+        'db:seed:circular1 -> db:seed:circular2 -> db:seed:circular1'
+      )
+      FakeModel.verify
+    end
+
+    it 'reports a seed that directly depends on itself' do
+      Rake::Task.define_task('db:seed:self_reference')
+
+      Tempfile.create(['self_reference', '.seeds.rb']) do |file|
+        file.write("after :self_reference do\n  raise 'seed body ran'\nend\n")
+        file.flush
+
+        error = assert_raises(Seedbank::DependencyCycleError) do
+          Seedbank::Runner.new.evaluate(Rake::Task['db:seed:self_reference'], file.path)
+        end
+
+        _(error.cycle).must_equal %w[db:seed:self_reference db:seed:self_reference]
+      end
     end
   end
 
