@@ -180,6 +180,22 @@ after :common do
 end
 ```
 
+Development
+===========
+
+Seedbank uses `mise` for its Ruby toolchain. Install dependencies, run the test
+suite, and build the gem with the project-local commands:
+
+```shell
+bin/setup
+bin/test
+bin/build
+```
+
+The built `.gem` contains the runtime files under `lib/`, the README, and the
+MIT license. Development configuration, tests, and local build artifacts are
+excluded from the package.
+
 Contributors
 ============
 ```shell

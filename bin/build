@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# bin/build
+
+source "$(dirname "$0")/_lib.sh"
+
+"$MISE_BIN" exec -- gem build seedbank.gemspec "$@"
