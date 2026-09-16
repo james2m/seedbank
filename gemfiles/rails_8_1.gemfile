@@ -1,0 +1,7 @@
+# gemfiles/rails_8_1.gemfile
+source 'https://rubygems.org'
+
+gem 'minitest', '~> 5.0'
+gem 'rails', '~> 8.1.0'
+gem 'seedbank', path: '..'
+gem 'sqlite3', '~> 2.1'

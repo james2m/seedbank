@@ -12,12 +12,12 @@ Rails.backtrace_cleaner.remove_silencers!
 
 Seedbank.application_root = Pathname.new(File.expand_path('dummy', __dir__))
 
-class Seedbank::Spec < MiniTest::Spec
+class Seedbank::Spec < Minitest::Spec
   def setup
     silence_warnings do
       Rake.application = Rake::Application.new
       Dummy::Application.load_tasks
-      Object.const_set :FakeModel, MiniTest::Mock.new
+      Object.const_set :FakeModel, Minitest::Mock.new
       TOPLEVEL_BINDING.eval('self').send(:instance_variable_set, :@runner, Seedbank::Runner.new)
     end
 
@@ -25,5 +25,5 @@ class Seedbank::Spec < MiniTest::Spec
   end
 end
 
-MiniTest::Spec.register_spec_type(/^Seedbank/i, Seedbank::Spec)
-MiniTest.autorun
+Minitest::Spec.register_spec_type(/^Seedbank/i, Seedbank::Spec)
+Minitest.autorun

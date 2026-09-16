@@ -1,7 +1,8 @@
+<!-- README.md -->
 Seedbank
 ========
 
-Work fine with Rails 7!
+Works fine with Rails 8!
 
 Seedbank allows you to structure your apps seed data instead of having it all dumped into one large file. I find my seed data tended to fall into two categories:
 
@@ -10,21 +11,20 @@ Seedbank allows you to structure your apps seed data instead of having it all du
 
 Seedbank assumes that your common seed data is kept under db/seeds and any directories under `db/seeds/` are specific to an environment, so `db/seeds/development` contains all your **development-only** seed data.
 
-The reason behind Seedbank is laziness. When I checkout or re-visit a project I don't want to mess around getting my environment setup I just want the code and a database loaded with data in a known state. Since the Rails core team were good enough to give us rake db:setup it would be rude not to use it.
+The reason behind Seedbank is laziness. When I checkout or re-visit a project I don't want to mess around getting my environment setup I just want the code and a database loaded with data in a known state. Since the Rails core team were good enough to give us `bin/rails db:setup` it would be rude not to use it.
 
-    rake db:setup  # Create the database, load the schema, and initialize with the seed data (use db:reset to also drop the db first)
+    bin/rails db:setup  # Create the database, load the schema, and initialize with the seed data (use db:reset to also drop the db first)
 
 To achieve this slothful aim, Seedbank renames the original db:seed rake task to db:seed:original, makes it a dependency for all the Seedbank seeds and adds a new db:seed task that loads all the common seeds in db/seeds plus all the seeds for the current Rails environment.
 
 Although originally built for Rails, Seedbank can work stand alone thanks to Aleksey Ivanov.
 
-[![Build Status](https://travis-ci.org/james2m/seedbank.svg?branch=master)](https://travis-ci.org/james2m/seedbank)
-[![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+[![CI](https://github.com/scarver2/seedbank/actions/workflows/ci.yml/badge.svg)](https://github.com/scarver2/seedbank/actions/workflows/ci.yml)
 
 Example
 =======
 
-Seedbank seeds follow this structure;
+Seedbank seeds follow this structure:
 
     db/seeds/
       bar.seeds.rb
@@ -34,37 +34,33 @@ Seedbank seeds follow this structure;
 
 This would generate the following Rake tasks
 
-    rake db:seed                    # Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/ENVIRONMENT/*.seeds.rb. ENVIRONMENT is the current environment in Rails.env.
-    rake db:seed:bar                # Load the seed data from db/seeds/bar.seeds.rb
-    rake db:seed:common             # Load the seed data from db/seeds.rb and db/seeds/*.seeds.rb.
-    rake db:seed:development        # Load the seed data from db/seeds.rb, db/seeds/*.seeds.rb and db/seeds/development/*.seeds.rb.
-    rake db:seed:development:users  # Load the seed data from db/seeds/development/users.seeds.rb
-    rake db:seed:original           # Load the seed data from db/seeds.rb
+    bin/rails db:seed                    # Load db/seeds.rb, common seeds, and seeds for Rails.env.
+    bin/rails db:seed:bar                # Load db/seeds/bar.seeds.rb.
+    bin/rails db:seed:common             # Load db/seeds.rb and db/seeds/*.seeds.rb.
+    bin/rails db:seed:development        # Load common and development seed data.
+    bin/rails db:seed:development:users  # Load db/seeds/development/users.seeds.rb.
+    bin/rails db:seed:original           # Load db/seeds.rb.
 
 Therefore, assuming `RAILS_ENV` is not set or it is "development":
 
-    $ rake db:seed
+    $ bin/rails db:seed
 
 will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb`, `db/seeds/foo.seeds.rb` and `db/seeds/development/users.seeds.rb`. Whereas, setting the `RAILS_ENV` variable, like so:
 
-    $ RAILS_ENV=production rake db:seed
+    $ RAILS_ENV=production bin/rails db:seed
 
 will load the seeds in `db/seeds.rb`, `db/seeds/bar.seeds.rb` and `db/seeds/foo.seeds.rb`.
 
 Installation
 ============
 
-Seedbank > 0.5.0 uses refinements and no longer supports rubies below 2.x. If you are using an older Ruby you'll have to stick with 0.4.0 and below.
+Seedbank supports maintained Ruby releases: Ruby 3.3, 3.4, and 4.0. Ruby 3.2
+and older are no longer supported as of the next Seedbank release.
 
-I have also dropped support for Rubinius and JRuby. I'm happy to accept pull requests for them, but don't have the time to hack together the test environment. If you want to contribute, please ensure that he travis.yml is in line as it's the only way I will test these two environments.
+Seedbank supports Rails 8.0 and 8.1. Rails 7.2 and older are no longer
+supported as of the next Seedbank release.
 
-### Rails 5.x
-
-Seedbank has not been updated to work with Rails 5. I've used it with 5.x apps and am working on a new version specifically for 5.x. Other people are also reporting using it with no problems.
-
-### Rails 4.x and above
-
-Add the seedbank gem to your Gemfile.  In Gemfile:
+Add Seedbank to your Rails application's Gemfile:
 
 ```ruby
 gem "seedbank"
@@ -72,31 +68,19 @@ gem "seedbank"
 
 That's it!
 
-### Non Rails apps
+Then run `bundle install`. Seedbank's Railtie loads its tasks automatically.
 
-Although originally built for Rails, Seedbank should work fine in other environments such as Padrino, Grape or the new new hotness. please let us know how you get on.
+### Non-Rails apps
 
-### Rails 3.x
-
-Seedbank 0.5.0 onwards is no longer tested against Rails 3.x, that isn't to say it will not work. I
-will not fix issues against Rails 3.x, but will accept tested pull requests.
-
-### Rails 2.x
-
-Seedbank hasn't supported Rails 2.x for some time. You'll need to use the 0.2.1 version. In your Gemfile:
-
-```ruby
-gem "seedbank", '~> 0.2.1'
-```
-
-Then in the bottom of your application's Rakefile:
+Seedbank can also load its Rake tasks without Rails. Add this to your Rakefile:
 
 ```ruby
 require 'seedbank'
 Seedbank.load_tasks if defined?(Seedbank)
 ```
 
-If you vendor the gem you'll need to change the require to the specific path.
+Run tasks with `bundle exec rake db:seed`. The generated Rake task names and
+dependency behavior are the same as in Rails.
 
 Usage
 =====
@@ -105,7 +89,7 @@ Seeds files are just plain old Ruby executed in your application environment so 
 
 db/seeds/companies.seeds.rb
 ```ruby
-Company.find_or_create_by_name('Hatch', :url => 'http://thisishatch.co.uk' )
+Company.find_or_create_by!(name: 'Hatch', url: 'https://thisishatch.co.uk')
 ```
 
 The seed files under db/seeds are run first in alphanumeric order followed by the ones in the db/seeds/RAILS_ENV. You can add dependencies to your seed files
@@ -114,25 +98,25 @@ to enforce the run order. for example;
 db/seeds/users.seeds.rb
 ```ruby
 after :companies do
-  company = Company.find_by_name('Hatch')
-  company.users.create(:first_name => 'James', :last_name => 'McCarthy')
+  company = Company.find_by!(name: 'Hatch')
+  company.users.create!(first_name: 'James', last_name: 'McCarthy')
 end
 ```
 
 db/seeds/projects.seeds.rb
 ```ruby
 after :companies do
-  company = Company.find_by_name('Hatch')
-  company.projects.create(:title => 'Seedbank')
+  company = Company.find_by!(name: 'Hatch')
+  company.projects.create!(title: 'Seedbank')
 end
 ```
 
 db/seeds/tasks.seeds.rb
 ```ruby
 after :projects, :users do
-  project = Project.find_by_name('Seedbank')
-  user = User.find_by_first_name_and_last_name('James', 'McCarthy')
-  project.tasks.create(:owner => user, :title => 'Document seed dependencies in the README.md')
+  project = Project.find_by!(name: 'Seedbank')
+  user = User.find_by!(first_name: 'James', last_name: 'McCarthy')
+  project.tasks.create!(owner: user, title: 'Document seed dependencies in the README.md')
 end
 ```
 
@@ -141,8 +125,8 @@ If the dependencies are in one of the environment folders, you need to namespace
 db/seeds/development/users.seeds.rb
 ```ruby
 after "development:companies" do
-  company = Company.find_by_name('Hatch')
-  company.users.create(:first_name => 'James', :last_name => 'McCarthy')
+  company = Company.find_by!(name: 'Hatch')
+  company.users.create!(first_name: 'James', last_name: 'McCarthy')
 end
 ```
 
@@ -200,15 +184,21 @@ git log | grep Author | sort | uniq
 * vkill
 * Aleksey Ivanov
 
-Note on Patches/Pull Request
-============================
+Contributing
+============
 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a future version unintentionally.
-* Commit, do not mess with rakefile, version, or history. (if you want to have your own version, that is fine but
-  bump version in a commit by itself I can ignore it when I pull)
-* Send me a pull request.  Bonus points for topic branches.
+1. Fork the project and create a focused topic branch.
+2. Install dependencies with Bundler.
+3. Add behavior-focused tests for the change.
+4. Run the supported dependency sets:
+
+```shell
+BUNDLE_GEMFILE=gemfiles/rails_8_0.gemfile bundle exec rake test
+BUNDLE_GEMFILE=gemfiles/rails_8_1.gemfile bundle exec rake test
+```
+
+5. Open a pull request describing the change and test evidence. Please keep
+   version bumps in a separate commit when a release requires one.
 
 Copyright
 =========
