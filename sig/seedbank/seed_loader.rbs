@@ -1,0 +1,7 @@
+# sig/seedbank/seed_loader.rbs
+module Seedbank
+  class SeedLoader
+    def initialize: (?environment: ^() -> String) -> void
+    def load_seed: () -> void
+  end
+end
