@@ -23,7 +23,9 @@ describe 'Seedbank rake.task' do
                  db:seed:dependent db:seed:dependent_on_nested db:seed:dependent_on_several db:seed:development
                  db:seed:development:users db:seed:no_block db:seed:original db:seed:reference_memos db:seed:with_block_memo db:seed:with_inline_memo]
 
-      subject.map(&:to_s).must_equal seeds
+      seedbank_tasks = subject.map(&:to_s).reject { |task| task == 'db:seed:replant' }
+
+      seedbank_tasks.must_equal seeds
     end
   end
 
@@ -57,12 +59,11 @@ describe 'Seedbank rake.task' do
     describe 'when db/seeds.rb does not exist' do
       def setup
         main = TOPLEVEL_BINDING.eval('class << self; self; end')
-        orig = original_seeds_file
-        main.send(:undef_method, :original_seeds_file) if main.respond_to?(:original_seeds_file, true)
+        main.send(:remove_method, :original_seeds_file) if main.instance_methods(false).include?(:original_seeds_file)
         main.send(:define_method, :original_seeds_file) { nil }
         super
-        main.send(:undef_method, :original_seeds_file)
-        main.send(:define_method, :original_seeds_file) { orig }
+      ensure
+        main.send(:remove_method, :original_seeds_file) if main.instance_methods(false).include?(:original_seeds_file)
       end
 
       it 'is dependent on only the common seeds' do
