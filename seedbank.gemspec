@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.version     = Seedbank::VERSION
   spec.authors     = ['James McCarthy']
   spec.email       = ['[james2mccarthy@gmail.com']
-  spec.required_ruby_version = '>= 2.1'
+  spec.required_ruby_version = '>= 3.3'
   spec.summary     = 'Generate seeds data for your Ruby application.'
   spec.description = %(
     Adds simple rake commands for seeding your database. Simple dependencies let you organise your seeds.
