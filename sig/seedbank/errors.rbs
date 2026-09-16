@@ -1,0 +1,20 @@
+# sig/seedbank/errors.rbs
+module Seedbank
+  class Error < StandardError
+  end
+
+  class ConfigurationError < Error
+  end
+
+  class DependencyError < Error
+    def initialize: (seed_task: String, seed_file: String?, dependency: untyped, problem: String) -> void
+  end
+
+  class EvaluationError < Error
+    attr_reader original_error: Exception
+    attr_reader seed_file: String
+    attr_reader seed_task: String
+
+    def initialize: (seed_task: String, seed_file: String, original_error: Exception) -> void
+  end
+end

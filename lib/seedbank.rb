@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require 'seedbank/dsl'
+require 'seedbank/errors'
 require 'seedbank/runner'
+require 'seedbank/seed_loader'
 
 module Seedbank
   class << self
