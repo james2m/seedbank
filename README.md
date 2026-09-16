@@ -1,3 +1,4 @@
+<!-- README.md -->
 Seedbank
 ========
 
@@ -102,6 +103,11 @@ Usage
 =====
 
 Seeds files are just plain old Ruby executed in your application environment so anything you could type into the console will work in your seeds. Seeds files have to be named with the '.seeds.rb' extension.
+
+Common and production seeds should be safe to run repeatedly. See
+[Idempotent Seed Practices](docs/idempotent-seeds.md) for current Active Record
+patterns and the boundaries between bootstrap seeds, demo data, test factories,
+and data migrations.
 
 db/seeds/companies.seeds.rb
 ```ruby
@@ -213,3 +219,8 @@ Note on Patches/Pull Request
 Copyright
 =========
 Copyright (c) 2011-2017 James McCarthy, released under the MIT license
+
+—
+Stan Carver II
+Made in Texas 🤠
+https://stancarver.com
