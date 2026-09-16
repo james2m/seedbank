@@ -18,7 +18,7 @@ To achieve this slothful aim, Seedbank renames the original db:seed rake task to
 
 Although originally built for Rails, Seedbank can work stand alone thanks to Aleksey Ivanov.
 
-[![Build Status](https://travis-ci.org/james2m/seedbank.svg?branch=master)](https://travis-ci.org/james2m/seedbank)
+[![CI](https://github.com/scarver2/seedbank/actions/workflows/ci.yml/badge.svg)](https://github.com/scarver2/seedbank/actions/workflows/ci.yml)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 
 Example

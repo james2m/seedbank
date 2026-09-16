@@ -1,0 +1,7 @@
+# gemfiles/ci.gemfile
+source 'https://rubygems.org'
+
+gem 'minitest', '~> 5.0'
+gem 'rails', '~> 5.2.8'
+gem 'seedbank', path: '..'
+gem 'sqlite3', '~> 1.4'
